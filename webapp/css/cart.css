@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;  /* 白色背景 */
+    color: #333333;  /* 深灰色文本 */
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #ffffff;
+    color: #000000;  /* 黑色文字 */
+}
+.logo img {
+    width: 200px;
+    height: auto;
+}
+.username {
+    display: flex;
+    align-items: center;
+}
+.username a {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+.username a:hover {
+    text-decoration: underline;
+}
+
+
+.utility {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.utility a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.utility a:hover {
+    text-decoration: underline;
+}
+
+
+.table {
+    width:100%;
+    padding: 20px 4px;
+    background-color: #ebebeb;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    background-color: #ffffff;
+}
+
+th, td {
+    border-bottom: 2px solid #d4af7a;
+    padding: 10px;
+    text-align: center;
+}
+
+.money {
+    text-align: right;
+}
+
+.checkout {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px;
+
+    background-color: #ffffff;
+}
+
+.submit{
+    border: none;
+    outline: none;
+    background: none;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    display: block;
+    width: 260px;
+    height: 36px;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    background: #d4af7a;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: 24px;
+    color: #5f5654;
+    margin-bottom: 20px;
+}
