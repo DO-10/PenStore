@@ -35,6 +35,29 @@
         <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
     </div>
 </div>//顶部主导航
+<div class="switch">
+    <label>店铺 <input th:type="select" name="switch"> </label>
+    <label th:text="'状态：' + ${shop.status}"></label>
+</div>
+<div class="goodsinfo">
+    <div class="1">
+        <div class="2">
+            <a th:href="@{???}">店铺信息</a>
+            <a th:href="@{???}">查看</a>
+            <a th:href="@{???}">修改</a>
+        </div>
+        <div class="2">
+            <a th:href="@{???}">商品管理</a>
+            <a th:href="@{???}">商品种类</a>
+            <a th:href="@{???}">商品个体</a>
+        </div>
+        <div class="2">
+            <a th:href="@{???}">店铺打理</a>
+            <a th:href="@{???}">店铺外观</a>
+            <a th:href="@{???}">人员管理</a>
+        </div>
+    </div>
+</div>
 <div class="addgoods">
     <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">添加商品</a>
 </div>

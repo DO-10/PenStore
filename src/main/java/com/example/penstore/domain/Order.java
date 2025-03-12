@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Order {
     private String id;
-    private String cratedAt;
+    private String createdAt;
 
     public void setId(String id) {
         this.id = id;
@@ -16,9 +16,9 @@ public class Order {
     }
 
     public String getCreatedAt() {
-        return cratedAt;
+        return createdAt;
     }
     public void setCreatedAt(String cratedAt) {
-        this.cratedAt = cratedAt;
+        this.createdAt = cratedAt;
     }
 }

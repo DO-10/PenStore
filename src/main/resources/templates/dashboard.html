@@ -36,9 +36,62 @@
             <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
         </div>
     </div>
-    <div class="goodsinfo">
-        <div class="1">haha</div>
-        <div class="2">haha</div>
+        <div class="rate">
+            <div class="purchase">lala</div>
+            <div class="profit">haha</div>
+        </div>
+        <div class="order">
+            <span>
+                <div class="1">
+                    <label th:text="${待付款}"></label>
+                    <label th:text="待付款"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${待发货}"></label>
+                    <label th:text="待发货"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${待退款}"></label>
+                    <label th:text="退款"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${异常}"></label>
+                    <label th:text="异常"></label>
+                </div>
+            </span>
+        </div>
+        <div class="goods">
+            <span>
+                <div class="1">
+                    <label th:text="${全部商品}"></label>
+                    <label th:text="全部商品"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${在库}"></label>
+                    <label th:text="在库"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${在售}"></label>
+                    <label th:text="在售"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${异常}"></label>
+                    <label th:text="异常"></label>
+                </div>
+            </span>
+        </div>
         <div class="3" th:text="${number}">haha</div>
         <div class="4">
             <p th:text="${goods}">lala</p>
