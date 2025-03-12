@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>店家</title>
+</head>
+<body>
+<div class="header">
+  <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+    <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+  </div>
+  <div class="logo">
+    <img th:src="@{/images/logo.png}" alt="peiahuishi">
+  </div>
+  <div class="utility">
+    <a th:href="@{/customerService}">消息</a>
+  </div>
+</div>
+<div class="navigation">
+  <div class="dashboard">
+    <a herf="/ss" >主页</a>
+  </div>
+  <div class="shopmgmt">
+    <a herf="/ss">店铺管理</a>
+  </div>
+  <div class="ordermgmt">
+    <a herf="/ss">订单管理</a>
+  </div>
+</div>
+<div>
+  <form th:action="/goodsmangement" method="post">
+    <label>商品种类：<input th:type="text" th:name="category"></label>
+    <label>商品鸣潮：<input th:type="text" th:name="name"></label>
+
+  </form>
+
+</div>
+</body>
+</html>

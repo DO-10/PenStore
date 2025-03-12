@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Detail</title>
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<!-- 顶部头部 -->
+<div class="header">
+    <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+        <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller}">卖家中心</a>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/customerService}">客服</a>
+    </div>
+</div>
+
+<!-- 条件提示信息，根据请求参数 message 判断 -->
+<p th:if="${param.message == 'added'}" style="color: green;">商品已加入购物车！</p>
+<p th:if="${param.message == 'failed'}" style="color: red;">添加失败，请重试！</p>
+
+<!-- 产品详情展示部分 -->
+<h1 th:text="${goods.name}">Product Name</h1>
+<img th:src="${goods.imageUrl}" th:alt="${goods.name}" alt="Product Image"/>
+<p>Description: <span th:text="${goods.description}">Description</span></p>
+<p>Price: $<span th:text="${goods.price}">Price</span></p>
+<p>Stock: <span th:text="${goods.stock}">Stock</span></p>
+
+<!-- 加入购物车按钮 -->
+<form th:action="@{cart/addtocart}" method="post">
+    <input type="hidden" name="user_id" th:value="${session.user.id}">
+    <input type="hidden" name="product_id" th:value="${goods.id}">
+    <input type="submit" value="加入购物车">
+</form>
+
+<a th:href="@{/goods/productlist.jsp}">返回</a>
+</body>
+</html>
+

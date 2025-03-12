@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.penstore.dao.CartMapper">
+    <select id="getCartItemsByUserId" resultType="com.example.penstore.domain.Goods">
+        SELECT p.id, p.name, p.description, p.price, c.quantity
+        FROM cart c
+        JOIN goods p ON c.goods_id = p.id
+        WHERE c.user_id = #{id}
+    </select>
+
+    <insert id="addToCart" parameterType="com.example.penstore.dto.CartRequest">
+        INSERT INTO cart (id, user_id, goods_id, quantity) VALUES (#{id}, #{user_id}, #{product_id}, 1)
+    </insert>
+
+    <select id="getChosenCartItemsByUserId" resultType="com.example.penstore.domain.Goods">
+        SELECT p.id, p.name, p.price, c.quantity
+        FROM cart c
+                 JOIN goods p ON c.goods_id = p.id
+        WHERE c.user_id = #{userId} AND c.ischosen = 1
+    </select>
+
+    <select id="isAdded" parameterType="com.example.penstore.dto.CartRequest">
+        SELECT COUNT(*) FROM cart WHERE user_id = #{user_id} AND goods_id = #{product_id}
+    </select>
+
+    <insert id="increase" parameterType="com.example.penstore.dto.CartRequest">
+        UPDATE cart SET quantity = quantity + 1 WHERE user_id = #{user_id} AND goods_id = #{product_id}
+    </insert>
+
+
+
+    <!-- 更新商品数量 -->
+    <update id="updateQuantity">
+        UPDATE cart
+        SET quantity = quantity +
+        <choose>
+            <when test="operation == 'increase'">1</when>
+            <when test="operation == 'decrease'">-1</when>
+            <otherwise>0</otherwise>
+        </choose>
+        WHERE user_id = #{userId} AND goods_id = #{goodsId}
+    </update>
+
+    <!-- 删除商品 -->
+    <delete id="deleteProduct">
+        DELETE FROM cart
+        WHERE user_id = #{userId} AND goods_id = #{goodsId}
+    </delete>
+
+    <!-- 更新商品选中状态 -->
+    <update id="updateIsChosen">
+        UPDATE cart
+        SET ischosen = #{isChosen}
+        WHERE user_id = #{userId} AND goods_id = #{goodsId}
+    </update>
+
+    <!-- 获取商品数量 -->
+    <select id="getProductQuantity" resultType="int">
+        SELECT quantity
+        FROM cart
+        WHERE user_id = #{userId} AND goods_id = #{goodsId}
+    </select>
+
+    <!-- 计算购物车总价 -->
+    <select id="calculateTotalPrice" resultType="java.math.BigDecimal">
+        SELECT SUM(g.price * c.quantity)
+        FROM cart c
+                 JOIN goods g ON c.goods_id = g.id
+        WHERE c.user_id = #{userId} AND c.ischosen = 1
+    </select>
+
+    <!-- 检查是否全部选中 -->
+    <select id="isAllChosen" resultType="Boolean">
+        SELECT SUM(is_chosen) = COUNT(*)
+        FROM cart
+        WHERE user_id = #{userId};
+    </select>
+
+    </mapper>

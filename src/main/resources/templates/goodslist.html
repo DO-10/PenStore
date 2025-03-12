@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product List</title>
+  <link rel="stylesheet" th:href="@{/css/productlist.css}">
+  <style>
+    .username {
+      font-weight: bold;
+    }
+    .product {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+      display: inline-block;
+      width: 200px;
+      text-align: center;
+    }
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+    <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+  </div>
+  <div class="logo">
+    <img th:src="@{/images/logo.png}" alt="peiahuishi">
+  </div>
+  <div class="utility">
+    <a th:href="@{/seller}">卖家中心</a>
+    <a th:href="@{/cart}">购物车</a>
+    <a th:href="@{/customerService}">客服</a>
+  </div>
+</div>
+
+<h1>商品列表</h1>
+<div>
+  <!-- 判断 goods 是否存在且不为空 -->
+  <div th:if="${goods != null and !#lists.isEmpty(goods)}">
+    <div class="product" th:each="goods : ${goods}">
+      <img th:src="${goods.imageUrl}" th:alt="${goods.name}" alt="Product Image"/>
+      <h2 th:text="${goods.name}">产品名称</h2>
+      <p>Price: $<span th:text="${goods.price}">价格</span></p>
+      <p>Stock: <span th:text="${goods.stock}">库存</span></p>
+      <a th:href="@{/goods/goodsdisplay(id=${goods.id})}">查看详情</a>
+      <!-- 隐藏的描述，若需要在 JS 中使用 -->
+      <div class="description" style="display: none;" th:text="${goods.description}"></div>
+    </div>
+  </div>
+  <div th:if="${goods == null or #lists.isEmpty(goods)}">
+    <p>没有找到商品</p>
+  </div>
+</div>
+
+
+
+<div id="tooltip" class="tooltip"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/tooltip.js"></script>
+</body>
+</html>

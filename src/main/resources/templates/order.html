@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>订单信息</title>
+        <style>
+        /* 你的样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #555;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* 让padding和border包含在width内 */
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background: #d4af7a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        #existingAddressContainer, #newAddressContainer {
+            margin-top: 15px;
+        }
+
+        #userId {
+            display: none; /* 隐藏用户ID的div */
+        }
+    </style>
+    </head>
+    <body>
+    <div class="header">
+        <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+            <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+        </div>
+        <div class="logo">
+            <img th:src="@{/images/logo.png}" alt="peiahuishi">
+        </div>
+        <div class="utility">
+            <a th:href="@{/seller}">卖家中心</a>
+            <a th:href="@{/cart}">购物车</a>
+            <a th:href="@{/customerService}">客服</a>
+        </div>
+    </div>
+
+
+    <h1>订单信息</h1>
+
+<!-- 当 orderItems 存在且不为空时显示订单信息 -->
+    <div th:if="${orderItems != null and !#lists.isEmpty(orderItems)}">
+    <ul>
+        <li th:each="Goods : ${orderItems}">
+            <span th:text="${Goods.quantity}">0</span> X
+            <span th:text="${Goods.name}">产品名称</span> -  价格:
+            <span th:text="${Goods.price}">0.00</span>
+        </li>
+    </ul>
+    <h2 th:text="'总价格: ' + (totalPrice != null ? totalPrice : '0.00')">总价格: 0.00</h2>
+
+    <form action="submitOrderServlet" method="post">
+        <input type="hidden" name="userId" th:value="${userId}" />
+
+        <div>
+            <label>
+                <input type="radio" id="useExistingAddress" name="addressOption" value="existing" /> 使用现有地址
+            </label>
+            <label>
+                <input type="radio" id="useNewAddress" name="addressOption" value="new" /> 使用新地址
+            </label>
+        </div>
+        <div id="existingAddressContainer" style="display: none;">
+            <label for="existingAddress">现有地址:</label>
+            <select id="existingAddress" name="existingAddress">
+                <!-- 现有地址选项将通过 JavaScript 动态填充 -->
+            </select>
+        </div>
+        <div id="newAddressContainer" style="display: none;">
+            <label for="newAddress">新地址:</label>
+            <input type="text" id="newAddress" name="newAddress" />
+        </div>
+        <div>
+            <label for="notes">备注:</label>
+            <textarea id="notes" name="notes"></textarea>
+        </div>
+        <div>
+            <label for="phone">电话:</label>
+            <input type="text" id="phone" name="phone" />
+        </div>
+        <!-- 循环生成每个订单项对应的隐藏输入 -->
+        <div th:each="product : ${orderItems}">
+            <input type="hidden" name="selectedProducts" th:value="${product.id}" />
+        </div>
+        <input type="submit" value="提交订单" />
+    </form>
+</div>
+
+<!-- 如果 orderItems 为空，则显示暂无订单信息 -->
+    <div th:if="${orderItems == null or #lists.isEmpty(orderItems)}">
+        <p>没有订单信息。</p>
+    </div>
+
+<!-- 隐藏的用户ID元素 -->
+    <div id="userId" th:data-user-id="${userId}"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/order.js"></script>
+</body>
+</html>

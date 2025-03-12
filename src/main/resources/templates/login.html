@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" th:href="@{/css/login-out.css}">
+</head>
+<body>
+<div class="content" th:classappend="${verificationerror} ? 's--signup'">
+    <div class="form sign-in">
+        <h2>欢迎回来</h2>
+        <form th:action="@{/home}" method="post">
+            <label>
+                <span>邮箱</span>
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                <span>密码</span>
+                <input type="password" name="password" required>
+            </label>
+            <p class="forgot-pass"><a href="#">忘记密码？</a></p>
+            <div th:if="${accounterror}" class="alert alert-danger">
+                <p th:text="${accounterror}"></p>
+            </div>
+            <button type="submit" class="submit">登 录</button>
+        </form>
+    </div>
+
+    <div class="sub-cont">
+        <div class="img">
+            <div class="img__text m--up">
+                <h2>还未注册？</h2>
+                <p>来自星尘<br>买好笔！</p>
+            </div>
+            <div class="img__text m--in">
+                <h2>已有帐号？</h2>
+                <p>立即登陆！<br>看好笔</p>
+            </div>
+            <div class="img__btn">
+                <span class="m--up">注 册</span>
+                <span class="m--in">登 录</span>
+            </div>
+        </div>
+
+        <div class="form sign-up">
+            <h2>立即注册</h2>
+            <form th:action="@{/login}" method="post">
+                <label>
+                    <span>邮箱</span>
+                    <input type="email" name="email" id="email" required>
+                </label>
+<!--                <input type="hidden" name="action" value="register">-->
+
+                <label>
+                    <span>验证码</span>
+                    <label id="verify">
+                        <input type="text" id="verificationCode" name="verificationCode" required>
+                        <button type="button" id="getVerificationCode" class="submit">获取验证码</button>
+                    </label>
+                </label>
+                <label>
+                    <span>用户名</span>
+                    <input type="text" id="username" name="username" required>
+                </label>
+                <label>
+                    <span>密码</span>
+                    <input type="password" id="password" name="password" required>
+                </label>
+                <div th:if="${verificationerror}" class="alert alert-danger">
+                    <p th:text="${verificationerror}"></p>
+                </div>
+                <button type="submit" class="submit">注 册</button>
+<!--                显示注册验证-->
+                <div id="usernameResult"></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/verify.js}"></script>
+<script th:src="@{/js/register.js}"></script>
+</html>
