@@ -19,22 +19,25 @@
         <img th:src="@{/images/logo.png}" alt="peiahuishi">
     </div>
     <div class="utility">
-        <a th:href="@{/customerService}">消息</a>
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/customerService}">客服</a>
     </div>
 </div>
 <div class="navigation">
     <div class="dashboard">
-        <a herf="/ss" >主页</a>
+        <a th:href="@{/seller/{id}(id=${session.user.id})}" >主页</a>
     </div>
     <div class="shopmgmt">
-        <a herf="/ss">店铺管理</a>
+        <a th:href="@{/seller/shopmanagement/{id}(id=${session.user.id})}">店铺管理</a>
     </div>
     <div class="ordermgmt">
-        <a herf="/ss">订单管理</a>
+        <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
     </div>
+</div>//顶部主导航
+<div class="addgoods">
+    <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">添加商品</a>
 </div>
-<div>
-    <a th:href="@{/goodsmanagement/${user.id}}">添加商品</a>
-</div>
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.example.penstore.aspect;
 
 import com.example.penstore.dto.CartRequest;
+import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.UserRequest;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -17,6 +18,8 @@ public class GenerateID{
     public void insertUserPointcut(){}
     @Pointcut("execution(* com.example.penstore.service.CartService.addToCart(..))")
     public void addCartPointcut(){}
+    @Pointcut("execution(* com.example.penstore.service.GoodsService.insertGoods())")
+    public void addGoodsPointcut(){}
 
     //用户ID
     @Before("insertUserPointcut() && args(user)")
@@ -27,6 +30,10 @@ public class GenerateID{
     //购物车ID
     @Before("addCartPointcut() && args(cartRequest)")
     public void generateCartID(CartRequest cartRequest) {cartRequest.setId(UUID.randomUUID().toString());}
+
+    //商品ID
+    @Before("addGoodsPointcut() && args(goodsRequest)")
+    public void generateGoodsID(GoodsRequest goodsRequest) {goodsRequest.setId(UUID.randomUUID().toString());}
 
     //订单生成uuid
     private static final ThreadLocal<String> orderIdThreadLocal = new ThreadLocal<>();

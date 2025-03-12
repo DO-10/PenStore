@@ -17,6 +17,7 @@ public class PathConstants {
     public static final String GOODS = "/goods";
     public static final String SEARCH = "/search";
     public static final String GOODSDISPLAY = "/goodsdisplay";
-    public static final String GOODSMAGAGEMENT = "/goodsmagagement";
+    public static final String SHOPMANAGEMENT = "/shopmanagement";
+    public static final String GOODSMANAGEMENT = "/goodsmanagement";
     public static final String SearchInputServlet = "/searchInputServlet";
 }

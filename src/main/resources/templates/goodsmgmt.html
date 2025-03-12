@@ -23,20 +23,27 @@
   </div>
 </div>
 <div class="navigation">
-  <div class="dashboard">
-    <a herf="/ss" >主页</a>
-  </div>
-  <div class="shopmgmt">
-    <a herf="/ss">店铺管理</a>
-  </div>
-  <div class="ordermgmt">
-    <a herf="/ss">订单管理</a>
-  </div>
+    <div class="dashboard">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}" >主页</a>
+    </div>
+    <div class="shopmgmt">
+        <a th:href="@{/seller/shopmanagement/{id}(id=${session.user.id})}">店铺管理</a>
+    </div>
+    <div class="ordermgmt">
+        <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
+    </div>
 </div>
 <div>
-  <form th:action="/goodsmangement" method="post">
+  <form method="post">
     <label>商品种类：<input th:type="text" th:name="category"></label>
     <label>商品鸣潮：<input th:type="text" th:name="name"></label>
+      <label>价格：<input th:type="text" th:name="price"> </label>
+      <label>商品详情<input th:type="text" th:name="price"></label>
+      <label>数量<input th:type="text" th:name="stock"></label>
+      <label>图片<input th:type="text" th:name="image_url"> </label>
+      <label>状态<input th:type="text" th:name="status"></label>
+      //继续添加商品（未实现）
+      <button th:type="submit" class="submit">入库</button>
 
   </form>
 

@@ -10,4 +10,6 @@ public class Pages {
     public static final String CART = "cart";
     public static final String DASHBOARD = "dashboard";
     public static final String GOODSMANAGEMENT = "goodsmgmt";
+    public static final String SHOPMANAGEMENT = "shopmgmt";
+    public static final String ORDERMANAGEMENT = "ordermgmt";
 }

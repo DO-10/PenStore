@@ -26,4 +26,8 @@
             #{id}
         </foreach>
     </select>
+    <insert id="insertGoods" parameterType="com.example.penstore.dto.GoodsRequest">
+        INSERT INTO goods (id,name,price,description,stock,category_id,image_url,seller,status)
+        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{seller}, #{status})
+    </insert>
 </mapper>

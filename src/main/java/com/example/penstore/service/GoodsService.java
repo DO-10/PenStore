@@ -2,6 +2,7 @@ package com.example.penstore.service;
 
 import com.example.penstore.dao.GoodsMapper;
 import com.example.penstore.domain.Goods;
+import com.example.penstore.dto.GoodsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,8 @@ public class GoodsService {
     public List<Goods> getProductsWithCartQuantities(String[] productIds) {
         // 调用Mapper获取商品信息
         return goodsMapper.getProductsByIds(productIds);
+    }
+    public void insertGoods(GoodsRequest goodsRequest) {
+        goodsMapper.insertGoods(goodsRequest);
     }
 }

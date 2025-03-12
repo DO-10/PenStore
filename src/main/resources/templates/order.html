@@ -103,7 +103,7 @@
             <img th:src="@{/images/logo.png}" alt="peiahuishi">
         </div>
         <div class="utility">
-            <a th:href="@{/seller}">卖家中心</a>
+            <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
             <a th:href="@{/cart}">购物车</a>
             <a th:href="@{/customerService}">客服</a>
         </div>
