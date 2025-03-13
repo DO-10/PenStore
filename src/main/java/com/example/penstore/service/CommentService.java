@@ -17,7 +17,6 @@ public class CommentService {
     @Transactional
     public void addComment(Comment comment) {
         // 后端自动生成ID已通过切面处理
-//        System.out.println(comment.getGoodsId());
 //        System.out.println(comment.getUserId());
 //        System.out.println(comment.getStar());
 //        System.out.println(comment.getContent());
