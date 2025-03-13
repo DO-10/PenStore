@@ -39,7 +39,7 @@
     <label>店铺 <input th:type="select" name="switch"> </label>
     <label th:text="'状态：' + ${shop.status}"></label>
 </div>
-<div class="goodsinfo">
+<div class="shopinfo">
     <div class="1">
         <div class="2">
             <a th:href="@{???}">店铺信息</a>
@@ -58,22 +58,26 @@
         </div>
     </div>
 </div>
-
-<div class="card">
-    <div class="avatar">
-        <image></image>
+<div class="member">
+    <div class="">
+        <h2>店长</h2>
+        <div>
+            <span>
+                <label th:text="f"></label>
+                <label th:text="f"></label>
+            </span>
+        </div>
     </div>
-    <span>名称：<label th:text="${shop.name}"></label></span>
-    <span>简介：<label th:text="${shop.description}"></label></span>
-    <span>联系方式：<label th:text="${shop.contact}"></label></span>
-    <span>人员：<label th:each="member: ${shop.member}" th:text="${shop.member.name}"></label></span>
-    <span>名称：<label th:text="${shop.name}"></label></span>
-    <span>执照：<label th:text="${shop.licence}"></label></span>
+    <div class="">
+        <h2>店员</h2>
+        <div>
+            <span>
+                <label th:text="f"></label>
+                <button th:type="submit" th:if>删除</button>
+            </span>
+        </div>
+    </div>
+    <button th:type="submit"></button>
 </div>
-
-<div class="addgoods">
-    <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">添加商品</a>
-</div>
-
 </body>
 </html>
