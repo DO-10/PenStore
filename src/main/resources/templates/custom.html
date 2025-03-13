@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店家</title>
+</head>
+<body>
+<div class="component">
+  <div class="slide">轮播图</div>
+  <div class="roll">滚动窗口</div>
+  <div class="title">标签卡</div>
+  <div class="fold">折叠面板</div>
+  <div class="view">缩略图查看器</div>
+</div>
+<div class="background">
+  <form>
+    <label>背景<input th:type="text"></label>
+    <button th:type="submit" th:class="submit">更换背景</button>
+  </form>
+</div>
+<div th:class="logo">
+  <button th:type="submit" th:class="submit">更换店铺标识</button>
+</div>
+</body>
+</html>

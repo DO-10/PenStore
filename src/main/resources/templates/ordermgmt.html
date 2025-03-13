@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店家</title>
+</head>
+<body>
+<div class="header">
+    <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+        <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/customerService}">客服</a>
+    </div>
+</div>
+<div class="navigation">
+    <div class="dashboard">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}" >主页</a>
+    </div>
+    <div class="shopmgmt">
+        <a th:href="@{/seller/shopmanagement/{id}(id=${session.user.id})}">店铺管理</a>
+    </div>
+    <div class="ordermgmt">
+        <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
+    </div>
+</div>//顶部主导航
+<div class="classification">
+    <a class="barlink" th:href="@{/order/all/{id}(id=${session.user.id})}">全部</a>
+    <a class="barlink" th:href="@{/order/unshipped/{id}(id=${session.user.id})}">待发货</a>
+    <a class="barlink" th:href="@{/order/unpaid/{id}(id=${session.user.id})}">未付款</a>
+    <a class="barlink" th:href="@{/order/closed/{id}(id=${session.user.id})}">已关闭</a>
+    <a class="barlink" th:href="@{/order/completed/{id}(id=${session.user.id})}">已完成</a>
+</div>//次导航
+<div class="search">
+    <form method="post">
+        <label class="searchlabel">订单号：<input th:type="text" th:name="orderid" class ="searchbox"></label>
+        <label class="searchlabel">买家：<input th:type="text" th:name="consumer" class ="searchbox"></label>
+        <label class="searchlabel">商品名称：<input th:type="text" th:name="name" class ="searchbox"></label>
+        <label class="searchlabel">订单状态：<input th:type="text" th:name="status" class ="searchbox"></label>
+        <label class="searchlabel">下单时间：<input th:type="text" th:name="date" class ="searchbox"></label>
+        <button th:type="submit" class="submit">搜索</button>
+    </form>
+</div>
+<div class="orders">
+    <div class="body">
+        <span class="title">订单</span>
+        <span class="title">数量</span>
+        <span class="title">状态</span>
+        <span class="title">金额</span>
+        <span class="title">操作</span>
+    </div>
+    <div class="main" th:each="order: ${orderList}">
+        <div class="info">
+            <span class="small"><label>订单编号：</label><label th:text="${order.id}"></label></span>
+            <span class="small"><label>下单时间：</label><label th:text="${order.createdAt}"></label></span>
+            <span class="small"><label>下单时间：</label><label th:text="${user.name}"></label></span>
+        </div>
+        <div class="body">
+            <image th:url="???"></image>
+            <p th:text="${order.name}"></p>
+            <a th:href="???">交易快照</a>
+            <label th:text="{${order.number}"></label>
+            <span>
+                <label th:text="${order.status}"></label>
+                <a th:href="？？？">订单详情</a>
+            </span>
+            <label th:text="${order.amount}"></label>
+            <span>
+                <div th:if="???">
+                    <button type="submit" class="submit">发货</button>//需要操作数据库减少库存
+                    <button type="submit" class="submit">退款</button>
+                </div>
+                <div th:if="???">
+                     <button type="submit" class="submit">催付款</button>//发消息
+                     <button type="submit" class="submit">关闭交易</button>//需要操作数据库增加在售
+                </div>
+            </span>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

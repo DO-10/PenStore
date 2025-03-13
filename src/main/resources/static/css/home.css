@@ -1,0 +1,229 @@
+/* 通用样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;  /* 白色背景 */
+    color: #333333;  /* 深灰色文本 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 页面头部 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #ffffff;
+    color: #000000;  /* 黑色文字 */
+}
+
+.username {
+    display: flex;
+    align-items: center;
+}
+/* 页脚 */
+footer {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+/* 用户名 */
+.username a {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+.username a:hover {
+    text-decoration: underline;
+}
+
+/* 退出登录链接 */
+.username a:last-child {
+    margin-left: 10px;
+}
+
+
+.logo img {
+    width: 200px;
+    height: auto;
+}
+
+
+/* 工具栏 (购物车、客服) */
+.utility {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.utility a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.utility a:hover {
+    text-decoration: underline;
+}
+
+/* 搜索框 */
+.search-box {
+    margin: 50px auto;
+    text-align: center;
+}
+
+.search-box input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.search-box input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-left: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.search-box input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* 商品分类 */
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 30px;
+}
+
+.category {
+    font-size: 18px;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.category:hover {
+    background-color: greenyellow;
+    border-color: #ccc;
+}
+
+
+
+
+/* 使链接在悬停时显示下划线 */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.money {
+    color: #ff0000;
+    text-align: right;
+}
+
+.amount {
+    text-align: right;
+}
+
+
+
+#login {
+    max-width: 500px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/*搜索框下拉列表*/
+#suggestions {
+
+    align-content: center;
+    border: 1px solid #ddd;
+    background-color: white;
+    max-height: 150px; /* 设置最大高度 */
+    overflow-y: auto; /* 超出部分滚动 */
+    z-index: 1000; /* 确保列表显示在输入框上方 */
+    display: none; /* 默认不显示 */
+}
+#suggestions div {
+    padding: 5px;
+    cursor: pointer;
+}
+#suggestions div:hover {
+    background-color: #eee;
+}
+
+.slide-viewer {
+    position: relative;
+    overflow: hidden;
+    height: 550px;
+    margin-top: 20px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.slide-group {
+    width:100%;
+    height:100%;
+    position:relative;
+}
+
+.slide {
+    width:100%;
+    height:100%;
+    display:none;
+    position:absolute;
+}
+
+.slide:first-child {
+    display:block;
+}
+
+.slide-buttons {
+    display: flex;               /* 启用 Flexbox */
+    justify-content: center;     /* 水平居中 */
+    align-items: center;         /* 垂直居中 */
+    margin-top: 10px;            /* 给按钮容器增加顶部间距 */
+}
+/*幻灯片按钮样式*/
+.slide-btn {
+    display: inline-block;
+    background: #ccc;
+    margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+.slide-btn.active {
+    background: #d4af7a;
+    color: #fff;
+}
+.slide img {
+    width: 100%; /* 图片宽度填充父容器 */
+    height: 100%; /* 图片高度填充父容器 */
+    object-fit: cover; /* 确保图片按比例填充并裁剪多余部分 */
+}

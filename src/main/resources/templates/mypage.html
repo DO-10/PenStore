@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>用户信息</title>
+  <link rel="stylesheet" th:href="@{/css/myaccount.css}">
+</head>
+<body>
+<div class="header">
+  <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+    <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+  </div>
+  <div class="logo">
+    <img th:src="@{/images/logo.png}" alt="peiahuishi">
+  </div>
+  <div class="utility">
+    <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+    <a th:href="@{/cart}">购物车</a>
+    <a th:href="@{/customerService}">客服</a>
+  </div>
+</div>
+
+<div class="av">
+  <h2>您的头像:</h2>
+  <img th:src="${session.user.avatar}" alt="用户头像" width="100" height="100">
+</div>
+
+<div class="container">
+  <ul class="tab-list">
+    <li class="tab active"><a class="tab-control" href="#tab-1">历史订单</a></li>
+    <li class="tab"><a class="tab-control" href="#tab-2">地址管理</a></li>
+    <li class="tab"><a class="tab-control" href="#tab-3">账户管理</a></li>
+  </ul>
+
+  <div class="tab-panel active" id="tab-1">
+    <h2>您的订单:</h2>
+    <div th:each="order : ${orders}">
+      <h3>订单 ID: [[${order.id}]]</h3>
+      <h4>下单时间：[[${order.createdAt}]]</h4>
+      <ul>
+        <li th:each="product : ${order.products}">
+          [[${product.name}]] - 数量: [[${product.quantity}]] - 价格: [[${product.price}]]
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-2">
+    <h2>地址管理</h2>
+    <form id="addressForm">
+      <input type="hidden" id="userId" th:value="${user.id}">
+      <input type="text" id="newAddress" placeholder="请输入新地址" required>
+      <button type="button" id="submitBtn">提交</button>
+    </form>
+    <p id="responseMessage" style="color: green;"></p>
+  </div>
+
+  <div class="tab-panel" id="tab-3">
+    <h2>账户管理</h2>
+    <form th:action="@{/changeinfo}" method="post">
+      <input type="hidden" name="username" th:value="${user.username}">
+      <input type="text" name="newname" placeholder="请输入新名字" required>
+      <button type="submit">提交</button>
+    </form>
+
+    <form th:action="@{/changeAvatar}" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="userId" th:value="${user.id}">
+      <input type="file" name="avatar" accept="image/*" required>
+      <button type="submit">上传新头像</button>
+    </form>
+  </div>
+</div>
+
+<div class="user-info" style="text-align: center; margin-top: 20px;">
+  <a th:href="@{/home}">返回首页</a>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/myaccount.js}"></script>
+</html>

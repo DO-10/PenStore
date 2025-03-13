@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店家</title>
+</head>
+<body>
+<div class="header">
+    <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+        <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/customerService}">客服</a>
+    </div>
+</div>
+
+    <div class="navigation">
+        <div class="dashboard">
+            <a th:href="@{/seller/{id}(id=${session.user.id})}" >主页</a>
+        </div>
+        <div class="shopmgmt">
+            <a th:href="@{/seller/shopmanagement/{id}(id=${session.user.id})}">店铺管理</a>
+        </div>
+        <div class="ordermgmt">
+            <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
+        </div>
+    </div>
+        <div class="rate">
+            <div class="purchase">lala</div>
+            <div class="profit">haha</div>
+        </div>
+        <div class="order">
+            <span>
+                <div class="1">
+                    <label th:text="${待付款}"></label>
+                    <label th:text="待付款"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${待发货}"></label>
+                    <label th:text="待发货"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${待退款}"></label>
+                    <label th:text="退款"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${异常}"></label>
+                    <label th:text="异常"></label>
+                </div>
+            </span>
+        </div>
+        <div class="goods">
+            <span>
+                <div class="1">
+                    <label th:text="${全部商品}"></label>
+                    <label th:text="全部商品"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${在库}"></label>
+                    <label th:text="在库"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${在售}"></label>
+                    <label th:text="在售"></label>
+                </div>
+            </span>
+            <span>
+                <div class="1">
+                    <label th:text="${异常}"></label>
+                    <label th:text="异常"></label>
+                </div>
+            </span>
+        </div>
+        <div class="3" th:text="${number}">haha</div>
+        <div class="4">
+            <p th:text="${goods}">lala</p>
+        </div>
+    </div>
+    <div class="orderinfo"></div>
+    <div class="consumerinfo"></div>
+</body>
+</html>

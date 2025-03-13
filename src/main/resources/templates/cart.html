@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" th:href="@{/css/cart.css}">
+</head>
+<body>
+<div class="header">
+    <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+        <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/customerService}">客服</a>
+    </div>
+</div>
+
+<h1>您的购物车</h1>
+<div th:if="${cartItems != null && !cartItems.isEmpty()}">
+    <form id="cartForm" th:action="@{/order/checkout}" method="post">
+        <input type="hidden" name="userId" th:value="${session.user.id}">
+        <div class="table">
+            <table id="cartTable">
+                <tr>
+                    <th><input type="checkbox" class="product-checkbox" id="selectAll" name="selectedProducts" value=""/>全选</th>
+                    <th>商品名称</th>
+                    <th>描述</th>
+                    <th class="money">单价</th>
+                    <th class="amount">数量</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="goods : ${cartItems}">
+                    <td>
+                        <input type="checkbox" class="product-checkbox" th:data-product-id="${goods.id}" name="selectedProducts" th:value="${goods.id}"/>
+                    </td>
+                    <td th:text="${goods.name}"></td>
+                    <td th:text="${goods.description}"></td>
+                    <td class="money" th:text="${goods.price}"></td>
+                    <td class="amount">
+                        <span class="quantity" th:text="${goods.quantity}"></span>
+                    </td>
+                    <td>
+                        <button type="button" class="increase-btn" th:data-product-id="${goods.id}">增加</button>
+                        <button type="button" class="decrease-btn" th:data-product-id="${goods.id}">减少</button>
+                        <button type="button" class="delete-btn" th:data-product-id="${goods.id}">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="checkout">
+            <h2>总价格: <span id="totalPrice" th:text="${totalPrice != null ? totalPrice : 0}"></span></h2>
+            <input type="hidden" name="totalPrice" th:value="${totalPrice != null ? totalPrice : 0}" />
+            <button type="submit" class="submit" name="checkout" value="结算">结算</button>
+        </div>
+    </form>
+</div>
+
+<div th:if="${cartItems == null || cartItems.isEmpty()}">
+    <p>您的购物车是空的。</p>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a th:href="@{/home}">返回首页</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/cart.js}"></script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>购物车</title>-->
+<!--    <link rel="stylesheet" th:href="@{/css/cart.css}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="header">-->
+<!--    <div class="username">-->
+<!--            <span th:if="${session.user.username != null}">-->
+<!--                欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>-->
+<!--                <a th:href="@{/logout}">退出登录</a>-->
+<!--            </span>-->
+<!--        <span th:unless="${session.user.username!= null}">-->
+<!--                你好， <a th:href="@{/logsign}">请登录</a>-->
+<!--            </span>-->
+<!--    </div>-->
+<!--    <div class="logo">-->
+<!--        <img th:src="@{../images/logo.png}" alt="peiahuishi">-->
+<!--    </div>-->
+<!--    <div class="utility">-->
+<!--        <a th:href="@{/cart}">购物车</a>-->
+<!--        <a th:href="@{/customerService}">客服</a>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<h1>您的购物车</h1>-->
+<!--<div th:if="${cartItems != null && !#lists.isEmpty(cartItems)}">-->
+<!--    <form id="cartForm" th:action="@{/order/checkout}" method="post">-->
+<!--        <input type="hidden" name="userId" th:value="${session.user.id}">-->
+<!--        <div class="table">-->
+<!--            <table id="cartTable">-->
+<!--                <tr>-->
+<!--                    <th><input type="checkbox" class="product-checkbox" id="selectAll" name="selectedProducts" value=""/>全选</th>-->
+<!--                    <th>商品名称</th>-->
+<!--                    <th>描述</th>-->
+<!--                    <th class="money">单价</th>-->
+<!--                    <th class="amount">数量</th>-->
+<!--                    <th>操作</th>-->
+<!--                </tr>-->
+<!--                <tr th:each="Goods : ${cartItems}">-->
+<!--                    <td>-->
+<!--                        <input type="checkbox" class="product-checkbox" th:data-product-id="${Goods.id}" name="selectedProducts" th:value="${Goods.id}"/>-->
+<!--                    </td>-->
+<!--                    <td th:text="${Goods.name}"></td>-->
+<!--                    <td th:text="${Goods.description}"></td>-->
+<!--                    <td class="money" th:text="${Goods.price}"></td>-->
+<!--                    <td class="amount">-->
+<!--                        <span class="quantity" th:text="${Goods.quantity}"></span>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <button type="button" class="increase-btn" th:data-product-id="${Goods.id}">增加</button>-->
+<!--                        <button type="button" class="decrease-btn" th:data-product-id="${Goods.id}">减少</button>-->
+<!--                        <button type="button" class="delete-btn" th:data-product-id="${Goods.id}">删除</button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--        <div class="checkout">-->
+<!--            <h2>总价格: <span id="totalPrice" th:text="${totalPrice != null ? totalPrice : 0}"></span></h2>-->
+<!--            <input type="hidden" name="totalPrice" th:value="${totalPrice != null ? totalPrice : 0}" />-->
+<!--            <button type="submit" class="submit" name="checkout" value="结算">结算</button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--<div th:if="${cartItems == null || #lists.isEmpty(cartItems)}">-->
+<!--    <p>您的购物车是空的。</p>-->
+<!--</div>-->
+
+<!--<div style="text-align: center; margin-top: 20px;">-->
+<!--    <a th:href="@{/home}">返回首页</a>-->
+<!--</div>-->
+
+<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--<script src="js/cart.js"></script>-->
+<!--</body>-->
+<!--</html>-->

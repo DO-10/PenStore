@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.penstore.dao.OrderMapper">
+    <insert id="createOrder" parameterType="com.example.penstore.dto.OrderRequest">
+        INSERT INTO orders (order_id, user_id, shipping_address, created_at)
+        VALUES (#{orderId}, #{userId}, #{address}, NOW())
+    </insert>
+
+    <!-- 根据产品ID获取购物车中的数量 -->
+    <select id="getQuantityByProductId" resultType="java.lang.String">
+        SELECT quantity FROM cart WHERE product_id = #{productId}
+    </select>
+
+    <!-- 根据产品ID获取产品价格 -->
+    <select id="getPriceByProductId" resultType="java.math.BigDecimal">
+        SELECT price FROM products WHERE id = #{productId}
+    </select>
+
+    <!-- 添加订单项 -->
+    <insert id="addOrderItem">
+        INSERT INTO order_items (order_id, product_id, quantity, price)
+        VALUES (#{orderId}, #{productId}, #{quantity}, #{price})
+    </insert>
+
+    <!-- 根据用户ID获取订单列表 -->
+    <select id="getOrdersByUserId" resultType="com.example.penstore.domain.Order">
+        SELECT order_id AS orderId, created_at AS createdAt
+        FROM orders
+        WHERE user_id = #{userId}
+    </select>
+
+
+    </mapper>
