@@ -17,11 +17,8 @@ public class CartService {
 
     @Transactional
     public List<Goods> getGoodsListByUserId(UserRequest userRequest) {
-        System.out.println("caonima");
-
         List<Goods> GoodsList= cartMapper.getCartItemsByUserId(userRequest);
         return GoodsList;
-
     }
 
     public BigDecimal calculateTotalPriceByUserId(String userId) {
