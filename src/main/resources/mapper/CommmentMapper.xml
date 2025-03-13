@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.penstore.dao.CommentMapper">
+
+    <!-- 插入评论或回复 -->
+    <insert id="insertComment" parameterType="com.example.penstore.domain.Comment">
+        INSERT INTO comment (
+            id, user_id, pop, goods_id, star, comment_at, images, isreplied, content, parent_id
+        ) VALUES (
+                     #{id}, #{userId}, #{pop}, #{goodsId}, #{star}, #{commentAt}, #{images}, #{isReplied}, #{content}, #{parentId}
+                 )
+    </insert>
+
+    <!-- 更新评论的回复状态 -->
+    <update id="updateReplyStatus">
+        UPDATE comment
+        SET isreplied = 1
+        WHERE id = #{parentId}
+    </update>
+
+    <!-- 根据商品ID查询评论 -->
+    <select id="selectByGoodsId" resultType="com.example.penstore.domain.Comment">
+        SELECT *
+        FROM comment
+        WHERE goods_id = #{goodsId} AND pop = '1'
+        ORDER BY comment_at DESC
+    </select>
+
+    <!-- 根据父评论ID查询回复 -->
+    <select id="selectRepliesByParentId" resultType="com.example.penstore.domain.Comment">
+        SELECT *
+        FROM comment
+        WHERE parent_id = #{parentId} AND pop = '2'
+    </select>
+
+</mapper>
