@@ -45,5 +45,10 @@ public class OrderService {
     public List<Order> getOrdersByUserId(String userId) {
         return orderMapper.getOrdersByUserId(userId); // 获取用户订单
     }
+    // 获取全部订单
+    public List<Order> getOrders() {
+        return orderMapper.getOrders();
+    }
+//    public List<Order> getOrdersByOrderId(String orderId) {}
 
 }

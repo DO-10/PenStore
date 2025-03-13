@@ -35,7 +35,7 @@
     </div>
 </div>//顶部主导航
 <div class="classification">
-    <a class="barlink" th:href="@{/order/all/{id}(id=${session.user.id})}">全部</a>
+    <a class="barlink" th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">全部</a>
     <a class="barlink" th:href="@{/order/unshipped/{id}(id=${session.user.id})}">待发货</a>
     <a class="barlink" th:href="@{/order/unpaid/{id}(id=${session.user.id})}">未付款</a>
     <a class="barlink" th:href="@{/order/closed/{id}(id=${session.user.id})}">已关闭</a>
@@ -59,30 +59,33 @@
         <span class="title">金额</span>
         <span class="title">操作</span>
     </div>
-    <div class="main" th:each="order: ${orderList}">
+    <div class="main" th:each="order: ${orders}">
         <div class="info">
-            <span class="small"><label>订单编号：</label><label th:text="${order.id}"></label></span>
-            <span class="small"><label>下单时间：</label><label th:text="${order.createdAt}"></label></span>
-            <span class="small"><label>下单时间：</label><label th:text="${user.name}"></label></span>
+            <span class="small"><label>订单编号：</label><label th:text="${order.order_id}"></label></span>
+            <span class="small"><label>下单时间：</label><label th:text="${order.created_at}"></label></span>
+            <span class="small"><label>买家：</label><label th:text="${order.username}"></label></span>
         </div>
         <div class="body">
-            <image th:url="???"></image>
+            <image th:url="${order.images}"></image>
             <p th:text="${order.name}"></p>
-            <a th:href="???">交易快照</a>
-            <label th:text="{${order.number}"></label>
+            <a th:href="@{等待圣遗物连接}">交易快照</a>
+            <label th:text="${order.number}"></label>
             <span>
-                <label th:text="${order.status}"></label>
-                <a th:href="？？？">订单详情</a>
+                <label th:text="${order.order_status}"></label>
+                <a th:href="@{未知连接}">订单详情</a>
             </span>
             <label th:text="${order.amount}"></label>
             <span>
-                <div th:if="???">
+                <div th:if="${order.order_status == '未发货'}">
                     <button type="submit" class="submit">发货</button>//需要操作数据库减少库存
                     <button type="submit" class="submit">退款</button>
                 </div>
-                <div th:if="???">
+                <div th:if="${order.order_status == '未付款'}">
                      <button type="submit" class="submit">催付款</button>//发消息
                      <button type="submit" class="submit">关闭交易</button>//需要操作数据库增加在售
+                </div>
+                <div th:if="${order.order_status == '已完成'}">
+                    <button type="submit" class="submit">查看物流</button>//无
                 </div>
             </span>
 

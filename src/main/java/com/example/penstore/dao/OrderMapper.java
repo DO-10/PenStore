@@ -17,6 +17,8 @@ public interface OrderMapper {
     BigDecimal getPriceByProductId(String orderId);
     String addOrderItem(String orderId, String productId, String quantity,BigDecimal price);
     List<Order> getOrdersByUserId(String userId);
+    List<Order> getOrders();
+    List<Order> getOrdersByOrderId(String orderId);
 
 
 }

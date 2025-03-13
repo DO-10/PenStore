@@ -20,4 +20,5 @@ public class PathConstants {
     public static final String SHOPMANAGEMENT = "/shopmanagement";
     public static final String GOODSMANAGEMENT = "/goodsmanagement";
     public static final String SearchInputServlet = "/searchInputServlet";
+    public static final String ORDERMANAGEMENT = "/ordermanagement";
 }
