@@ -49,10 +49,10 @@ public void addComment(Comment comment) {
     public List<Comment> getNestedComments(String goodsId) {
         // 获取所有主评论
         List<Comment> mainComments = commentMapper.selectByGoodsId(goodsId);
-        System.out.println(mainComments.get(0).getUsername());
-        System.out.println(mainComments.get(0).getComment_at());
-        System.out.println(mainComments.get(0).getId());
-        System.out.println(mainComments.get(0).getUser_id());
+//        System.out.println(mainComments.get(0).getUsername());
+//        System.out.println(mainComments.get(0).getComment_at());
+//        System.out.println(mainComments.get(0).getId());
+//        System.out.println(mainComments.get(0).getUser_id());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         // 遍历 mainComments 列表

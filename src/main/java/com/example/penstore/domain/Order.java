@@ -7,7 +7,7 @@ public class Order {
     private String order_id;
     private String user_id;
     private String username;
-    private String name;
+    private String name;//商品名称
     private String shipping_address;
     private String payment_status;
     private String order_status;
@@ -18,9 +18,10 @@ public class Order {
     private String phone;
     private String note;
     private String amount;
-    private String images;
+    private String image_url;
     private String delivery_time;
-    private int number;
+    private String status;
+    private int quantity;
     public String getOrder_id() {
         return order_id;
     }
@@ -105,11 +106,11 @@ public class Order {
     public void setAmount(String amount) {
         this.amount = amount;
     }
-    public String getImages() {
-        return images;
+    public String getImage_url() {
+        return image_url;
     }
-    public void setImages(String images) {
-        this.images = images;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
     public String getDelivery_time() {
         return delivery_time;
@@ -117,10 +118,16 @@ public class Order {
     public void setDelivery_time(String delivery_time) {
         this.delivery_time = delivery_time;
     }
-    public int getNumber() {
-        return number;
+    public int getQuantity() {
+        return quantity;
     }
-    public void setNumber(int number) {
-        this.number = number;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
