@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- resources/mapper/SalesMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.penstore.dao.SalesMapper">
+    <select id="getSalesStats" resultType="map">
+        SELECT
+            COALESCE(SUM(oi.quantity*oi.price), 0) AS totalSales,
+            COUNT(o.order_id) AS orderCount,
+            COALESCE(AVG(oi.quantity*oi.price), 0) AS avgOrderValue,
+            (SELECT COUNT(DISTINCT user_id) FROM orders
+             WHERE created_at BETWEEN #{start} AND #{end}) AS userCount
+        FROM orders o
+                 JOIN order_items oi ON o.order_id=oi.order_id
+        WHERE o.created_at BETWEEN #{start} AND #{end}
+    </select>
+    <select id="getDailySalesTrend" resultType="map">
+        SELECT
+        <if test="_databaseId == 'mysql'">
+            DATE_FORMAT(o.created_at, '%Y-%m-%d') AS salesDate,
+        </if>
+        SUM(oi.quantity*oi.price) AS dailyAmount
+        FROM orders o
+        JOIN order_items oi ON o.order_id=oi.order_id
+        WHERE o.created_at BETWEEN #{start} AND #{end}
+        GROUP BY DATE_FORMAT(o.created_at, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(o.created_at, '%Y-%m-%d') ASC
+    </select>
+    <select id="getTopProducts" resultType="map">
+        SELECT g.name AS product_name,SUM(oi.quantity) AS total_quantity,
+               SUM(oi.quantity*oi.price) AS total_sales
+        FROM order_items oi
+                 JOIN goods g ON
+            oi.product_id=g.id
+        GROUP BY
+            oi.product_id,g.name
+        ORDER BY total_quantity DESC
+            LIMIT #{limit}
+    </select>
+    <select id="getTodaySales" resultType="java.math.BigDecimal">
+        SELECT
+            COALESCE(SUM(oi.quantity*oi.price),0)AS today_sales
+        FROM orders o
+                 JOIN
+             order_items oi ON
+                 o.order_id=oi.order_id
+        WHERE DATE(o.created_at)=#{today}
+    </select>
+</mapper>

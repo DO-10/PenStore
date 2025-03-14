@@ -22,7 +22,7 @@
 
     //判断当前浏览器是否支持WebSocket,这个192.的ip是我的手机热点，想要复现功能必须改成所使用的局域网的ip
     if('WebSocket' in window){
-        websocket = new WebSocket("ws://192.168.29.147:8080/websocket/1");
+        websocket = new WebSocket("ws://192.168.29.161:8080/websocket/1");
     } else {
         alert("Don't support websocket!")
     }
