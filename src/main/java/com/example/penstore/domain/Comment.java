@@ -18,6 +18,7 @@ public class Comment {
     private String content;
     private String parentId;
     private List<Comment> replies;
+    private String username;
     public Comment() {}
 
     public String getPop() {
@@ -74,6 +75,9 @@ public class Comment {
     }
     public String getTime() {
         return time;
+    }
+    public String getUsername(){
+        return username;
     }
 
 }

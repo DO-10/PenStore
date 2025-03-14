@@ -136,15 +136,16 @@
 
     <div th:each="comment : ${comments}" class="comment-item">
         <div class="main-comment">
-            <span class="user">用户[[${comment.user_id}]]</span>
+            <span class="user">用户[[${comment.username}]]</span>
 
             <span class="stars">[[${'★'.repeat(comment.star)}]]</span>
-            <span class="time">评论时间[[${comment.time}]]</span>
+
             <div class="content">[[${comment.content}]]</div>
             <div class="meta">
 
 
                 <a th:href="@{/comment/submit?goodsId=${goods.id}&parentId=${comment.id}}">回复</a>
+                <span class="time">评论时间[[${comment.time}]]</span>
             </div>
         </div>
 
@@ -152,7 +153,9 @@
         <div th:each="reply : ${comment.replies}" class="reply-item">
             <div class="content">↳ [[${reply.content}]]</div>
             <div class="meta">
-                <span class="user">用户[[${reply.userId}]]</span>
+                <span class="user">用户 [[${reply.username}]]</span>
+                <span class="time">评论时间[[${reply.time}]]</span>
+
 
             </div>
         </div>

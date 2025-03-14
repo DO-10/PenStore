@@ -21,17 +21,35 @@
 
     <!-- 根据商品ID查询评论 -->
     <select id="selectByGoodsId" resultType="com.example.penstore.domain.Comment">
-        SELECT *
-        FROM comment
-        WHERE goods_id = #{goodsId} AND pop = '1'
+        SELECT
+        c.id,
+        c.star,
+        c.user_id,
+        c.goods_id,
+        c.content,
+        c.comment_at,
+        c.pop,
+        (SELECT u.username FROM user u WHERE u.id = c.user_id) AS username  <!-- 直接子查询 -->
+        FROM comment c
+        WHERE goods_id = #{goodsId}
+        AND pop = '1'
         ORDER BY comment_at DESC
     </select>
 
     <!-- 根据父评论ID查询回复 -->
     <select id="selectRepliesByParentId" resultType="com.example.penstore.domain.Comment">
-        SELECT *
-        FROM comment
-        WHERE parent_id = #{parentId} AND pop = '2'
+        SELECT
+            c.id,
+            c.content,
+            c.comment_at,
+            -- 直接通过子评论的 user_id 获取用户名
+            (SELECT u.username
+             FROM user u
+             WHERE u.id = c.user_id) AS username
+        FROM comment c
+        WHERE c.parent_id = #{parentId}
+          AND c.pop = '2'
+        ORDER BY c.comment_at DESC
     </select>
 
 </mapper>

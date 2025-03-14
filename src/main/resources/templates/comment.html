@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发表评价</title>
+    <link rel="stylesheet" href="/css/comments.css">
+    <style>
+        .comment-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .back-link {
+            display: block;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .star-rating span {
+            cursor: pointer;
+            font-size: 24px;
+            color: #ccc;
+            transition: color 0.2s;
+        }
+
+        .star-rating span.active {
+            color: #ffd700;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .reply-indicator {
+            color: #666;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="comment-container">
+    <!-- 返回商品链接 -->
+    <a th:href="@{/goods/{id}(id=${goodsId})}" class="back-link">← 返回商品页</a>
+
+    <!-- 评论表单 -->
+    <div class="comment-form">
+        <div class="star-rating">
+            <span data-value="1">☆</span>
+            <span data-value="2">☆</span>
+            <span data-value="3">☆</span>
+            <span data-value="4">☆</span>
+            <span data-value="5">☆</span>
+        </div>
+        <textarea id="content" placeholder="写下您的评价..."></textarea>
+        <button onclick="submitComment()">提交评价</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const goodsId = [[${goodsId}]];
+    const parentId = [[${parentId != null ? parentId : 'null'}]];
+</script>
+<script src="/js/comment.js"></script>
+</body>
+</html>
