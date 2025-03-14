@@ -1,5 +1,6 @@
 package com.example.penstore.controller;
 
+import org.springframework.ui.Model;
 import com.example.penstore.domain.Comment;
 import com.example.penstore.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,17 @@ public class CommentController {
         commentService.addComment(comment);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/comment/submit")
+    public String commentPage(
+            @RequestParam String goodsId,
+            @RequestParam(required = false) String parentId,
+            Model model
+    ) {
+        model.addAttribute("goodsId", goodsId);
+        model.addAttribute("parentId", parentId);
+        return "comment";
+    }
+
 
 //    @GetMapping("/goods/{goodsId}")
 //    public ResponseEntity<List<Comment>> getCommentsByGoodsId(@PathVariable String goodsId) {

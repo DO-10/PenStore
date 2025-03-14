@@ -49,6 +49,7 @@ public void addComment(Comment comment) {
     public List<Comment> getNestedComments(String goodsId) {
         // 获取所有主评论
         List<Comment> mainComments = commentMapper.selectByGoodsId(goodsId);
+        System.out.println(mainComments.get(0).getUsername());
         System.out.println(mainComments.get(0).getComment_at());
         System.out.println(mainComments.get(0).getId());
         System.out.println(mainComments.get(0).getUser_id());
@@ -70,6 +71,19 @@ public void addComment(Comment comment) {
         // 为每条主评论查询回复
         mainComments.forEach(comment -> {
             List<Comment> replies = commentMapper.selectRepliesByParentId(comment.getId());
+
+            for (Comment reply : replies) {
+
+                // 获取 comment_at 属性并转换为 String
+                LocalDateTime commentAt = reply.getComment_at();
+                if (commentAt != null) { // 确保 comment_at 不为 null
+                    String formattedTime = commentAt.format(formatter);
+                    // 将转换后的时间赋值给 time 属性
+                    reply.setTime(formattedTime);
+                }
+
+            }
+
             comment.setReplies(replies);
         });
 
