@@ -32,11 +32,12 @@
         <div class="shopmgmt">
             <a th:href="@{/seller/shopmanagement/{id}(id=${session.user.id})}">店铺管理</a>
         </div>
-        <div class="ordermgmt">
+        <div class="ordermgmt">//订单管理入口
             <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
         </div>
     </div>
         <div class="rate">
+            <a th:href="@{/workerAnswer}">后台客服</a><-----!这里是新加的后台客服按钮------>
             <div class="purchase">lala</div>
             <div class="profit">haha</div>
         </div>

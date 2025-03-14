@@ -20,4 +20,7 @@ public class PathConstants {
     public static final String SHOPMANAGEMENT = "/shopmanagement";
     public static final String GOODSMANAGEMENT = "/goodsmanagement";
     public static final String SearchInputServlet = "/searchInputServlet";
+    public static final String ORDERMANAGEMENT = "/ordermanagement";
+    public static final String Worker = "/workerAnswer";//客服后台界面
+    public static final String CustomerService = "/customerService";//用户客服界面
 }
