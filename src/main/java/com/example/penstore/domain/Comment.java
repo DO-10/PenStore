@@ -1,28 +1,33 @@
 package com.example.penstore.domain;
 
-import java.time.LocalDateTime;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.List;
+@Component
 public class Comment {
     private String id;
-    private String userId;
+    private String user_id;
     private String pop;
     private String goodsId;
     private Integer star;
-    private LocalDateTime commentAt;
+    private LocalDateTime comment_at;
+    private String time;
     private String images;
     private Boolean isReplied;
     private String content;
     private String parentId;
+    private List<Comment> replies;
     public Comment() {}
 
     public String getPop() {
         return pop;
     }
-    public void setCommentAt(LocalDateTime commentAt) {
-        this.commentAt = commentAt;
+    public void setComment_at(LocalDateTime comment_at) {
+        this.comment_at = comment_at;
     }
-    public LocalDateTime getCommentAt() {
-        return commentAt;
+    public LocalDateTime getComment_at() {
+        return comment_at;
     }
     public String getParentId(){
         return parentId;
@@ -36,11 +41,11 @@ public class Comment {
     public void setId(String id) {
         this.id = id;
     }
-    public String getUserId() {
-        return userId;
+    public String getUser_id() {
+        return user_id;
     }
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
     public String getGoodsId() {
         return goodsId;
@@ -57,6 +62,18 @@ public class Comment {
 
     public String getContent() {
         return content;
+    }
+    public void setReplies(List<Comment> replies) {
+        this.replies = replies;
+    }
+    public List<Comment> getReplies() {
+        return replies;
+    }
+    public void setTime(String time) {
+        this.time = time;
+    }
+    public String getTime() {
+        return time;
     }
 
 }

@@ -227,3 +227,19 @@ a:hover {
     height: 100%; /* 图片高度填充父容器 */
     object-fit: cover; /* 确保图片按比例填充并裁剪多余部分 */
 }
+.comment-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 评论标题 */
+.comment-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+

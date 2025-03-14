@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.penstore.dto.CommentRequest;
+import com.example.penstore.domain.Comment;
+import com.example.penstore.service.CommentService;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ import java.util.List;
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private CommentService commentService;
+
 
     @GetMapping(PathConstants.CATEGORY)
     public String getByCategory(@RequestParam String category_id, Model model) {
@@ -29,6 +33,11 @@ public class GoodsController {
     public  String getById(@RequestParam String id, Model model) {
         Goods goods = goodsService.getById(id);
         model.addAttribute("goods",goods);
+
+        List<Comment> comments = commentService.getNestedComments(id);
+        model.addAttribute("comments", comments);
+
+
         return Pages.GOODS;
     }
 
