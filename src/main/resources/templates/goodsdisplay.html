@@ -1,9 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
   <meta charset="UTF-8" />
   <title>Product Detail</title>
+
   <link rel="stylesheet" th:href="@{/css/home.css}">
+    <style>
+        /* 每条评论的容器 */
+        .comment-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* 主评论内容 */
+        .main-comment {
+            margin-bottom: 10px;
+        }
+
+        /* 用户信息 */
+        .main-comment .user {
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* 评分星星 */
+        .main-comment .stars {
+            color: #ffc107; /* 金色 */
+            margin-left: 10px;
+        }
+
+        /* 评论内容 */
+        .main-comment .content {
+            margin-top: 10px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* 评论元信息（时间和回复按钮） */
+        .main-comment .meta {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .main-comment .meta .time {
+            margin-right: 10px;
+        }
+
+        .main-comment .meta a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .main-comment .meta a:hover {
+            text-decoration: underline;
+        }
+
+        /* 回复区域 */
+        .reply-item {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 3px solid #e0e0e0;
+        }
+
+        /* 回复内容 */
+        .reply-item .content {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* 回复元信息（用户和时间） */
+        .reply-item .meta {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .reply-item .meta .user {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .reply-item .meta .time {
+            margin-left: 10px;
+        }
+        </style>
 </head>
 <body>
 <!-- 顶部头部 -->
@@ -44,6 +129,35 @@
     <input type="hidden" name="product_id" th:value="${goods.id}">
     <input type="submit" value="加入购物车">
 </form>
+
+<!-- 评论展示区域 -->
+<div class="comment-section" th:if="${not #lists.isEmpty(comments)}">
+    <h3>用户评价（共 [[${#lists.size(comments)}]] 条）</h3>
+
+    <div th:each="comment : ${comments}" class="comment-item">
+        <div class="main-comment">
+            <span class="user">用户[[${comment.user_id}]]</span>
+
+            <span class="stars">[[${'★'.repeat(comment.star)}]]</span>
+            <span class="time">评论时间[[${comment.time}]]</span>
+            <div class="content">[[${comment.content}]]</div>
+            <div class="meta">
+
+
+                <a th:href="@{/comment/submit?goodsId=${goods.id}&parentId=${comment.id}}">回复</a>
+            </div>
+        </div>
+
+        <!-- 显示回复 -->
+        <div th:each="reply : ${comment.replies}" class="reply-item">
+            <div class="content">↳ [[${reply.content}]]</div>
+            <div class="meta">
+                <span class="user">用户[[${reply.userId}]]</span>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <a th:href="@{/goods/productlist.jsp}">返回</a>
 </body>

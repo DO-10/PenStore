@@ -21,13 +21,13 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/goods/{goodsId}")
-    public ResponseEntity<List<Comment>> getCommentsByGoodsId(@PathVariable String goodsId) {
-        return ResponseEntity.ok(commentService.getCommentsByGoodsId(goodsId));
-    }
-
-    @GetMapping("/replies/{parentId}")
-    public ResponseEntity<List<Comment>> getRepliesByParentId(@PathVariable String parentId) {
-        return ResponseEntity.ok(commentService.getRepliesByParentId(parentId));
-    }
+//    @GetMapping("/goods/{goodsId}")
+//    public ResponseEntity<List<Comment>> getCommentsByGoodsId(@PathVariable String goodsId) {
+//        return ResponseEntity.ok(commentService.getCommentsByGoodsId(goodsId));
+//    }
+//
+//    @GetMapping("/replies/{parentId}")
+//    public ResponseEntity<List<Comment>> getRepliesByParentId(@PathVariable String parentId) {
+//        return ResponseEntity.ok(commentService.getRepliesByParentId(parentId));
+//    }
 }
