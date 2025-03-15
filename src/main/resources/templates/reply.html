@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>回复评论</title>
+    <style>
+        /* 回复页面整体样式 */
+        .reply-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 返回商品链接 */
+        .back-link {
+            display: block;
+            margin-bottom: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 回复表单 */
+        .reply-form {
+            margin-top: 20px;
+        }
+
+        /* 父评论提示 */
+        .reply-indicator {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .reply-indicator .original-comment {
+            margin-top: 5px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            color: #333;
+        }
+
+        /* 回复输入框 */
+        .reply-form textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* 提交按钮 */
+        #submit-reply {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #submit-reply:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="reply-container">
+    <!-- 返回商品链接 -->
+    <a th:href="@{/goods/{id}(id=${goodsId})}" class="back-link">← 返回商品页</a>
+
+    <!-- 回复表单 -->
+    <div class="reply-form">
+        <div class="reply-indicator">
+            您正在回复用户 [[${parentComment.user_id}]] 的评论：
+            <div class="original-comment">[[${parentComment.content}]]</div>
+        </div>
+        <textarea id="content" placeholder="写下您的回复..."></textarea>
+        <button id="submit-reply">提交回复</button>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const goodsId = [[${parentComment.goodsId}]];
+    const parentComment = [[${parentComment}]]; // 获取父评论对象
+    const userId = [[${session.user?.id}]]; // 从 Session 获取用户 ID
+</script>
+<!-- 引入 jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/reply.js"></script>
+</body>
+</html>

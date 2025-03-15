@@ -142,12 +142,14 @@
 
             <div class="content">[[${comment.content}]]</div>
             <div class="meta">
-
-
-
-
                 <span class="time">评论时间[[${comment.time}]]</span>
             </div>
+            <a
+                    th:href="@{/api/comments/reply(goodsId=${goods.id}, parentId=${comment.id})}"
+                    style="cursor: pointer;"
+            >
+                回复
+            </a>
         </div>
 
         <!-- 显示回复 -->
