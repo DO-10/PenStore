@@ -41,6 +41,7 @@ public class GoodsController {
         return Pages.GOODS;
     }
 
+
     @PostMapping(PathConstants.SEARCH)
     public String getByInput(@RequestParam String query, Model model) {
         List<Goods> goodsList = goodsService.getByInput(query);

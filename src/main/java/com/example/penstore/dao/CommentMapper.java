@@ -13,11 +13,11 @@ public interface CommentMapper {
     void insertComment(Comment comment);
 
     // 更新评论的回复状态
-    void updateReplyStatus(@Param("parentId") String parentId);
+    void updateReplyStatus( String parentId);
 
     // 根据商品ID查询评论
-    List<Comment> selectByGoodsId(@Param("goodsId") String goodsId);
+    List<Comment> selectByGoodsId(String goodsId);
 
     // 根据父评论ID查询回复
-    List<Comment> selectRepliesByParentId(@Param("parentId") String parentId);
+    List<Comment> selectRepliesByParentId(String parentId);
 }

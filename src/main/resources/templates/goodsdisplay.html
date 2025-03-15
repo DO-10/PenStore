@@ -129,7 +129,7 @@
     <input type="hidden" name="product_id" th:value="${goods.id}">
     <input type="submit" value="加入购物车">
 </form>
-
+<a th:href="@{/api/comments/submit(goodsId=${goods.id})}">评论</a>
 <!-- 评论展示区域 -->
 <div class="comment-section" th:if="${not #lists.isEmpty(comments)}">
     <h3>用户评价（共 [[${#lists.size(comments)}]] 条）</h3>
@@ -144,7 +144,8 @@
             <div class="meta">
 
 
-                <a th:href="@{/comment/submit?goodsId=${goods.id}&parentId=${comment.id}}">回复</a>
+
+
                 <span class="time">评论时间[[${comment.time}]]</span>
             </div>
         </div>
