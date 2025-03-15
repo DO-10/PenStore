@@ -47,7 +47,6 @@ public class CommentController {
     @PostMapping("/reply/submit")
     public ResponseEntity<?> createReply(@RequestBody Comment reply) {
         commentService.addReply(reply); // 调用 Service 层处理回复
-        System.out.println(reply.getGoodsId());
         return ResponseEntity.ok().build();
     }
 
