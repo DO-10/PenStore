@@ -39,11 +39,17 @@ public class CommentService {
 @Transactional
 public void addComment(Comment comment) {
     comment.setComment_at(LocalDateTime.now());
-    if ("2".equals(comment.getPop())) {
-        commentMapper.updateReplyStatus(comment.getParentId());
-    }
+    comment.setPop("1");
     commentMapper.insertComment(comment);
 }
+
+//    // 添加回复
+//    @Transactional
+//    public void addReply(Comment reply) {
+//        reply.setComment_at(LocalDateTime.now());
+//        commentMapper.updateReplyStatus(reply.getParentId());
+//        commentMapper.insertReply(reply);
+//    }
 
     // 获取商品评论及回复（嵌套结构）
     public List<Comment> getNestedComments(String goodsId) {
