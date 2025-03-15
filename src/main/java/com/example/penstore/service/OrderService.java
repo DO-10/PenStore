@@ -10,7 +10,7 @@ import com.example.penstore.dto.OrderRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
+
 @Service
 public class OrderService {
 
@@ -23,9 +23,9 @@ public class OrderService {
     public String createOrder(String userId, String address) {
         String orderId = GenerateID.getCurrentOrderId();
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setUserid(userId);
-        orderRequest.setAddress(address);
-        orderRequest.setOrderId(orderId);
+        orderRequest.setUser_id(userId);
+        orderRequest.setShipping_address(address);
+        orderRequest.setOrder_id(orderId);
 
         orderMapper.createOrder(orderRequest); // 调用 Mapper 方法
         return orderId; // 返回生成的订单ID
@@ -46,8 +46,16 @@ public class OrderService {
         return orderMapper.getOrdersByUserId(userId); // 获取用户订单
     }
     // 获取全部订单
-    public List<Order> getOrders() {
-        return orderMapper.getOrders();
+    public List<Order> getOrders(String shop_id) {
+        return orderMapper.getOrders(shop_id);
+    }
+    //根据状态获取订单
+    public List<Order> getOrders(String status, String shop_id) {
+        return orderMapper.getOrdersByStatus(status, shop_id);
+    }
+    // 搜索订单
+    public List<Order> getOrdersByQuery(OrderRequest orderRequest) {
+        return orderMapper.getOrdersByQuery(orderRequest);
     }
 //    public List<Order> getOrdersByOrderId(String orderId) {}
 
