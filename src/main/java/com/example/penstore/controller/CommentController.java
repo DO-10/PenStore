@@ -30,7 +30,26 @@ public class CommentController {
         model.addAttribute("goodsId", goodsId);
         return "comment";
     }
-    // 提交评论
+    // 提交回复
+    @GetMapping("/reply")
+    public String replyPage(
+            @RequestParam String goodsId,     // 商品ID
+            @RequestParam String parentId,    // 父评论ID
+            Model model
+    ) {
+
+        Comment parentComment = commentService.selectByParentId(parentId);
+        // 根据 goodsId 关联商品（确保回复属于正确商品）
+        model.addAttribute("goodsId", goodsId);
+        model.addAttribute("parentComment", parentComment);
+        return "reply";
+    }
+    @PostMapping("/reply/submit")
+    public ResponseEntity<?> createReply(@RequestBody Comment reply) {
+        commentService.addReply(reply); // 调用 Service 层处理回复
+        System.out.println(reply.getGoodsId());
+        return ResponseEntity.ok().build();
+    }
 
 
 

@@ -11,6 +11,7 @@ public interface CommentMapper {
 
     // 插入评论或回复
     void insertComment(Comment comment);
+    void insertReply(Comment reply);
 
     // 更新评论的回复状态
     void updateReplyStatus( String parentId);
@@ -20,4 +21,6 @@ public interface CommentMapper {
 
     // 根据父评论ID查询回复
     List<Comment> selectRepliesByParentId(String parentId);
+
+    Comment selectByParentId(String parentId);
 }
