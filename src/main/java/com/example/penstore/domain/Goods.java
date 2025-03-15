@@ -9,8 +9,12 @@ public class Goods {
     private String description;
     private java.math.BigDecimal price;
     private int stock;
-    private String imageUrl;
+    private String image_url;
     private String quantity;
+    private String sales;
+    private String createTime;
+    private String saleTime;
+    private String status;
 
     public String getId() {
         return id;
@@ -42,17 +46,41 @@ public class Goods {
     public void setStock(int stock) {
         this.stock = stock;
     }
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage_url() {
+        return image_url;
     }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
     public String getQuantity() {
         return quantity;
     }
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+    public String getSales() {
+        return sales;
+    }
+    public void setSales(String sales) {
+        this.sales = sales;
+    }
+    public String getCreateTime() {
+        return createTime;
+    }
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+    public String getSaleTime() {
+        return saleTime;
+    }
+    public void setSaleTime(String saleTime) {
+        this.saleTime = saleTime;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 

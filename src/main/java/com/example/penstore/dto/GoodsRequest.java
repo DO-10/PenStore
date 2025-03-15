@@ -13,7 +13,10 @@ public class GoodsRequest {
     private String seller;
     private String category_id;
     private String status;
-
+    private String shop_id;
+    private String startPrice;
+    private String endPrice;
+    private String category;//封装搜索商品种类
     public GoodsRequest() {  }
 
     public String getId() { return id; }
@@ -50,4 +53,12 @@ public class GoodsRequest {
     public void setCategory_id(String category_id) { this.category_id=category_id; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status=status; }
+    public String getShop_id() { return shop_id; }
+    public void setShop_id(String shop_id) { this.shop_id=shop_id; }
+    public String getStartPrice() { return startPrice; }
+    public void setStartPrice(String startPrice) { this.startPrice=startPrice; }
+    public String getEndPrice() { return endPrice; }
+    public void setEndPrice(String endPrice) { this.endPrice=endPrice; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category=category; }
 }
