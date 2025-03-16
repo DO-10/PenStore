@@ -47,13 +47,13 @@ public class SellerController {
         return Pages.NEWGOODS;
     }
     @PostMapping(PathConstants.GOODSMANAGEMENT+"/{id}")//请求添加/修改商品
-    public String addGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id) {
-        String imagePath = "/static/images/goods/";
-        String image_url = fileService.saveFile(goodsRequest.getImage(),imagePath);
+    public String addGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id, Model model) {
+        String image_url = fileService.saveFile(goodsRequest.getImage(),"goods");
         goodsRequest.setImageUrl(image_url);
         goodsRequest.setShop_id(id);
         goodsService.insertGoods(goodsRequest);
-        return Pages.SHOPMANAGEMENT;
+        model.addAttribute("goods", goodsService.getGoodsByShopId(id));
+        return Pages.GOODSMANAGEMENT;
     }
 
     //请求订单管理页面

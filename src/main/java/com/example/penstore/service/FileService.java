@@ -8,17 +8,17 @@ import java.util.UUID;
 
 @Service
 public class FileService {
-    public String saveFile(MultipartFile file, String imagePath) {
+    public String saveFile(MultipartFile file, String kind) {
         String dir = System.getProperty("user.dir");
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        File destFile = new File(dir + imagePath + fileName);
+        File destFile = new File(dir + "/static/images/"+ kind + fileName);
         destFile.getParentFile().mkdirs();
         try {
             file.transferTo(destFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "images/goods/" + fileName;
+        return "images/"+kind+"/"+fileName;
     }
 
 }

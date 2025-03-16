@@ -49,5 +49,7 @@ public class UserService {
         return user;
     }
 
+    public void updateUser(UserRequest userRequest) {userMapper.updateUser(userRequest);}
+
 
 }

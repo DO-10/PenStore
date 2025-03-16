@@ -23,5 +23,6 @@ public interface UserMapper {
     List<User> a();
 
     User getById(String id);
+    void updateUser(UserRequest userRequest);
 }
 

@@ -8,9 +8,9 @@
             COALESCE(SUM(oi.quantity*oi.price), 0) AS totalSales,
             COUNT(o.order_id) AS orderCount,
             COALESCE(AVG(oi.quantity*oi.price), 0) AS avgOrderValue,
-            (SELECT COUNT(DISTINCT user_id) FROM orders
+            (SELECT COUNT(DISTINCT user_id) FROM `order`
              WHERE created_at BETWEEN #{start} AND #{end}) AS userCount
-        FROM orders o
+        FROM `order` o
                  JOIN order_items oi ON o.order_id=oi.order_id
         WHERE o.created_at BETWEEN #{start} AND #{end}
     </select>
@@ -20,7 +20,7 @@
             DATE_FORMAT(o.created_at, '%Y-%m-%d') AS salesDate,
         </if>
         SUM(oi.quantity*oi.price) AS dailyAmount
-        FROM orders o
+        FROM `order` o
         JOIN order_items oi ON o.order_id=oi.order_id
         WHERE o.created_at BETWEEN #{start} AND #{end}
         GROUP BY DATE_FORMAT(o.created_at, '%Y-%m-%d')
@@ -31,16 +31,16 @@
                SUM(oi.quantity*oi.price) AS total_sales
         FROM order_items oi
                  JOIN goods g ON
-            oi.product_id=g.id
+            oi.goods_id=g.id
         GROUP BY
-            oi.product_id,g.name
+            oi.goods_id,g.name
         ORDER BY total_quantity DESC
             LIMIT #{limit}
     </select>
     <select id="getTodaySales" resultType="java.math.BigDecimal">
         SELECT
             COALESCE(SUM(oi.quantity*oi.price),0)AS today_sales
-        FROM orders o
+        FROM `order` o
                  JOIN
              order_items oi ON
                  o.order_id=oi.order_id
