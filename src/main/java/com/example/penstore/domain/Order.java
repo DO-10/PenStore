@@ -1,6 +1,7 @@
 package com.example.penstore.domain;
 
 import org.springframework.stereotype.Component;
+import java.time.LocalDateTime;
 
 @Component
 public class Order {
@@ -12,7 +13,7 @@ public class Order {
     private String payment_status;
     private String order_status;
     private String tracking_number;
-    private String created_at;
+    private java.time.LocalDateTime created_at;
     private String updated_at;
     private String order_date;
     private String phone;
@@ -70,10 +71,10 @@ public class Order {
     public void setTracking_number(String tracking_number) {
         this.tracking_number = tracking_number;
     }
-    public String getCreated_at() {
+    public java.time.LocalDateTime getCreated_at() {
         return created_at;
     }
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(java.time.LocalDateTime created_at) {
         this.created_at = created_at;
     }
     public String getUpdated_at() {

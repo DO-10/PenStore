@@ -43,6 +43,7 @@
                 <tr th:each="goods : ${cartItems}" th:id="'product_' + ${goods.id}">
                     <td>
                         <input type="checkbox" class="product-checkbox" th:data-product-id="${goods.id}" name="selectedProducts" th:value="${goods.id}"/>
+                        <input type="hidden" name="quantity" th:value="${goods.quantity}" />
                     </td>
                     <td th:text="${goods.name}"></td>
                     <td th:text="${goods.description}"></td>
