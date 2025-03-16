@@ -6,10 +6,7 @@ import com.example.penstore.domain.Goods;
 import com.example.penstore.domain.Order;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.OrderRequest;
-import com.example.penstore.service.GoodsService;
-import com.example.penstore.service.OrderService;
-import com.example.penstore.service.ShopService;
-import com.example.penstore.service.UserService;
+import com.example.penstore.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +25,10 @@ public class SellerController {
     private OrderService orderService;
     @Autowired
     private ShopService shopService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/{id}")//请求卖家页面
     public String seller(@PathVariable String id, Model model) {
@@ -47,6 +48,9 @@ public class SellerController {
     }
     @PostMapping(PathConstants.GOODSMANAGEMENT+"/{id}")//请求添加/修改商品
     public String addGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id) {
+        String imagePath = "/static/images/goods/";
+        String image_url = fileService.saveFile(goodsRequest.getImage(),imagePath);
+        goodsRequest.setImageUrl(image_url);
         goodsRequest.setShop_id(id);
         goodsService.insertGoods(goodsRequest);
         return Pages.SHOPMANAGEMENT;
@@ -134,7 +138,19 @@ public class SellerController {
     @GetMapping(PathConstants.SHOPMANAGEMENT+PathConstants.CATEGORYMANAGEMENT+"/{id}")
     public String categoryManagement(@PathVariable String id, Model model) {
         String shop_id = id;
-        //model.addAttribute("categories", goodsService.getCategoriesByShopId(shop_id));
+        model.addAttribute("categories", categoryService.getCategoryTreeByShopId(shop_id));
         return Pages.CATEGORYMANAGEMENT;
     }
+    @PostMapping(PathConstants.SHOPMANAGEMENT+PathConstants.CATEGORYMANAGEMENT+"/{id}")
+    public String addCategory(@RequestParam String parent, @RequestParam String child, @PathVariable String id, Model model) {
+        categoryService.addCategory(parent, child, id);
+        model.addAttribute("categories", categoryService.getCategoryTreeByShopId(id));
+        return Pages.CATEGORYMANAGEMENT;
+    }
+    @PostMapping(PathConstants.CATEGORYMANAGEMENT+"/delete/{id}")
+    public String updateCategory(@PathVariable String id, @RequestParam String shopId, Model model) {
+            categoryService.deleteCategory(id);
+            model.addAttribute("categories", categoryService.getCategoryTreeByShopId(shopId));
+            return Pages.CATEGORYMANAGEMENT;
+        }
 }

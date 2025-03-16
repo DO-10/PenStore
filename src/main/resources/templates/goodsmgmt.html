@@ -79,7 +79,7 @@
         <label>操作</label>
     </div>
     <div class="goods" th:each="goods: ${goods}">
-        <image th:if="${goods.image_url}" th:src="@{/images/${goods.image_url}}" alt="商品图片"></image>
+        <image th:if="${goods.image_url}" th:src="@{/{imageName}(imageName=${goods.image_url})}" alt="商品图片"></image>
         <label th:text="${goods.name}"></label>
         <label th:text="${goods.price}"></label>
         <label th:text="${goods.stock}"></label>

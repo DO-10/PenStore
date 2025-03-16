@@ -34,22 +34,22 @@
     <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
   </div>
 </div>
-<div class="1">
-  <div class="2">
-    <a th:href="@{???}">店铺信息</a>
-    <a th:href="@{???}">查看</a>
-    <a th:href="@{???}">修改</a>
-  </div>
-  <div class="2">
-    <a th:href="@{???}">商品管理</a>
-    <a th:href="@{???}">商品种类</a>
-    <a th:href="@{???}">商品个体</a>
-  </div>
-  <div class="2">
-    <a th:href="@{???}">店铺打理</a>
-    <a th:href="@{???}">店铺外观</a>
-    <a th:href="@{???}">人员管理</a>
-  </div>
+<div class="shop">
+    <div class="sub">
+        <label>店铺信息</label>
+        <a th:href="@{seller/shopmanagement/{id}(id=${session.user.id})}">查看</a>
+        <a th:href="@{等待固件连接}">修改</a>
+    </div>
+    <div class="sub">
+        <label>商品管理</label>
+        <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
+        <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+    </div>
+    <div class="sub">
+        <label>店铺打理</label>
+        <a th:href="@{等待固件连接}">店铺外观</a>
+        <a th:href="@{等待固件连接}">人员管理</a>
+    </div>
 </div>
 <div class="category">
   <div class="insert">
@@ -59,14 +59,24 @@
       <button th:type="submit" th:class="submit">添加</button>
     </form>
   </div>
-  <div th:each="category: ${categories}" th:class="category">
+  <div th:each="parent : ${categories}" th:class="category">
    <span>
-    <label>父类</label><label th:text="${}"></label><button th:type="submit" th:class="submit">删除</button>
+    <label>父类</label><label th:text="${parent.name}"></label>
+       <form th:action="@{/seller/categorymanagement/delete/{id}(id=${parent.id})}" method="post">
+            <input type="hidden" name="shopId" th:value="${session.user.id}">
+            <button type="submit">删除</button>
+        </form>
    </span>
+      <div th:if="${parent.children}">
     <label>子类</label>
-    <span th:each="child: ${}">
-    <label th:text="${child}"></label><<button th:type="submit" th:class="submit">删除</button>
+    <span th:each="child : ${parent.children}">
+    <label th:text="${child.name}"></label>
+        <form th:action="@{/seller/categorymanagement/delete/{id}(id=${child.id})}" method="post">
+                <input type="hidden" name="shopId" th:value="${session.user.id}">
+                <button type="submit">删除</button>
+            </form>
     </span>
+      </div>
   </div>
 </div>
 

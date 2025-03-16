@@ -1,5 +1,7 @@
 package com.example.penstore.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 
 public class GoodsRequest {
@@ -17,6 +19,7 @@ public class GoodsRequest {
     private String startPrice;
     private String endPrice;
     private String category;//封装搜索商品种类
+    private MultipartFile image;
     public GoodsRequest() {  }
 
     public String getId() { return id; }
@@ -61,4 +64,6 @@ public class GoodsRequest {
     public void setEndPrice(String endPrice) { this.endPrice=endPrice; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category=category; }
+    public MultipartFile getImage() { return image; }
+    public void setImage(MultipartFile image) { this.image=image; }
 }
