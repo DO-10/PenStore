@@ -15,4 +15,6 @@ public class Pages {
     public static final String ORDERMANAGEMENT = "ordermgmt";
     public static final String WORKER = "worker";//后台客服网页
     public static final String CustomerService= "customerService";//用户客服网页
+    public static final String NEWGOODS="newgoods";
+    public static final String CATEGORYMANAGEMENT="categorymgmt";
 }

@@ -35,4 +35,27 @@ public class GoodsService {
     public void insertGoods(GoodsRequest goodsRequest) {
         goodsMapper.insertGoods(goodsRequest);
     }
+    //根据店铺id获取商品
+    public List<Goods> getGoodsByShopId(String shop_id) {
+        return goodsMapper.getGoodsByShopId(shop_id);
+    }
+    //根据查询条件获取商品
+    public List<Goods> getGoodsByQuery(GoodsRequest goodsRequest) {
+        return goodsMapper.getGoodsByQuery(goodsRequest);
+    }
+    //根据状态获取商品
+    public List<Goods> getGoodsByStatus(String status, String shop_id) {
+        return goodsMapper.getGoodsByStatus(status, shop_id);
+    }
+    public void updateGoods(String id,String operation, String shop_id) {
+        if(operation.equals("delete")) {
+            goodsMapper.deleteGoods(id, shop_id);
+        }
+        else if(operation.equals("available")) {
+            goodsMapper.GoodsAvailable(id, shop_id);
+        }
+        else {
+            goodsMapper.GoodsUnsold(id, shop_id);
+        }
+    }
 }

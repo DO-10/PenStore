@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店家</title>
+</head>
+<body>
+<div>
+  <form th:action="@{/seller/goodsmanagement/{id}(id=${session.user.id})}" method="post" enctype="multipart/form-data">
+    <label>商品种类：<input th:type="text" th:name="category"></label>
+    <label>商品鸣潮：<input th:type="text" th:name="name"></label>
+    <label>价格：<input th:type="text" th:name="price"> </label>
+    <label>商品详情<input th:type="text" th:name="price"></label>
+    <label>数量<input th:type="text" th:name="stock"></label>
+    <label>图片<input th:type="file" th:name="image"> </label>
+    <label>状态<input th:type="text" th:name="status"></label>
+    //继续添加商品（未实现）
+    <button th:type="submit" class="submit">入库</button>
+
+  </form>
+
+</div>
+</body>
+</html>

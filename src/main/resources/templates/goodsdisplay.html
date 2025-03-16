@@ -118,7 +118,7 @@
 
 <!-- 产品详情展示部分 -->
 <h1 th:text="${goods.name}">Product Name</h1>
-<img th:src="${goods.imageUrl}" th:alt="${goods.name}" alt="Product Image"/>
+<img th:src="${goods.image_url}" th:alt="${goods.name}" alt="Product Image"/>
 <p>Description: <span th:text="${goods.description}">Description</span></p>
 <p>Price: $<span th:text="${goods.price}">Price</span></p>
 <p>Stock: <span th:text="${goods.stock}">Stock</span></p>

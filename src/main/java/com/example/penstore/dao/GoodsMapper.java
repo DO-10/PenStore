@@ -14,4 +14,10 @@ public interface GoodsMapper {
     List<Goods> searchProducts(String query);
     List<Goods> getProductsByIds(String[] productIds);
     void insertGoods(GoodsRequest goodsRequest);
+    List<Goods> getGoodsByShopId(String shop_id);
+    List<Goods> getGoodsByQuery(GoodsRequest goodsRequest);
+    List<Goods> getGoodsByStatus(String status, String shop_id);
+    void    deleteGoods(String id, String shop_id);
+    void GoodsAvailable(String id, String shop_id);
+    void GoodsUnsold(String id, String shop_id);
 }

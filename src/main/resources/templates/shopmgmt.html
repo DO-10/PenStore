@@ -34,46 +34,41 @@
     <div class="ordermgmt">
         <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
     </div>
-</div>//顶部主导航
-<div class="switch">
-    <label>店铺 <input th:type="select" name="switch"> </label>
-    <label th:text="'状态：' + ${shop.status}"></label>
 </div>
-<div class="goodsinfo">
-    <div class="1">
-        <div class="2">
-            <a th:href="@{???}">店铺信息</a>
-            <a th:href="@{???}">查看</a>
-            <a th:href="@{???}">修改</a>
-        </div>
-        <div class="2">
-            <a th:href="@{???}">商品管理</a>
-            <a th:href="@{???}">商品种类</a>
-            <a th:href="@{???}">商品个体</a>
-        </div>
-        <div class="2">
-            <a th:href="@{???}">店铺打理</a>
-            <a th:href="@{???}">店铺外观</a>
-            <a th:href="@{???}">人员管理</a>
-        </div>
+<div class="shop">
+    <div class="sub">
+        <label>店铺信息</label>
+        <a th:href="@{seller/shopmanagement/{id}(id=${session.user.id})}">查看</a>
+        <a th:href="@{等待固件连接}">修改</a>
+    </div>
+    <div class="sub">
+        <label>商品管理</label>
+        <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
+        <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+    </div>
+    <div class="sub">
+        <label>店铺打理</label>
+        <a th:href="@{等待固件连接}">店铺外观</a>
+        <a th:href="@{等待固件连接}">人员管理</a>
     </div>
 </div>
 
-<div class="card">
-    <div class="avatar">
-        <image></image>
-    </div>
-    <span>名称：<label th:text="${shop.name}"></label></span>
-    <span>简介：<label th:text="${shop.description}"></label></span>
-    <span>联系方式：<label th:text="${shop.contact}"></label></span>
-    <span>人员：<label th:each="member: ${shop.member}" th:text="${shop.member.name}"></label></span>
-    <span>名称：<label th:text="${shop.name}"></label></span>
-    <span>执照：<label th:text="${shop.licence}"></label></span>
-</div>
+<!--等待固件补充-->
+<!--<div class="card">-->
+<!--    <div class="avatar">-->
+<!--        <image></image>-->
+<!--    </div>-->
+<!--    <span>名称：<label th:text="${shop.name}"></label></span>-->
+<!--    <span>简介：<label th:text="${shop.description}"></label></span>-->
+<!--    <span>联系方式：<label th:text="${shop.contact}"></label></span>-->
+<!--    <span>人员：<label th:each="member: ${shop.member}" th:text="${shop.member.name}"></label></span>-->
+<!--    <span>名称：<label th:text="${shop.name}"></label></span>-->
+<!--    <span>执照：<label th:text="${shop.licence}"></label></span>-->
+<!--</div>-->
 
-<div class="addgoods">
-    <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">添加商品</a>
-</div>
+<!--<div class="addgoods">-->
+<!--    <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">添加商品</a>-->
+<!--</div>-->
 
 </body>
 </html>

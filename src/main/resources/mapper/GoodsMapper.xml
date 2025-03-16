@@ -27,7 +27,42 @@
         </foreach>
     </select>
     <insert id="insertGoods" parameterType="com.example.penstore.dto.GoodsRequest">
-        INSERT INTO goods (id,name,price,description,stock,category_id,image_url,seller,status)
-        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{seller}, #{status})
+        INSERT INTO goods (id,name, price, description, stock, category_id, image_url, shop_id, status)
+        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{shop_id}, #{status})
     </insert>
+
+    <select id="getGoodsByShopId" resultType="com.example.penstore.domain.Goods">
+        SELECT * FROM goods WHERE shop_id = #{shop_id}
+    </select>
+    <select id="getGoodsByStatus" resultType="com.example.penstore.domain.Goods">
+        SELECT * FROM goods WHERE status = #{status} AND shop_id = #{shop_id}
+    </select>
+    <select id="getGoodsByQuery" parameterType="com.example.penstore.dto.GoodsRequest"
+            resultType="com.example.penstore.domain.Goods">
+        SELECT * FROM goods
+        WHERE 1 = 1
+        <if test="name != null and name != ''">  <!-- 检查空字符串 -->
+            AND name LIKE CONCAT('%', #{name}, '%')
+        </if>
+        <if test="id != null and id != ''">      <!-- 检查空字符串 -->
+            AND id = #{id}
+        </if>
+        <if test="category != null and category != ''">  <!-- 检查空字符串 -->
+            AND category = #{category}
+        </if>
+        <if test="startPrice != null and endPrice != null">
+            AND price BETWEEN #{startPrice} AND #{endPrice}
+        </if>
+        AND shop_id = #{shop_id}
+    </select>
+
+    <update id="GoodsAvailable">
+        UPDATE goods SET status = "available" WHERE id = #{id}
+    </update>
+    <update id="GoodsUnsold">
+        UPDATE goods SET status = "unsold" WHERE id = #{id}
+    </update>
+    <delete id="deleteGoods">
+        DELETE FROM goods WHERE id = #{id}
+    </delete>
 </mapper>
