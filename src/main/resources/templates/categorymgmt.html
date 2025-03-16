@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店家</title>
+</head>
+<body>
+<div class="header">
+  <div class="username">
+        <span th:if="${session.user != null}">
+            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            <a th:href="@{/logout}">退出登录</a>
+        </span>
+    <span th:unless="${session.user != null}">
+            你好， <a th:href="@{/logsign}">请登录</a>
+        </span>
+  </div>
+  <div class="logo">
+    <img th:src="@{/images/logo.png}" alt="peiahuishi">
+  </div>
+  <div class="utility">
+    <a th:href="@{/customerService}">消息</a>
+  </div>
+</div>
+<div class="navigation">
+  <div class="dashboard">
+
+    <a th:href="@{/seller/{id}(id=${session.user.id})}" >主页</a>
+  </div>
+  <div class="shopmgmt">
+    <a th:href="@{/seller/shopmanagement/{id}(id=${session.user.id})}">店铺管理</a>
+  </div>
+  <div class="ordermgmt">
+    <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
+  </div>
+</div>
+<div class="shop">
+    <div class="sub">
+        <label>店铺信息</label>
+        <a th:href="@{seller/shopmanagement/{id}(id=${session.user.id})}">查看</a>
+        <a th:href="@{等待固件连接}">修改</a>
+    </div>
+    <div class="sub">
+        <label>商品管理</label>
+        <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
+        <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+    </div>
+    <div class="sub">
+        <label>店铺打理</label>
+        <a th:href="@{等待固件连接}">店铺外观</a>
+        <a th:href="@{等待固件连接}">人员管理</a>
+    </div>
+</div>
+<div class="category">
+  <div class="insert">
+    <form method="post">
+      <label>父类 <input type="text" name="parent"> </label>
+      <label>子类 <input type="text" name="child"> </label>
+      <button th:type="submit" th:class="submit">添加</button>
+    </form>
+  </div>
+  <div th:each="parent : ${categories}" th:class="category">
+   <span>
+    <label>父类</label><label th:text="${parent.name}"></label>
+       <form th:action="@{/seller/categorymanagement/delete/{id}(id=${parent.id})}" method="post">
+            <input type="hidden" name="shopId" th:value="${session.user.id}">
+            <button type="submit">删除</button>
+        </form>
+   </span>
+      <div th:if="${parent.children}">
+    <label>子类</label>
+    <span th:each="child : ${parent.children}">
+    <label th:text="${child.name}"></label>
+        <form th:action="@{/seller/categorymanagement/delete/{id}(id=${child.id})}" method="post">
+                <input type="hidden" name="shopId" th:value="${session.user.id}">
+                <button type="submit">删除</button>
+            </form>
+    </span>
+      </div>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-  <meta charset="UTF-8" />
-  <title>Product Detail</title>
+    <meta charset="UTF-8" />
+    <title>Product Detail</title>
 
-  <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
     <style>
         /* 每条评论的容器 */
         .comment-item {
@@ -88,7 +88,7 @@
         .reply-item .meta .time {
             margin-left: 10px;
         }
-        </style>
+    </style>
 </head>
 <body>
 <!-- 顶部头部 -->
@@ -113,23 +113,23 @@
 </div>
 
 <!-- 条件提示信息，根据请求参数 message 判断 -->
-<p th:if="${param.message == 'added'}" style="color: green;">商品已加入购物车！</p>
+<p th:if="${param.message == 'ok'}" style="color: green;">商品已加入购物车！</p>
 <p th:if="${param.message == 'failed'}" style="color: red;">添加失败，请重试！</p>
 
 <!-- 产品详情展示部分 -->
 <h1 th:text="${goods.name}">Product Name</h1>
-<img th:src="${goods.imageUrl}" th:alt="${goods.name}" alt="Product Image"/>
+<img th:src="${goods.image_url}" th:alt="${goods.name}" alt="Product Image"/>
 <p>Description: <span th:text="${goods.description}">Description</span></p>
 <p>Price: $<span th:text="${goods.price}">Price</span></p>
 <p>Stock: <span th:text="${goods.stock}">Stock</span></p>
 
 <!-- 加入购物车按钮 -->
-<form th:action="@{cart/addtocart}" method="post">
+<form th:action="@{/cart/addtocart}" method="post">
     <input type="hidden" name="user_id" th:value="${session.user.id}">
     <input type="hidden" name="product_id" th:value="${goods.id}">
     <input type="submit" value="加入购物车">
 </form>
-
+<a th:href="@{/api/comments/submit(goodsId=${goods.id})}">评论</a>
 <!-- 评论展示区域 -->
 <div class="comment-section" th:if="${not #lists.isEmpty(comments)}">
     <h3>用户评价（共 [[${#lists.size(comments)}]] 条）</h3>
@@ -142,11 +142,14 @@
 
             <div class="content">[[${comment.content}]]</div>
             <div class="meta">
-
-
-                <a th:href="@{/comment/submit?goodsId=${goods.id}&parentId=${comment.id}}">回复</a>
                 <span class="time">评论时间[[${comment.time}]]</span>
             </div>
+            <a
+                    th:href="@{/api/comments/reply(goodsId=${goods.id}, parentId=${comment.id})}"
+                    style="cursor: pointer;"
+            >
+                回复
+            </a>
         </div>
 
         <!-- 显示回复 -->
@@ -165,4 +168,3 @@
 <a th:href="@{/goods/productlist.jsp}">返回</a>
 </body>
 </html>
-

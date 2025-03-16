@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.penstore.dao.CategoryMapper">
+    <select id="getCategoriesByShopId" resultMap="CategoryMap">
+        SELECT * FROM category WHERE shop_id = #{shopId} ORDER BY parent_id, id;
+    </select>
+    <select id="parentExists">
+        SELECT id FROM category WHERE name = #{name};
+    </select>
+
+    <resultMap id="CategoryMap" type="com.example.penstore.domain.Category">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="shopId" column="shop_id"/>
+    </resultMap>
+
+    <insert id="insertCategory">
+        INSERT INTO category (id, name, parent_id, shop_id)
+        VALUES (#{id}, #{name}, #{parentId}, #{shopId});
+    </insert>
+    <delete id="deleteCategory">
+        DELETE FROM category WHERE id = #{id};
+    </delete>
+</mapper>

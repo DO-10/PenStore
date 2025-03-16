@@ -24,6 +24,9 @@ public class Comment {
     public String getPop() {
         return pop;
     }
+    public void setPop(String pop) {
+        this.pop = pop;
+    }
     public void setComment_at(LocalDateTime comment_at) {
         this.comment_at = comment_at;
     }
@@ -79,5 +82,7 @@ public class Comment {
     public String getUsername(){
         return username;
     }
+
+
 
 }

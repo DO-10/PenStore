@@ -23,18 +23,13 @@
         VALUES (#{orderId}, #{productId}, #{quantity}, #{price})
     </insert>
 
-    <!-- 根据用户ID获取订单列表 -->
+    <!-- 根据用户ID获取订单 -->
     <select id="getOrdersByUserId" resultType="com.example.penstore.domain.Order">
-        SELECT order_id AS orderId, created_at AS createdAt
-        FROM `order`
+        SELECT * FROM `order`
         WHERE user_id = #{userId}
     </select>
 
-
-
-
-
-    <!-- 获取全部订单 -->
+    <!-- 根据店铺获取全部订单 -->
     <select id="getOrders" resultType="com.example.penstore.domain.Order">
         SELECT o.*, g.name, g.image_url, oi.status, oi.quantity FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id

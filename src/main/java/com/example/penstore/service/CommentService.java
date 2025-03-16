@@ -35,15 +35,28 @@ public class CommentService {
 //    public List<Comment> getRepliesByParentId(String parentId) {
 //        return commentMapper.selectRepliesByParentId(parentId);
 //    }
-// 添加评论或回复
+// 添加评论
 @Transactional
 public void addComment(Comment comment) {
     comment.setComment_at(LocalDateTime.now());
-    if ("2".equals(comment.getPop())) {
-        commentMapper.updateReplyStatus(comment.getParentId());
-    }
+    comment.setPop("1");
     commentMapper.insertComment(comment);
 }
+
+//添加回复
+    @Transactional
+    public void addReply(Comment reply) {
+        reply.setComment_at(LocalDateTime.now()); // 设置回复时间
+        reply.setPop("2"); // 标记为回复
+        commentMapper.updateReplyStatus(reply.getParentId()); // 更新父评论的回复状态
+        commentMapper.insertReply(reply); // 插入回复
+    }
+
+    @Transactional
+    public Comment selectByParentId(String parentId) {
+        return commentMapper.selectByParentId(parentId);
+    }
+
 
     // 获取商品评论及回复（嵌套结构）
     public List<Comment> getNestedComments(String goodsId) {

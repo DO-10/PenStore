@@ -1,25 +1,11 @@
 $(document).ready(function () {
-    let rating = 0;
-
-    // 初始化评分点击事件
-    $('.star-rating span').on('click', function () {
-        const value = $(this).data('value');
-        rating = value;
-        $('.star-rating span').removeClass('active');
-        $(this).prevAll().addBack().addClass('active');
-    });
-
-    // 提交评价按钮点击事件
-    $('#submit-button').on('click', function (event) {
+    // 提交回复按钮点击事件
+    $('#submit-reply').on('click', function (event) {
         event.preventDefault(); // 阻止表单默认提交行为
 
         const content = $('#content').val().trim();
         console.log('submit 方法被调用');
 
-        if (rating === 0) {
-            alert('请选择评分');
-            return;
-        }
         if (!content) {
             alert('请输入内容');
             return;
@@ -28,25 +14,24 @@ $(document).ready(function () {
         const payload = {
             id: generateUUID(), // 生成唯一 ID
             user_id: userId, // 使用注入的用户 ID
-            goodsId: goodsId,
-            star: rating,
+            goodsId:goodsId,
             content: content,
-            username: "test_user",
+            parentId: parentComment.id // 使用父评论的 ID
         };
 
         // 发送 POST 请求
         $.ajax({
-            url: '/api/comments',
+            url: '/api/comments/reply/submit',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(payload),
             success: function (response) {
-                alert('评论提交成功');
+                alert('回复提交成功');
                 window.location.href = `/goods/${goodsId}`; // 提交成功后跳转回商品页
             },
             error: function (xhr, status, error) {
                 console.error('提交失败:', error);
-                alert('评论提交失败，请重试');
+                alert('回复提交失败，请重试');
             }
         });
     });

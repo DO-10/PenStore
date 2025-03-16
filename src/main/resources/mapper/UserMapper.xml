@@ -21,5 +21,10 @@
     <select id="getById" resultType="com.example.penstore.domain.User">
         SELECT * FROM user WHERE id = #{id}
     </select>
+    <update id="updateUser" parameterType="com.example.penstore.dto.UserRequest">
+        UPDATE user
+        SET avatar = #{avatarPath}, username = #{username}, password = #{password}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

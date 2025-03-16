@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店家</title>
+</head>
+<body>
+<div>
+  <form th:action="@{/seller/goodsmanagement/{id}(id=${session.user.id})}" method="post" enctype="multipart/form-data">
+    <label>商品种类：
+      <select th:name="category_id">
+        <option  th:value="1" th:text="书写"></option>
+        <option  th:value="2" th:text="书法"></option>
+        <option  th:value="3" th:text="绘画"></option>
+        <option  th:value="4" th:text="儿童"></option>
+        <option  th:value="5" th:text="相关"></option>
+      </select>
+    </label>
+<!--    <label>商品在店铺中的种类：-->
+<!--      <select th:name="category">-->
+<!--        &lt;!&ndash; 假设有一个名为 categories 的变量，包含所有商品种类 &ndash;&gt;-->
+<!--        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>-->
+<!--      </select>-->
+<!--    </label>-->
+    <label>商品鸣潮：<input th:type="text" th:name="name"></label>
+    <label>价格：<input th:type="text" th:name="price"> </label>
+    <label>商品详情<input th:type="text" th:name="description"></label>
+    <label>数量<input th:type="text" th:name="stock"></label>
+    <label>图片<input th:type="file" th:name="image"> </label>
+    <label>状态<input th:type="text" th:name="status"></label>
+    //继续添加商品（未实现）
+    <button th:type="submit" class="submit">入库</button>
+  </form>
+
+</div>
+</body>
+</html>

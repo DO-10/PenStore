@@ -1,5 +1,6 @@
 package com.example.penstore.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.penstore.domain.Comment;
 import com.example.penstore.service.CommentService;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/comments")
 public class CommentController {
 
@@ -21,16 +22,35 @@ public class CommentController {
         commentService.addComment(comment);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/comment/submit")
-    public String commentPage(
+    @GetMapping("/submit")
+    public String showCommentPage(
             @RequestParam String goodsId,
-            @RequestParam(required = false) String parentId,
             Model model
     ) {
         model.addAttribute("goodsId", goodsId);
-        model.addAttribute("parentId", parentId);
         return "comment";
     }
+    // 提交回复
+    @GetMapping("/reply")
+    public String replyPage(
+            @RequestParam String goodsId,     // 商品ID
+            @RequestParam String parentId,    // 父评论ID
+            Model model
+    ) {
+
+        Comment parentComment = commentService.selectByParentId(parentId);
+        // 根据 goodsId 关联商品（确保回复属于正确商品）
+        model.addAttribute("goodsId", goodsId);
+        model.addAttribute("parentComment", parentComment);
+        return "reply";
+    }
+    @PostMapping("/reply/submit")
+    public ResponseEntity<?> createReply(@RequestBody Comment reply) {
+        commentService.addReply(reply); // 调用 Service 层处理回复
+
+        return ResponseEntity.ok().build();
+    }
+
 
 
 //    @GetMapping("/goods/{goodsId}")

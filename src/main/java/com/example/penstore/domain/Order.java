@@ -2,6 +2,8 @@ package com.example.penstore.domain;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Order {
     private String order_id;
@@ -22,6 +24,8 @@ public class Order {
     private String delivery_time;
     private String status;
     private int quantity;
+    private String createdAt;
+    private List<Goods> goodsList;
     public String getOrder_id() {
         return order_id;
     }
@@ -131,12 +135,20 @@ public class Order {
         this.status = status;
     }
 
-
-
-
-        // 其他字段...
+    public String getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+  // 其他字段...
         private String productId;  // 新增商品ID字段
         public String getProductId() { return productId; }
         public void setProductId(String productId) { this.productId = productId; }
-
 }
