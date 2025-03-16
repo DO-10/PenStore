@@ -40,15 +40,15 @@
                     <th class="amount">数量</th>
                     <th>操作</th>
                 </tr>
-                <tr th:each="goods : ${cartItems}">
+                <tr th:each="goods : ${cartItems}" th:id="'product_' + ${goods.id}">
                     <td>
                         <input type="checkbox" class="product-checkbox" th:data-product-id="${goods.id}" name="selectedProducts" th:value="${goods.id}"/>
                     </td>
                     <td th:text="${goods.name}"></td>
                     <td th:text="${goods.description}"></td>
                     <td class="money" th:text="${goods.price}"></td>
-                    <td class="amount">
-                        <span class="quantity" th:text="${goods.quantity}"></span>
+                    <td  class="amount">
+                        <span th:id="${goods.id}" class="quantity" th:text="${goods.quantity}"></span>
                     </td>
                     <td>
                         <button type="button" class="increase-btn" th:data-product-id="${goods.id}">增加</button>

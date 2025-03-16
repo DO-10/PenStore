@@ -74,14 +74,19 @@ public class CartController {
                                    @RequestParam String operation) {
         Map<String, Object> response = new HashMap<>();
 
+
         // 调用 Service 层处理逻辑
-        int newQuantity = cartService.updateCart(userId, goodsId, operation);
+
+          int newQuantity = cartService.updateCart(userId, goodsId, operation);
+
+
         BigDecimal totalPrice = cartService.calculateTotalPriceByUserId(userId);
 
         // 将数据放入 Map
         response.put("newQuantity", newQuantity);
         response.put("totalPrice", totalPrice.toString());
         response.put("allChosen", cartService.isAllChosen(userId));
+
 
         return response;
     }

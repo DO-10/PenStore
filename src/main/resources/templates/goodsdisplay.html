@@ -113,7 +113,7 @@
 </div>
 
 <!-- 条件提示信息，根据请求参数 message 判断 -->
-<p th:if="${param.message == 'added'}" style="color: green;">商品已加入购物车！</p>
+<p th:if="${param.message == 'ok'}" style="color: green;">商品已加入购物车！</p>
 <p th:if="${param.message == 'failed'}" style="color: red;">添加失败，请重试！</p>
 
 <!-- 产品详情展示部分 -->
@@ -124,7 +124,7 @@
 <p>Stock: <span th:text="${goods.stock}">Stock</span></p>
 
 <!-- 加入购物车按钮 -->
-<form th:action="@{cart/addtocart}" method="post">
+<form th:action="@{/cart/addtocart}" method="post">
     <input type="hidden" name="user_id" th:value="${session.user.id}">
     <input type="hidden" name="product_id" th:value="${goods.id}">
     <input type="submit" value="加入购物车">
