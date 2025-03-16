@@ -46,16 +46,18 @@ public class CartService {
             case "increase":
             case "decrease":
                 cartMapper.updateQuantity(userId, goodsId, operation);
-                break;
+                return cartMapper.getProductQuantity(userId, goodsId);
+
             case "delete":
                 cartMapper.deleteProduct(userId, goodsId);
-                break;
+                return 0;
             case "choose":
             case "unchoose":
                 cartMapper.updateIsChosen(userId, goodsId, operation.equals("choose"));
-                break;
+                return cartMapper.getProductQuantity(userId, goodsId);
         }
         return cartMapper.getProductQuantity(userId, goodsId);
+
     }
 
     public BigDecimal calculateTotalPrice(String userId) {

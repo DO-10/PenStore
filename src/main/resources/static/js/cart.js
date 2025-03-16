@@ -70,13 +70,15 @@ $(document).ready(function() {
         $.ajax({
             url: '/cart/update',
             type: 'POST',
+
             data: {
                 userId: userId,
-                productId: productId,
+                goodsId: productId,
                 operation: operation
             },
             success: function (response) {
                 // 更新购物车表格内容
+                console.log(response);
                 if (operation === 'delete') {
                     $('#product_' + productId).remove(); // 删除商品行
                 } else if (operation === 'chosen' || operation === "unchosen") {
@@ -90,7 +92,7 @@ $(document).ready(function() {
                 } else {
                     // 如果是增加或减少数量，更新数量显示
                     var newQuantity = response.newQuantity;
-                    $('#product_' + productId + ' .quantity').text(newQuantity);
+                    $('#'+productId).text(newQuantity);
                 }
 
                 // 更新总价格
