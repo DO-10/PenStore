@@ -130,4 +130,13 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
+
+
+        // 其他字段...
+        private String productId;  // 新增商品ID字段
+        public String getProductId() { return productId; }
+        public void setProductId(String productId) { this.productId = productId; }
+
 }
