@@ -37,16 +37,33 @@
     <li class="tab"><a class="tab-control" href="#tab-3">账户管理</a></li>
   </ul>
 
+  <!-- user_order.html -->
   <div class="tab-panel active" id="tab-1">
     <h2>您的订单:</h2>
-    <div th:each="order : ${orders}">
-      <h3>订单 ID: [[${order.order_id}]]</h3>
-      <h4>下单时间：[[${order.createdAt}]]</h4>
-      <ul>
-        <li th:each="goods : ${order.goodsList}">
-          [[${goods.name}]] - 数量: [[${goods.quantity}]] - 价格: [[${goods.price}]]
+    <div th:each="order : ${orders}" class="order-item">
+      <div class="order-header">
+        <h3>订单 ID: [[${order.order_id}]]</h3>
+        <a class="snapshot-link"
+           th:href="@{/order/snapshot/{orderId}(orderId=${order.order_id})}">
+          查看交易快照
+        </a>
+      </div>
+
+      <h4>下单时间：[[${ordercreatedAt}]]</h4>
+
+      <ul class="product-list">
+        <li  th:each="goods : ${order.goodsList}">
+          [[${goods.name}]] -
+          数量: [[${goods.quantity}]] -
+          单价: ¥[[${#numbers.formatDecimal(goods.price, 1, 2)}]]
         </li>
       </ul>
+
+      <div class="order-footer">
+        <p class="total-price">
+          订单总额: ¥[[${#numbers.formatDecimal(order.total_price, 1, 2)}]]
+        </p>
+      </div>
     </div>
   </div>
 

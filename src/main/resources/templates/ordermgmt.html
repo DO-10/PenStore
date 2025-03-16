@@ -68,7 +68,19 @@
         <div class="body">
             <image th:url="${order.image_url}"></image>
             <p th:text="${order.name}"></p>
-            <a th:href="@{等待圣遗物连接}">交易快照</a>
+<!--            <a th:href="@{等待圣遗物连接}">交易快照</a>-->
+            <a href="#" th:onclick="|openSnapshot('${order.order_id}')|">交易快照</a>
+
+            <script>
+                function openSnapshot(orderId) {
+                    window.open(
+                        '/order/snapshot/' + orderId,
+                        '交易快照',
+                        'width=500,height=400,top=100,left=100'
+                    );
+                }
+            </script>
+
             <label th:text="${order.quantity}"></label>
             <span>
                 <label th:text="${order.status}"></label>

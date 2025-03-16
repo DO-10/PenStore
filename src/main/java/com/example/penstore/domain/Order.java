@@ -134,6 +134,7 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -146,4 +147,8 @@ public class Order {
     public void setGoodsList(List<Goods> goodsList) {
         this.goodsList = goodsList;
     }
+  // 其他字段...
+        private String productId;  // 新增商品ID字段
+        public String getProductId() { return productId; }
+        public void setProductId(String productId) { this.productId = productId; }
 }
