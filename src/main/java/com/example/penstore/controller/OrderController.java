@@ -68,25 +68,8 @@ public class OrderController {
         return "user_snapshot";
     }
 
-    // 商家查看商品快照（需校验商家身份）
-    @GetMapping("/seller/snapshot/{productId}")
-    public String getShopSnapshot(
-            @PathVariable String productId,
-            @ModelAttribute("user") User seller,
-            Model model
-    ) {
-        List<TransactionSnapshot> snapshots =
-                snapshotService.getSnapshotsByShopAndProduct(seller.getId(), productId);
-        model.addAttribute("snapshots", snapshots);
-        return "shop_snapshot_list";
-    }
 
 
-
-    private List<Order> getOrdersForUser(User user) {
-        // 这里实现您的订单查询逻辑
-        return List.of(); // 返回空列表或实际的订单列表
-    }
 
     //结算界面生成订单
     @PostMapping("/checkout")
