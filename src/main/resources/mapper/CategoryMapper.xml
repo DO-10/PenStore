@@ -9,7 +9,7 @@
         SELECT id FROM category WHERE name = #{name};
     </select>
 
-    <resultMap id="CategoryMap" type="com.example.penstore.domain.Category">
+    <resultMap id="CategoryMap" type="com.example.penstore.entity.Category">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="parentId" column="parent_id"/>

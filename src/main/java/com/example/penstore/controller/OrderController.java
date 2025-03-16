@@ -1,10 +1,10 @@
 package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.Order;
-import com.example.penstore.domain.TransactionSnapshot;
-import com.example.penstore.domain.User;
+import com.example.penstore.entity.Goods;
+import com.example.penstore.entity.Order;
+import com.example.penstore.entity.TransactionSnapshot;
+import com.example.penstore.entity.User;
 import com.example.penstore.service.OrderService;
 import com.example.penstore.service.TransactionSnapshotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import com.example.penstore.service.GoodsService;
-import com.example.penstore.service.CartService;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 @SessionAttributes("user")
@@ -68,25 +65,8 @@ public class OrderController {
         return "user_snapshot";
     }
 
-    // 商家查看商品快照（需校验商家身份）
-    @GetMapping("/seller/snapshot/{productId}")
-    public String getShopSnapshot(
-            @PathVariable String productId,
-            @ModelAttribute("user") User seller,
-            Model model
-    ) {
-        List<TransactionSnapshot> snapshots =
-                snapshotService.getSnapshotsByShopAndProduct(seller.getId(), productId);
-        model.addAttribute("snapshots", snapshots);
-        return "shop_snapshot_list";
-    }
 
 
-
-    private List<Order> getOrdersForUser(User user) {
-        // 这里实现您的订单查询逻辑
-        return List.of(); // 返回空列表或实际的订单列表
-    }
 
     //结算界面生成订单
     @PostMapping("/checkout")

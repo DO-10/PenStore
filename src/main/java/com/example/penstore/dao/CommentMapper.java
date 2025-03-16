@@ -1,8 +1,7 @@
 package com.example.penstore.dao;
 
-import com.example.penstore.domain.Comment;
+import com.example.penstore.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

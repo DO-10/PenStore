@@ -3,20 +3,19 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.domain.Goods;
+import com.example.penstore.entity.Goods;
 
-import com.example.penstore.domain.User;
+import com.example.penstore.entity.User;
 import com.example.penstore.dto.CartRequest;
 import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.CartService;
-import com.example.penstore.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.example.penstore.constants.Pages;
+
 import java.util.Map;
 import java.util.HashMap;
 

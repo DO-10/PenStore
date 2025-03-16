@@ -1,7 +1,7 @@
 package com.example.penstore.service;
 
 import com.example.penstore.dao.CommentMapper;
-import com.example.penstore.domain.Comment;
+import com.example.penstore.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

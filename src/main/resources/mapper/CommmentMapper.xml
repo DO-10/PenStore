@@ -4,7 +4,7 @@
 <mapper namespace="com.example.penstore.dao.CommentMapper">
 
     <!-- 插入评论或回复 -->
-    <insert id="insertComment" parameterType="com.example.penstore.domain.Comment">
+    <insert id="insertComment" parameterType="com.example.penstore.entity.Comment">
         INSERT INTO comment (
             id, user_id, pop, goods_id, star, comment_at, images,  content
         ) VALUES (
@@ -28,7 +28,7 @@
         WHERE id = #{parentId}
     </update>
 
-    <select id="selectByParentId" resultType="com.example.penstore.domain.Comment">
+    <select id="selectByParentId" resultType="com.example.penstore.entity.Comment">
         SELECT *
         FROM comment
         WHERE id = #{parentId}
@@ -36,7 +36,7 @@
 
 
     <!-- 根据商品ID查询评论 -->
-    <select id="selectByGoodsId" resultType="com.example.penstore.domain.Comment">
+    <select id="selectByGoodsId" resultType="com.example.penstore.entity.Comment">
         SELECT
         c.id,
         c.star,
@@ -53,7 +53,7 @@
     </select>
 
     <!-- 根据父评论ID查询回复 -->
-    <select id="selectRepliesByParentId" resultType="com.example.penstore.domain.Comment">
+    <select id="selectRepliesByParentId" resultType="com.example.penstore.entity.Comment">
         SELECT
             c.id,
             c.content,

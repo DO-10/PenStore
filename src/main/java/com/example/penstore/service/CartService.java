@@ -1,9 +1,8 @@
 package com.example.penstore.service;
 
 import com.example.penstore.dao.CartMapper;
-import com.example.penstore.domain.Goods;
+import com.example.penstore.entity.Goods;
 import com.example.penstore.dto.CartRequest;
-import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

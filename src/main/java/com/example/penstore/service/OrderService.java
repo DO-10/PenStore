@@ -1,9 +1,9 @@
 package com.example.penstore.service;
 
 import com.example.penstore.aspect.GenerateID;
-import com.example.penstore.domain.Order;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.TransactionSnapshot;
+import com.example.penstore.entity.Order;
+import com.example.penstore.entity.Goods;
+import com.example.penstore.entity.TransactionSnapshot;
 import com.example.penstore.dao.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
