@@ -15,7 +15,7 @@ public class TransactionSnapshotService {
 
     // 创建交易快照（需确保从 Goods 中提取商家ID）
     public void createSnapshot(TransactionSnapshot snapshot) {
-        snapshotMapper.createSnapshot(snapshot);
+        snapshotMapper.insertSnapshot(snapshot);
     }
 
     // 用户视角：通过订单ID获取单个快照（需校验用户权限）

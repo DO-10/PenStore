@@ -4,7 +4,7 @@
 <mapper namespace="com.example.penstore.dao.OrderMapper">
     <insert id="createOrder" parameterType="com.example.penstore.dto.OrderRequest">
         INSERT INTO `order` (order_id, user_id, shipping_address, created_at)
-        VALUES (#{orderId}, #{userId}, #{address}, NOW())
+        VALUES (#{order_id}, #{user_id}, #{address}, NOW())
     </insert>
 
     <!-- 根据产品ID获取购物车中的数量 -->
@@ -52,7 +52,7 @@
             JOIN goods g ON oi.goods_id = g.id
             WHERE 1 = 1
             <if test="orderId != null">
-                AND o.order_id = #{orderId}
+                AND o.order_id = #{order_id}
             </if>
             <if test="username != null">
                 AND o.username LIKE CONCAT('%', #{username}, '%')
@@ -73,7 +73,7 @@
         SELECT address FROM address WHERE user_id=#{userId}
     </select>
     <insert id="insertOrder" parameterType="com.example.penstore.domain.Order">
-        INSERT INTO order (
+        INSERT INTO `order` (
             order_id,
             user_id,
             shipping_address,
@@ -93,12 +93,12 @@
         INSERT INTO order_items (
             order_items_id,
             order_id,
-            product_id,
+            goods_id,
             quantity,
             price
         ) VALUES (
                      #{order_items_id},
-                     #{orderId},
+                     #{order_id},
                      #{productId},
                      #{quantity},
                      #{price}

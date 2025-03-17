@@ -9,7 +9,7 @@ public class OrderItem {
     private String order_id;
 
     // 商品ID
-    private String product_id;
+    private String productId;
 
     // 购买数量
     private int quantity;
@@ -41,12 +41,12 @@ public class OrderItem {
         this.order_id = order_id;
     }
 
-    public String getProduct_id() {
-        return product_id;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+    public void setProduct_id(String productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {

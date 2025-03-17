@@ -23,6 +23,7 @@ public class OrderRequest {
     private String goodsName;
     private String shop_id;
     private String status;//传次导航参数
+    private String address;
     public String getOrder_id() {
         return order_id;
     }
@@ -154,5 +155,11 @@ public class OrderRequest {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

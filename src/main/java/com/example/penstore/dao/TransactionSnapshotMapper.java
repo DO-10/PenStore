@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface TransactionSnapshotMapper {
     // 用户维度：按订单ID查询
-    void createSnapshot(TransactionSnapshot snapshot);
+    void insertSnapshot(TransactionSnapshot snapshot);
     TransactionSnapshot findByOrderId(String orderId);
 
     // 商家维度：按商品+商家查询

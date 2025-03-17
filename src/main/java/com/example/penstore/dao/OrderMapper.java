@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 @Mapper
 
 public interface OrderMapper {
-    String createOrder(OrderRequest orderRequest);
+    void createOrder(OrderRequest orderRequest);
     String getQuantityByProductId(String productId);
     BigDecimal getPriceByProductId(String orderId);
-    String addOrderItem(String orderId, String productId, String quantity,BigDecimal price);
+    void addOrderItem(String orderId, String productId, String quantity,BigDecimal price);
     List<Order> getOrdersByUserId(String userId);
     List<Order> getOrders(String shop_id);
     List<Order> getOrdersByStatus(String status, String shop_id);

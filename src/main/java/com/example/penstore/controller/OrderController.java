@@ -149,7 +149,7 @@ public class OrderController {
 
         // 返回结果
         model.addAttribute("orderId", orderId);
-        return "order/success";
+        return "success";
     }
 
 }

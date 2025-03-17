@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
 public class OrderService {
 
     @Autowired
@@ -83,6 +82,7 @@ public class OrderService {
             BigDecimal quantity = new BigDecimal(goods.getQuantity());
             totalPrice = totalPrice.add(goods.getPrice().multiply(quantity));
         }
+        return orderId;
     }
     public String createOrder(String userId, String address, String notes, String phone, List<String> productIds) {
         // 生成UUID订单ID
@@ -140,17 +140,17 @@ public class OrderService {
 //    }
 
 
-        // 生成交易快照
-        TransactionSnapshot snapshot = new TransactionSnapshot();
-        snapshot.setSnapshotId(UUID.randomUUID().toString());
-        snapshot.setOrderId(orderId);
-        snapshot.setUserId(userId);
-        snapshot.setProductId(goodsList.get(0).getId()); // 示例取第一个商品ID
-        snapshot.setTotalPrice(totalPrice);
-        snapshotService.createSnapshot(snapshot);
-
-        return orderId;
-    }
+//        // 生成交易快照
+//        TransactionSnapshot snapshot = new TransactionSnapshot();
+//        snapshot.setSnapshotId(UUID.randomUUID().toString());
+//        snapshot.setOrderId(orderId);
+//        snapshot.setUserId(userId);
+//        snapshot.setProductId(goodsList.get(0).getId()); // 示例取第一个商品ID
+//        snapshot.setTotalPrice(totalPrice);
+//        snapshotService.createSnapshot(snapshot);
+//
+//        return orderId;
+//    }
     // 获取用户订单
     public List<Order> getOrdersByUserId(String userId) {
         return orderMapper.getOrdersByUserId(userId); // 获取用户订单
