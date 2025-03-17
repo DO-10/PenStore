@@ -89,6 +89,7 @@ public class OrderService {
         // 生成UUID订单ID
         String orderId = UUID.randomUUID().toString();
         orderRequest.setOrder_id(orderId);
+        orderRequest.setCreated_at(LocalDateTime.now());
 
 
 

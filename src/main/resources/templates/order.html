@@ -138,11 +138,13 @@
 
     <!-- 用户ID隐藏字段 -->
     <input type="hidden" id="userId" th:data-user-id="${session.user.id}"/>
+    <input type="hidden" name="amount" th:value="${totalPrice}" />
 
     <!-- 商品ID数组隐藏字段 -->
     <div th:each="product : ${orderItems}">
         <input type="hidden" name="selectedProducts" th:value="${product.id}" />
-        <input tyoe="hidden" name="amount" th:value="${totalPrice}" />
+        <input type="hidden" name="price" th:value="${product.price}" />
+
     </div>
 
 

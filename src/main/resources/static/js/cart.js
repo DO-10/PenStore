@@ -97,6 +97,7 @@ $(document).ready(function() {
 
                 // 更新总价格
                 $('#totalPrice').text(response.totalPrice);
+                $('#amount').value(response.totalPrice);
             },
             error: function (xhr, status, error) {
                 alert('操作失败，请稍后再试！');

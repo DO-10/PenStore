@@ -26,8 +26,8 @@ public class OrderRequest {
     private String startDate;
     private String endDate;
     private String goodsName;
-    private String shop_id;
-    private String status;//传次导航参数
+    private String shop_id;                   //封装店铺id
+    private String status;                    //传次导航参数
     private String address;
     private String existingAddress;
     private String newAddress;

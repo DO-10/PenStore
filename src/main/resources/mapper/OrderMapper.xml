@@ -51,19 +51,19 @@
             JOIN order_items oi ON o.order_id = oi.order_id
             JOIN goods g ON oi.goods_id = g.id
             WHERE 1 = 1
-            <if test="orderId != null">
+            <if test="order_id != null and order_id != ''">
                 AND o.order_id = #{order_id}
             </if>
-            <if test="username != null">
+            <if test="username != null and username != ''">
                 AND o.username LIKE CONCAT('%', #{username}, '%')
             </if>
-            <if test="startDate != null and endDate != null">
+            <if test="startDate != null and endDate != null and startDate != '' and endDate != ''">
                 AND o.created_at BETWEEN #{startDate} AND #{endDate}
             </if>
-            <if test="order_status != null">
+            <if test="order_status != null and order_status != ''">
                 AND o.order_status = #{order_status}
             </if>
-            <if test="goodsName != null">
+            <if test="goodsName != null and goodsName != ''">
                 AND g.name LIKE CONCAT('%', #{goodsName}, '%')
             </if>
             AND oi.shop_id = #{shop_id} AND oi.status = #{status}
@@ -72,7 +72,7 @@
     <select id="findAddress" resultType="String">
         SELECT address FROM address WHERE user_id=#{userId}
     </select>
-    <insert id="insertOrder" parameterType="com.example.penstore.domain.OrderRequest">
+    <insert id="insertOrder" parameterType="com.example.penstore.dto.OrderRequest">
         INSERT INTO `order` (
             order_id,
             user_id,
