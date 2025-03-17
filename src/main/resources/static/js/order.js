@@ -1,74 +1,36 @@
-// $(document).ready(function() {
-//     // 获取userId，假设它通过某种方式传递到前端
-//     var userId = $('#userId').data('userId');
-//
-//     // 发送AJAX请求获取现有地址
-//     function fetchExistingAddresses(userId) {
-//         $.ajax({
-//             url: 'getaddress',
-//             type: 'GET',
-//             data: { userId: userId },
-//             success: function(data) {
-//                 if (data.status === 'success') {
-//                     if (data.addresses.length > 0) {
-//                         // 如果有现有地址，填充到下拉框中
-//                         console.log('获取现有地址:', data.addresses);
-//                         populateExistingAddresses(data.addresses);
-//                     } else {
-//                         // 如果没有现有地址，禁用“使用现有地址”选项，并显示新地址输入框
-//                         $('#useExistingAddress').prop('disabled', true);
-//                         $('#existingAddressContainer').hide();
-//                         $('#newAddressContainer').show();
-//                         $('#useNewAddress').prop('checked', true);
-//                     }
-//                 } else {
-//                     console.error('获取现有地址失败:', data.message);
-//                 }
-//             },
-//             error: function(xhr, status, error) {
-//                 console.error('请求失败:', error);
-//             }
-//         });
-//     }
-//
-//     // 填充现有地址到下拉框
-//     function populateExistingAddresses(addresses) {
-//         var existingAddressSelect = $('#existingAddress');
-//         existingAddressSelect.empty(); // 清空现有选项
-//         addresses.forEach(function(address) {
-//             existingAddressSelect.append($('<option>').val(address.id).text(address.address));
-//         });
-//         console.error('地址:');
-//     }
-//
-//     // 监听地址选项的变更事件
-//     $('input[name="addressOption"]').change(function() {
-//         if (this.value === 'existing') {
-//             $('#existingAddressContainer').show();
-//             $('#newAddressContainer').hide();
-//         } else if (this.value === 'new') {
-//             $('#existingAddressContainer').hide();
-//             $('#newAddressContainer').show();
-//         }
-//     });
-//
-//     // 页面加载时调用
-//     fetchExistingAddresses(userId);
-// });
 $(document).ready(function() {
-    var userId = $('#userId').data('user-id'); // 获取用户 ID
+    // 获取用户ID（假设通过data属性存储）
+    const userId = $('#userId').data('user-id');
 
-    // 获取现有地址的函数
+    // 初始化地址显示状态
+    function initAddressVisibility() {
+        const isExisting = $('input[name="addressType"]:checked').val() === 'existing';
+        $('#existingAddressContainer').toggle(isExisting); // true显示/false隐藏
+        $('#newAddressContainer').toggle(!isExisting);
+    }
+
+    // 地址类型切换事件
+    $('input[name="addressType"]').change(function() {
+        initAddressVisibility(); // 实时更新显示状态
+    });
+
+    // 获取并填充现有地址
     function fetchExistingAddresses(userId) {
         $.ajax({
-            url: 'getaddress', // 你的后端地址
+            url: '/order/getaddress',
             type: 'GET',
             data: { userId: userId },
             success: function(data) {
-                if (data.status === 'success') {
-                    populateExistingAddresses(data.addresses);
-                } else {
-                    console.error('获取现有地址失败:', data.message);
+                if (data?.status === 'success' && Array.isArray(data.addresses)) {
+                    if (data.addresses.length > 0) {
+                        populateExistingAddresses(data.addresses);
+                        $('input[name="addressType"][value="existing"]').prop('disabled', false); // 启用现有地址选项
+                    } else {
+                        // 没有地址时强制切换到新地址
+                        $('input[name="addressType"][value="new"]').prop('checked', true);
+                        $('input[name="addressType"][value="existing"]').prop('disabled', true); // 禁用现有地址选项
+                        initAddressVisibility(); // 更新显示状态
+                    }
                 }
             },
             error: function(xhr, status, error) {
@@ -77,30 +39,21 @@ $(document).ready(function() {
         });
     }
 
-    // 填充现有地址到下拉框
+    // 填充地址到下拉框
     function populateExistingAddresses(addresses) {
-        console.error('dz:', addresses);
-        var existingAddressSelect = $('#existingAddress');
-        existingAddressSelect.empty(); // 清空现有选项
-        addresses.forEach(function(address) {
-            console.error('dz:', address);
-            console.error('dz:', address.id);
-            console.error('dz:', address.address);
-            existingAddressSelect.append($('<option>').val(address).text(address));
+        const $select = $('#existingAddress').empty();
+
+        addresses.forEach(address => {
+            $select.append(
+                $('<option>', {
+                    value: address,  // 如果后续需要ID可以改为 address.id
+                    text: address    // 如果返回对象则改为 address.text
+                })
+            );
         });
     }
 
-    // 处理地址选择
-    $('input[name="addressOption"]').change(function() {
-        if (this.value === 'existing') {
-            $('#existingAddressContainer').show();
-            $('#newAddressContainer').hide();
-        } else if (this.value === 'new') {
-            $('#existingAddressContainer').hide();
-            $('#newAddressContainer').show();
-        }
-    });
-
-    // 在页面加载时获取现有地址
-    fetchExistingAddresses(userId);
+    // 页面初始化
+    initAddressVisibility();       // 初始化显示状态
+    fetchExistingAddresses(userId); // 加载地址数据
 });

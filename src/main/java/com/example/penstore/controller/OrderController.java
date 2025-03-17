@@ -6,12 +6,17 @@ import com.example.penstore.domain.Order;
 import com.example.penstore.domain.TransactionSnapshot;
 import com.example.penstore.domain.User;
 import com.example.penstore.service.OrderService;
+import jakarta.servlet.http.HttpSession;
 import com.example.penstore.service.TransactionSnapshotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import java.util.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
@@ -20,7 +25,6 @@ import com.example.penstore.service.CartService;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @SessionAttributes("user")
@@ -76,9 +80,14 @@ public class OrderController {
     public String checkout(@RequestParam("totalPrice") BigDecimal totalPrice,
                            @RequestParam("selectedProducts") String[] selectedProductIds,
                            @RequestParam("userId") String userId,
+                           @RequestParam("quantity")int[] quantity,
                            Model model) {
         // 获取选中的商品信息
         List<Goods> orderItems = goodsService.getProductsWithCartQuantities(selectedProductIds);
+
+        for (int i = 0; i < orderItems.size(); i++) {
+            orderItems.get(i).setQuantity(String.valueOf(quantity[i]));
+        }
 
 
 
@@ -91,9 +100,56 @@ public class OrderController {
         model.addAttribute("userId", userId);
         model.addAttribute("orderItems", orderItems);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("quantity", quantity);
 
         // 返回订单页面
         return Pages.ORDER;
+    }
+    @GetMapping("/getaddress")
+    public ResponseEntity<?> getAddresses(@RequestParam("userId") String userId) {
+        try {
+            List<String> addresses = orderService.findAddressesByUserId(userId);
+
+            // 使用Map或自定义对象构建结构化响应，Spring会自动转换为JSON
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("addresses", addresses); // 直接使用List，无需手动转换
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // 错误响应也保持结构化
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
+        }
+    }
+    @PostMapping("/gocheckout")
+    public String checkoutOrder(
+            @RequestParam("addressType") String addressType,
+            @RequestParam(value = "existingAddress", required = false) String existingAddress,
+            @RequestParam(value = "newAddress", required = false) String newAddress,
+            @RequestParam("selectedProducts") List<String> productIds,
+            @RequestParam("notes") String notes,
+            @RequestParam("phone") String phone,
+            HttpSession session,
+            Model model) {
+
+        // 获取用户ID
+        User user = (User) session.getAttribute("user");
+        String userId = user.getId();
+
+        // 处理地址
+        String finalAddress = "existing".equals(addressType) ? existingAddress : newAddress;
+
+        // 创建订单
+        String orderId = orderService.createOrder(userId, finalAddress, notes, phone, productIds);
+
+        // 返回结果
+        model.addAttribute("orderId", orderId);
+        return "order/success";
     }
 
 }

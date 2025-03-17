@@ -69,10 +69,40 @@
             AND oi.shop_id = #{shop_id} AND oi.status = #{status}
         </select>
 
-
-
-
-
-
+    <select id="findAddress" resultType="String">
+        SELECT address FROM address WHERE user_id=#{userId}
+    </select>
+    <insert id="insertOrder" parameterType="com.example.penstore.domain.Order">
+        INSERT INTO order (
+            order_id,
+            user_id,
+            shipping_address,
+            note,
+            phone,
+            created_at
+        ) VALUES (
+                     #{order_id},
+                     #{user_id},
+                     #{shipping_address},
+                     #{note},
+                     #{phone},
+                     #{created_at}
+                 )
+    </insert>
+    <insert id="insertOrderItem" parameterType="com.example.penstore.domain.OrderItem">
+        INSERT INTO order_items (
+            order_items_id,
+            order_id,
+            product_id,
+            quantity,
+            price
+        ) VALUES (
+                     #{order_items_id},
+                     #{orderId},
+                     #{productId},
+                     #{quantity},
+                     #{price}
+                 )
+    </insert>
 
 </mapper>

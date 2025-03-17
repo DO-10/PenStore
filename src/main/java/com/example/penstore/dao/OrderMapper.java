@@ -1,6 +1,7 @@
 package com.example.penstore.dao;
 import java.util.List;
 import com.example.penstore.domain.Order;
+import com.example.penstore.domain.OrderItem;
 import org.apache.ibatis.annotations.Mapper;
 import com.example.penstore.dto.OrderRequest;
 
@@ -18,6 +19,9 @@ public interface OrderMapper {
     List<Order> getOrdersByStatus(String status, String shop_id);
     List<Order> getOrdersByQuery(OrderRequest orderRequest);
     List<Order> getOrdersByOrderId(String orderId);
+    List<String>findAddress(String userId);
+    void insertOrder(Order order);
+    void insertOrderItem(OrderItem orderItem);
 
 
 }

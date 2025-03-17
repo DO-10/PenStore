@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <title>订单信息</title>
-        <style>
-        /* 你的样式 */
+<head>
+    <meta charset="UTF-8">
+    <title>订单信息</title>
+    <style>
+        /* 保持原有完整样式 */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -57,7 +57,7 @@
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* 让padding和border包含在width内 */
+            box-sizing: border-box;
         }
 
         input[type="radio"] {
@@ -84,91 +84,108 @@
         }
 
         #userId {
-            display: none; /* 隐藏用户ID的div */
+            display: none;
         }
     </style>
-    </head>
-    <body>
-    <div class="header">
-        <div class="username">
+</head>
+</head>
+<body>
+<div class="header">
+
+    <div class="username">
         <span th:if="${session.user != null}">
             欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
             <a th:href="@{/logout}">退出登录</a>
         </span>
-            <span th:unless="${session.user != null}">
+        <span th:unless="${session.user != null}">
             你好， <a th:href="@{/logsign}">请登录</a>
         </span>
-        </div>
-        <div class="logo">
-            <img th:src="@{/images/logo.png}" alt="peiahuishi">
-        </div>
-        <div class="utility">
-            <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
-            <a th:href="@{/cart}">购物车</a>
-            <a th:href="@{/customerService}">客服</a>
-        </div>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/cart}">购物车</a>
+        <a th:href="@{/customerService}">客服</a>
     </div>
 
-
-    <h1>订单信息</h1>
-
-<!-- 当 orderItems 存在且不为空时显示订单信息 -->
-    <div th:if="${orderItems != null and !#lists.isEmpty(orderItems)}">
-    <ul>
-        <li th:each="Goods : ${orderItems}">
-            <span th:text="${Goods.quantity}">0</span> X
-            <span th:text="${Goods.name}">产品名称</span> -  价格:
-            <span th:text="${Goods.price}">0.00</span>
-        </li>
-    </ul>
-    <h2 th:text="'总价格: ' + (totalPrice != null ? totalPrice : '0.00')">总价格: 0.00</h2>
-
-    <form action="submitOrderServlet" method="post">
-        <input type="hidden" name="userId" th:value="${userId}" />
-
-        <div>
-            <label>
-                <input type="radio" id="useExistingAddress" name="addressOption" value="existing" /> 使用现有地址
-            </label>
-            <label>
-                <input type="radio" id="useNewAddress" name="addressOption" value="new" /> 使用新地址
-            </label>
-        </div>
-        <div id="existingAddressContainer" style="display: none;">
-            <label for="existingAddress">现有地址:</label>
-            <select id="existingAddress" name="existingAddress">
-                <!-- 现有地址选项将通过 JavaScript 动态填充 -->
-            </select>
-        </div>
-        <div id="newAddressContainer" style="display: none;">
-            <label for="newAddress">新地址:</label>
-            <input type="text" id="newAddress" name="newAddress" />
-        </div>
-        <div>
-            <label for="notes">备注:</label>
-            <textarea id="notes" name="notes"></textarea>
-        </div>
-        <div>
-            <label for="phone">电话:</label>
-            <input type="text" id="phone" name="phone" />
-        </div>
-        <!-- 循环生成每个订单项对应的隐藏输入 -->
-        <div th:each="product : ${orderItems}">
-            <input type="hidden" name="selectedProducts" th:value="${product.id}" />
-        </div>
-        <input type="submit" value="提交订单" />
-    </form>
 </div>
 
-<!-- 如果 orderItems 为空，则显示暂无订单信息 -->
-    <div th:if="${orderItems == null or #lists.isEmpty(orderItems)}">
-        <p>没有订单信息。</p>
+<h1>订单确认</h1>
+
+<!-- 订单明细展示 -->
+<div th:if="${orderItems != null and !#lists.isEmpty(orderItems)}">
+    <ul>
+        <li th:each="product : ${orderItems}" class="order-item">
+            <span th:text="${product.quantity}"></span> X
+            <span th:text="${product.name}"></span> -
+            <span>￥<span th:text="${product.price}"></span></span>
+        </li>
+    </ul>
+    <h2>总计：￥<span th:text="${totalPrice}"></span></h2>
+</div>
+
+<!-- 空状态提示 -->
+<div th:if="${orderItems == null or #lists.isEmpty(orderItems)}">
+    <p>您的购物车为空</p>
+</div>
+
+<!-- 改良后的订单提交表单 -->
+<form th:action="@{/order/gocheckout}" method="POST" class="order-form">
+
+
+
+    <!-- 用户ID隐藏字段 -->
+    <input type="hidden" id="userId" th:data-user-id="${session.user.id}"/>
+
+    <!-- 商品ID数组隐藏字段 -->
+    <div th:each="product : ${orderItems}">
+        <input type="hidden" name="selectedProducts" th:value="${product.id}" />
     </div>
 
-<!-- 隐藏的用户ID元素 -->
-    <div id="userId" th:data-user-id="${userId}"></div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/order.js"></script>
+
+    <!-- 地址选择 -->
+    <div>
+        <label>
+            <input type="radio" name="addressType" value="existing" checked> 使用现有地址
+        </label>
+        <label>
+            <input type="radio" name="addressType" value="new"> 使用新地址
+        </label>
+    </div>
+
+    <!-- 现有地址列表 -->
+    <div id="existingAddressContainer">
+        <label for="existingAddress">现有地址:</label>
+        <select id="existingAddress" name="existingAddress">
+            <!-- 选项由 JavaScript 动态填充 -->
+        </select>
+    </div>
+
+    <!-- 新地址输入 -->
+    <div id="newAddressContainer">
+        <label for="newAddress">新地址:</label>
+        <input type="text" id="newAddress" name="newAddress" />
+    </div>
+
+
+    <!-- 其他表单字段 -->
+    <div>
+        <label for="notes">备注:</label>
+        <textarea id="notes" name="notes"></textarea>
+    </div>
+    <div>
+        <label for="phone">电话:</label>
+        <input type="text" id="phone" name="phone" />
+    </div>
+
+    <!-- 提交按钮 -->
+    <button type="submit" class="submit-btn">提交订单</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/order.js}"></script>
 </body>
 </html>
