@@ -20,7 +20,7 @@ public interface OrderMapper {
     List<Order> getOrdersByQuery(OrderRequest orderRequest);
     List<Order> getOrdersByOrderId(String orderId);
     List<String>findAddress(String userId);
-    void insertOrder(Order order);
+    void insertOrder(OrderRequest orderRequest);
     void insertOrderItem(OrderItem orderItem);
     void payOrder(String orderId);
 

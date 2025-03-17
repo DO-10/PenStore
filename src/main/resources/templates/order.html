@@ -142,6 +142,7 @@
     <!-- 商品ID数组隐藏字段 -->
     <div th:each="product : ${orderItems}">
         <input type="hidden" name="selectedProducts" th:value="${product.id}" />
+        <input tyoe="hidden" name="amount" th:value="${totalPrice}" />
     </div>
 
 

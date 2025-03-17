@@ -17,6 +17,16 @@ public class OrderItem {
     // 商品单价（使用BigDecimal处理精确计算）
     private BigDecimal price;
 
+    private String status;
+
+    private String shop_id;
+
+    public String getShop_id() {
+        return shop_id;
+    }
+    public void setShop_id(String shop_id) {
+        this.shop_id = shop_id;
+    }
 
     public String getOrder_items_id() {
         return order_items_id;
@@ -63,5 +73,12 @@ public class OrderItem {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

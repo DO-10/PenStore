@@ -5,6 +5,8 @@ import com.example.penstore.domain.Goods;
 import com.example.penstore.domain.Order;
 import com.example.penstore.domain.TransactionSnapshot;
 import com.example.penstore.domain.User;
+import com.example.penstore.dto.OrderRequest;
+import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import com.example.penstore.service.TransactionSnapshotService;
@@ -37,6 +39,8 @@ public class OrderController {
     // 新增的 TransactionSnapshotService 依赖注入
     @Autowired
     private TransactionSnapshotService snapshotService;
+    @Autowired
+    private Order order;
 
 
     @PostMapping
@@ -92,10 +96,9 @@ public class OrderController {
 
 
         // 生成订单并传递商品列表
-        String orderId = orderService.createOrder(userId, "默认地址", orderItems);
-
-
-
+        //注释掉了qscwoiedw
+//        String orderId = orderService.createOrder(userId, "默认地址", orderItems);
+        System.out.println(totalPrice);
         // 将订单信息和总价存入Model
         model.addAttribute("userId", userId);
         model.addAttribute("orderItems", orderItems);
@@ -126,26 +129,30 @@ public class OrderController {
                     .body(errorResponse);
         }
     }
+//    @RequestParam("addressType") String addressType,
+//    @RequestParam(value = "existingAddress", required = false) String existingAddress,
+//    @RequestParam(value = "newAddress", required = false) String newAddress,
+//    @RequestParam("selectedProducts") List<String> productIds,
+//    @RequestParam("notes") String notes,
+//    @RequestParam("phone") String phone,
     @PostMapping("/gocheckout")
     public String checkoutOrder(
-            @RequestParam("addressType") String addressType,
-            @RequestParam(value = "existingAddress", required = false) String existingAddress,
-            @RequestParam(value = "newAddress", required = false) String newAddress,
-            @RequestParam("selectedProducts") List<String> productIds,
-            @RequestParam("notes") String notes,
-            @RequestParam("phone") String phone,
+            @ModelAttribute("orderRequest") OrderRequest orderRequest,
             HttpSession session,
             Model model) {
 
         // 获取用户ID
         User user = (User) session.getAttribute("user");
         String userId = user.getId();
-
-        // 处理地址
-        String finalAddress = "existing".equals(addressType) ? existingAddress : newAddress;
+        orderRequest.setUserId(userId);
+        String name=user.getUsername();
+        orderRequest.setName(name);
+        String finalAddress = "existing".equals(orderRequest.getAddressType()) ? orderRequest.getExistingAddress() : orderRequest.getNewAddress();
+        orderRequest.setShipping_address(finalAddress);
+        orderRequest.setOrder_status("待付款");
 
         // 创建订单
-        String orderId = orderService.createOrder(userId, finalAddress, notes, phone, productIds);
+        String orderId = orderService.createOrder(orderRequest);
 
         // 返回结果
         model.addAttribute("orderId", orderId);

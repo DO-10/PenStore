@@ -72,21 +72,27 @@
     <select id="findAddress" resultType="String">
         SELECT address FROM address WHERE user_id=#{userId}
     </select>
-    <insert id="insertOrder" parameterType="com.example.penstore.domain.Order">
+    <insert id="insertOrder" parameterType="com.example.penstore.domain.OrderRequest">
         INSERT INTO `order` (
             order_id,
             user_id,
             shipping_address,
             note,
             phone,
-            created_at
+            created_at,
+            name,
+            order_status,
+            amount
         ) VALUES (
                      #{order_id},
                      #{user_id},
                      #{shipping_address},
                      #{note},
                      #{phone},
-                     #{created_at}
+                     #{created_at},
+                     #{name},
+                     #{order_status},
+                     #{amount}
                  )
     </insert>
     <insert id="insertOrderItem" parameterType="com.example.penstore.domain.OrderItem">
@@ -95,13 +101,17 @@
             order_id,
             goods_id,
             quantity,
-            price
+            price,
+            status,
+            shop_id
         ) VALUES (
                      #{order_items_id},
                      #{order_id},
                      #{productId},
                      #{quantity},
-                     #{price}
+                     #{price},
+                     #{status},
+                     #{shop_id}
                  )
     </insert>
     <update id="payOrder">
