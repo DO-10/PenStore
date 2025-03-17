@@ -1,18 +1,23 @@
 package com.example.penstore.dto;
+import com.example.penstore.domain.Goods;
+
+import java.util.List;
 
 public class OrderRequest {
     private String order_id;
     private String user_id;
     private String username;
     private String name;
+    private String goods_id;
     private String shipping_address;
     private String payment_status;
     private String order_status;
     private String tracking_number;
-    private String created_at;
+    private java.time.LocalDateTime created_at;
     private String updated_at;
     private String order_date;
     private String phone;
+    private String order_items_id;
     private String note;
     private String amount;
     private String images;
@@ -24,6 +29,65 @@ public class OrderRequest {
     private String shop_id;
     private String status;//传次导航参数
     private String address;
+    private String existingAddress;
+    private String newAddress;
+    private String addressType;
+    private List<String> selectedProducts;
+    private List<Goods> goodsList;
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public  String getOrderId() {
+        return order_id;
+    }
+    public void setOrderId(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public String getUserId() {
+        return user_id;
+    }
+    public void setUserId(String user_id) {
+        this.user_id = user_id;
+    }
+    public String getUserName() {
+        return username;
+    }
+    public void setUserName(String username) {
+        this.username = username;
+    }
+    public  String getNewAddress(){
+        return newAddress;
+    }
+    public void setNewAddress(String newAddress){
+        this.newAddress = newAddress;
+    }
+    public String getAddressType(){
+        return addressType;
+    }
+    public void setAddressType(String addressType){
+        this.addressType = addressType;
+    }
+    public List<String> getSelectedProducts() {
+        return selectedProducts;
+    }
+    public void setSelectedProducts(List<String> selectedProducts) {
+        this.selectedProducts = selectedProducts;
+    }
+    public OrderRequest() {
+    }
+
+    public String getOrder_items_id(){
+        return order_items_id;
+    }
+    public void setOrder_items_id(String order_items_id){
+        this.order_items_id = order_items_id;
+    }
     public String getOrder_id() {
         return order_id;
     }
@@ -72,10 +136,10 @@ public class OrderRequest {
     public void setTracking_number(String tracking_number) {
         this.tracking_number = tracking_number;
     }
-    public String getCreated_at() {
+    public java.time.LocalDateTime getCreated_at() {
         return created_at;
     }
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(java.time.LocalDateTime created_at) {
         this.created_at = created_at;
     }
     public String getUpdated_at() {
@@ -161,5 +225,13 @@ public class OrderRequest {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getExistingAddress() {
+        return existingAddress;
+    }
+
+    public void setExistingAddress(String existingAddress) {
+        this.existingAddress = existingAddress;
     }
 }

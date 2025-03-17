@@ -37,68 +37,74 @@ public class OrderService {
     @Autowired
     private TransactionSnapshotService snapshotService;
 
-    // 创建订单并生成交易快照
-    public String createOrder(String userId, String address, List<Goods> goodsList) {
-        if (goodsList == null || goodsList.isEmpty()) {
-            throw new IllegalArgumentException("商品列表不能为空");
-        }
-
-//    // 创建订单并返回订单ID（UUID）
-//    public String createOrder(String userId, String address) {
+//    // 创建订单并生成交易快照
+//    public String createOrder(String userId, String address, List<Goods> goodsList) {
+//        if (goodsList == null || goodsList.isEmpty()) {
+//            throw new IllegalArgumentException("商品列表不能为空");
+//        }
+//
+////    // 创建订单并返回订单ID（UUID）
+////    public String createOrder(String userId, String address) {
+////        String orderId = GenerateID.getCurrentOrderId();
+////        OrderRequest orderRequest = new OrderRequest();
+////        orderRequest.setUser_id(userId);
+////        orderRequest.setShipping_address(address);
+////        orderRequest.setOrder_id(orderId);
+////
+////        orderMapper.createOrder(orderRequest); // 调用 Mapper 方法
+////        return orderId; // 返回生成的订单ID
+////    }
 //        String orderId = GenerateID.getCurrentOrderId();
 //        OrderRequest orderRequest = new OrderRequest();
 //        orderRequest.setUser_id(userId);
 //        orderRequest.setShipping_address(address);
 //        orderRequest.setOrder_id(orderId);
+//        orderMapper.createOrder(orderRequest);
 //
-//        orderMapper.createOrder(orderRequest); // 调用 Mapper 方法
-//        return orderId; // 返回生成的订单ID
+//
+//        // 为每个商品生成独立快照
+//        for (Goods goods : goodsList) {
+//            TransactionSnapshot snapshot = new TransactionSnapshot();
+//            snapshot.setSnapshotId(UUID.randomUUID().toString());
+//            snapshot.setOrderId(orderId);
+//            snapshot.setUserId(userId);
+//            snapshot.setProductId(goods.getId());
+//            //snapshot.setShopId(goods.getShopId()); // 假设Goods类有shopId字段
+//            snapshot.setPrice(goods.getPrice());
+//            snapshot.setQuantity(Integer.parseInt(goods.getQuantity()));
+//            snapshot.setTotalPrice(goods.getPrice().multiply(new BigDecimal(goods.getQuantity())));
+//            snapshotService.createSnapshot(snapshot);
+//        }
+//
+//        // 计算订单总金额
+//        BigDecimal totalPrice = BigDecimal.ZERO;
+//        for (Goods goods : goodsList) {
+//            BigDecimal quantity = new BigDecimal(goods.getQuantity());
+//            totalPrice = totalPrice.add(goods.getPrice().multiply(quantity));
+//        }
+//        return orderId;
 //    }
-        String orderId = GenerateID.getCurrentOrderId();
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setUser_id(userId);
-        orderRequest.setShipping_address(address);
-        orderRequest.setOrder_id(orderId);
-        orderMapper.createOrder(orderRequest);
 
-
-        // 为每个商品生成独立快照
-        for (Goods goods : goodsList) {
-            TransactionSnapshot snapshot = new TransactionSnapshot();
-            snapshot.setSnapshotId(UUID.randomUUID().toString());
-            snapshot.setOrderId(orderId);
-            snapshot.setUserId(userId);
-            snapshot.setProductId(goods.getId());
-            //snapshot.setShopId(goods.getShopId()); // 假设Goods类有shopId字段
-            snapshot.setPrice(goods.getPrice());
-            snapshot.setQuantity(Integer.parseInt(goods.getQuantity()));
-            snapshot.setTotalPrice(goods.getPrice().multiply(new BigDecimal(goods.getQuantity())));
-            snapshotService.createSnapshot(snapshot);
-        }
-
-        // 计算订单总金额
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        for (Goods goods : goodsList) {
-            BigDecimal quantity = new BigDecimal(goods.getQuantity());
-            totalPrice = totalPrice.add(goods.getPrice().multiply(quantity));
-        }
-        return orderId;
-    }
-    public String createOrder(String userId, String address, String notes, String phone, List<String> productIds) {
+    public String createOrder(OrderRequest orderRequest) {
         // 生成UUID订单ID
         String orderId = UUID.randomUUID().toString();
+        orderRequest.setOrder_id(orderId);
 
-        // 创建订单实体
-        Order order = new Order();
-        order.setOrder_id(orderId);
-        order.setUser_id(userId);
-        order.setShipping_address(address);
-        order.setNote(notes);
-        order.setPhone(phone);
-        order.setCreated_at(LocalDateTime.now());
+
+
+//        // 创建订单实体
+//        Order order = new Order();
+//        order.setOrder_id(orderId);
+//        order.setUser_id(userId);
+//        order.setShipping_address(address);
+//        order.setNote(notes);
+//        order.setPhone(phone);
+//        order.setCreated_at(LocalDateTime.now());
 
         // 插入订单
-        orderMapper.insertOrder(order);
+        orderMapper.insertOrder(orderRequest);
+        List<String> productIds=orderRequest.getSelectedProducts();
+        String userId=orderRequest.getUser_id();
 
         // 处理每个商品
         for (String productId : productIds) {
@@ -112,6 +118,8 @@ public class OrderService {
 
             // 创建订单项
             OrderItem orderItem = new OrderItem();
+            orderItem.setStatus("unpaid");
+            orderItem.setShop_id(userId);
             orderItem.setOrder_id(orderId);
             orderItem.setProduct_id(productId);
             int quantity = cartMapper.getProductQuantity(userId, productId);
