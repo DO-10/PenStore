@@ -104,5 +104,8 @@
                      #{price}
                  )
     </insert>
+    <update id="payOrder">
+        UPDATE `order` SET order_status = 'paid' WHERE order_id = #{orderId}
+    </update>
 
 </mapper>

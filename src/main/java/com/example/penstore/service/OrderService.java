@@ -175,6 +175,9 @@ public class OrderService {
         return orderMapper.findAddress(userId);
     }
 
+    public void payOrder(String orderId) {
+        orderMapper.payOrder(orderId);
+    }
 
 
 }

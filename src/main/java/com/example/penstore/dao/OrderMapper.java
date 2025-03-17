@@ -22,6 +22,7 @@ public interface OrderMapper {
     List<String>findAddress(String userId);
     void insertOrder(Order order);
     void insertOrderItem(OrderItem orderItem);
+    void payOrder(String orderId);
 
 
 }

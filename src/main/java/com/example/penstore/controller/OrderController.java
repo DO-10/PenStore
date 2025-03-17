@@ -149,7 +149,15 @@ public class OrderController {
 
         // 返回结果
         model.addAttribute("orderId", orderId);
-        return "success";
+        return "pay";
+    }
+    @PostMapping("/pay")
+    public void payOrder(@RequestParam("orderId") String orderId, Model model) {
+        // 支付订单
+        orderService.payOrder(orderId);
+
+        // 返回支付成功页面
+
     }
 
 }
