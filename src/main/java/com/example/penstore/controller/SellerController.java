@@ -4,6 +4,8 @@ import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
 import com.example.penstore.domain.Goods;
 import com.example.penstore.domain.Order;
+import com.example.penstore.domain.TransactionSnapshot;
+import com.example.penstore.domain.User;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.OrderRequest;
 import com.example.penstore.service.*;
@@ -29,6 +31,8 @@ public class SellerController {
     private CategoryService categoryService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private TransactionSnapshotService snapshotService;
 
     @GetMapping("/{id}")//请求卖家页面
     public String seller(@PathVariable String id, Model model) {
@@ -47,13 +51,13 @@ public class SellerController {
         return Pages.NEWGOODS;
     }
     @PostMapping(PathConstants.GOODSMANAGEMENT+"/{id}")//请求添加/修改商品
-    public String addGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id) {
-        String imagePath = "/static/images/goods/";
-        String image_url = fileService.saveFile(goodsRequest.getImage(),imagePath);
+    public String addGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id, Model model) {
+        String image_url = fileService.saveFile(goodsRequest.getImage(),"goods");
         goodsRequest.setImageUrl(image_url);
         goodsRequest.setShop_id(id);
         goodsService.insertGoods(goodsRequest);
-        return Pages.SHOPMANAGEMENT;
+        model.addAttribute("goods", goodsService.getGoodsByShopId(id));
+        return Pages.GOODSMANAGEMENT;
     }
 
     //请求订单管理页面
@@ -153,4 +157,17 @@ public class SellerController {
             model.addAttribute("categories", categoryService.getCategoryTreeByShopId(shopId));
             return Pages.CATEGORYMANAGEMENT;
         }
+
+    // 商家查看商品快照（需校验商家身份）
+    @GetMapping("/snapshot/{productId}")
+    public String getShopSnapshot(
+            @PathVariable String productId,
+            @ModelAttribute("user") User seller,
+            Model model
+    ) {
+        List<TransactionSnapshot> snapshots =
+                snapshotService.getSnapshotsByShopAndProduct(seller.getId(), productId);
+        model.addAttribute("snapshots", snapshots);
+        return "shop_snapshot_list";
+    }
 }

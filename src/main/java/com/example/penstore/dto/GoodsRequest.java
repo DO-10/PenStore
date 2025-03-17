@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.math.BigDecimal;
 
 public class GoodsRequest {
-    private String id;
+    private String id;//封装商品id
     private String name;
     private String description;
     private java.math.BigDecimal price;
@@ -13,7 +13,7 @@ public class GoodsRequest {
     private String image_url;
     private String quantity;
     private String seller;
-    private String category_id;
+    private String category_id;//封装种类id
     private String status;
     private String shop_id;
     private String startPrice;

@@ -51,7 +51,7 @@
   <!-- 判断 goods 是否存在且不为空 -->
   <div th:if="${goods != null and !#lists.isEmpty(goods)}">
     <div class="product" th:each="goods : ${goods}">
-      <img th:src="${goods.image_url}" th:alt="${goods.name}" alt="Product Image"/>
+      <img th:src="@{/{imageName}(imageName=${goods.image_url})}" th:alt="${goods.name}" alt="Product Image"/>
       <h2 th:text="${goods.name}">产品名称</h2>
       <p>Price: $<span th:text="${goods.price}">价格</span></p>
       <p>Stock: <span th:text="${goods.stock}">库存</span></p>

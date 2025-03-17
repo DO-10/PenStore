@@ -1,6 +1,7 @@
 package com.example.penstore.dto;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class UserRequest {
@@ -11,6 +12,8 @@ public class UserRequest {
     private String address;
     private String username;
     private String verificationCode;
+    private MultipartFile avatar;
+    private String avatarPath;
 
     public UserRequest() {}  // 必须有
 
@@ -60,5 +63,17 @@ public class UserRequest {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public MultipartFile getAvatar() {
+        return avatar;
+    }
+    public void setAvatar(MultipartFile avatar) {
+        this.avatar = avatar;
+    }
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 }

@@ -18,7 +18,7 @@ public class GenerateID{
     public void insertUserPointcut(){}
     @Pointcut("execution(* com.example.penstore.service.CartService.addToCart(..))")
     public void addCartPointcut(){}
-    @Pointcut("execution(* com.example.penstore.service.GoodsService.insertGoods())")
+    @Pointcut("execution(* com.example.penstore.service.GoodsService.insertGoods(..))")
     public void addGoodsPointcut(){}
 
     //用户ID

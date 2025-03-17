@@ -5,10 +5,13 @@ import com.example.penstore.dao.CartMapper;
 import com.example.penstore.dao.GoodsMapper;
 import com.example.penstore.domain.Goods;
 import com.example.penstore.domain.Order;
+import com.example.penstore.domain.Goods;
+import com.example.penstore.domain.TransactionSnapshot;
 import com.example.penstore.dao.OrderMapper;
 import com.example.penstore.dto.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.example.penstore.dto.OrderRequest;
 import java.math.BigDecimal;
 import com.example.penstore.domain.OrderItem;
@@ -17,10 +20,12 @@ import com.example.penstore.domain.OrderItem;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class OrderService {
 
     @Autowired
@@ -30,7 +35,14 @@ public class OrderService {
     @Autowired
     private GoodsMapper goodsMapper;
 
+    @Autowired
+    private TransactionSnapshotService snapshotService;
 
+    // 创建订单并生成交易快照
+    public String createOrder(String userId, String address, List<Goods> goodsList) {
+        if (goodsList == null || goodsList.isEmpty()) {
+            throw new IllegalArgumentException("商品列表不能为空");
+        }
 
 //    // 创建订单并返回订单ID（UUID）
 //    public String createOrder(String userId, String address) {
@@ -43,14 +55,33 @@ public class OrderService {
 //        orderMapper.createOrder(orderRequest); // 调用 Mapper 方法
 //        return orderId; // 返回生成的订单ID
 //    }
+        String orderId = GenerateID.getCurrentOrderId();
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setUser_id(userId);
+        orderRequest.setShipping_address(address);
+        orderRequest.setOrder_id(orderId);
+        orderMapper.createOrder(orderRequest);
 
-    // 添加订单项
-    public void addOrderItem(String orderId, String productId) {
-        String quantity = orderMapper.getQuantityByProductId(productId); // 查询购物车中的数量
-        BigDecimal price = orderMapper.getPriceByProductId(productId); // 查询产品价格
 
-        if (quantity != null && price != null) {
-            orderMapper.addOrderItem(orderId, productId, quantity, price); // 插入订单项
+        // 为每个商品生成独立快照
+        for (Goods goods : goodsList) {
+            TransactionSnapshot snapshot = new TransactionSnapshot();
+            snapshot.setSnapshotId(UUID.randomUUID().toString());
+            snapshot.setOrderId(orderId);
+            snapshot.setUserId(userId);
+            snapshot.setProductId(goods.getId());
+            //snapshot.setShopId(goods.getShopId()); // 假设Goods类有shopId字段
+            snapshot.setPrice(goods.getPrice());
+            snapshot.setQuantity(Integer.parseInt(goods.getQuantity()));
+            snapshot.setTotalPrice(goods.getPrice().multiply(new BigDecimal(goods.getQuantity())));
+            snapshotService.createSnapshot(snapshot);
+        }
+
+        // 计算订单总金额
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (Goods goods : goodsList) {
+            BigDecimal quantity = new BigDecimal(goods.getQuantity());
+            totalPrice = totalPrice.add(goods.getPrice().multiply(quantity));
         }
     }
     public String createOrder(String userId, String address, String notes, String phone, List<String> productIds) {
@@ -108,6 +139,18 @@ public class OrderService {
 //        return orderItemMapper.findByOrderId(orderId);
 //    }
 
+
+        // 生成交易快照
+        TransactionSnapshot snapshot = new TransactionSnapshot();
+        snapshot.setSnapshotId(UUID.randomUUID().toString());
+        snapshot.setOrderId(orderId);
+        snapshot.setUserId(userId);
+        snapshot.setProductId(goodsList.get(0).getId()); // 示例取第一个商品ID
+        snapshot.setTotalPrice(totalPrice);
+        snapshotService.createSnapshot(snapshot);
+
+        return orderId;
+    }
     // 获取用户订单
     public List<Order> getOrdersByUserId(String userId) {
         return orderMapper.getOrdersByUserId(userId); // 获取用户订单
@@ -126,10 +169,12 @@ public class OrderService {
     }
 //    public List<Order> getOrdersByOrderId(String orderId) {}
 
+
     //找地址
     public List<String> findAddressesByUserId(String userId){
         return orderMapper.findAddress(userId);
     }
+
 
 
 }
