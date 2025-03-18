@@ -42,7 +42,7 @@
     <h2>您的订单:</h2>
     <div th:each="order : ${orders}">
       <h3>订单 ID: [[${order.order_id}]]</h3>
-      <h4>下单时间：[[${order.createdAt}]]</h4>
+      <h4>下单时间：[[${order.created_at}]]</h4>
       <ul>
         <li th:each="goods : ${order.goodsList}">
           [[${goods.name}]] - 数量: [[${goods.quantity}]] - 价格: [[${goods.price}]]

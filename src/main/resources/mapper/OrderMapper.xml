@@ -29,16 +29,23 @@
         WHERE user_id = #{userId}
     </select>
 
+    <!-- 根据订单ID获取订单项 -->
+    <select id="getGoodsByOrderId" resultType="com.example.penstore.domain.OrderItem">
+        SELECT oi.*, g.name, g.description, g.price
+        FROM order_items oi
+                 JOIN goods g ON oi.goods_id = g.id
+        WHERE oi.order_id = #{orderId}
+    </select>
     <!-- 根据店铺获取全部订单 -->
     <select id="getOrders" resultType="com.example.penstore.domain.Order">
-        SELECT o.*, g.name, g.image_url, oi.status, oi.quantity FROM `order` o
+        SELECT o.*, g.name, g.image_url, oi.status, oi.quantity, oi.price FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
         WHERE oi.shop_id = #{shop_id}
     </select>
 <!--    根据状态获取订单-->
     <select id="getOrdersByStatus" resultType="com.example.penstore.domain.Order">
-        SELECT o.*, g.name,g.image_url, oi.status,oi.quantity FROM `order` o
+        SELECT o.*, g.name,g.image_url, oi.status,oi.quantity,oi.price FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
         WHERE oi.shop_id = #{shop_id} AND oi.status = #{status}
@@ -46,7 +53,7 @@
     <!-- 搜索订单 -->
     <select id="getOrdersByQuery" parameterType="com.example.penstore.dto.OrderRequest"
             resultType="com.example.penstore.domain.Order">
-            SELECT DISTINCT o.* g.name,g.image_url, oi.status, oi.quantity
+            SELECT DISTINCT o.*, g.name,g.image_url, oi.status, oi.quantity, oi.price
             FROM `order` o
             JOIN order_items oi ON o.order_id = oi.order_id
             JOIN goods g ON oi.goods_id = g.id
@@ -60,13 +67,10 @@
             <if test="startDate != null and endDate != null and startDate != '' and endDate != ''">
                 AND o.created_at BETWEEN #{startDate} AND #{endDate}
             </if>
-            <if test="order_status != null and order_status != ''">
-                AND o.order_status = #{order_status}
-            </if>
             <if test="goodsName != null and goodsName != ''">
                 AND g.name LIKE CONCAT('%', #{goodsName}, '%')
             </if>
-            AND oi.shop_id = #{shop_id} AND oi.status = #{status}
+            AND oi.shop_id = #{shop_id}
         </select>
 
     <select id="findAddress" resultType="String">
@@ -80,7 +84,7 @@
             note,
             phone,
             created_at,
-            name,
+            username,
             order_status,
             amount
         ) VALUES (
@@ -90,7 +94,7 @@
                      #{note},
                      #{phone},
                      #{created_at},
-                     #{name},
+                     #{username},
                      #{order_status},
                      #{amount}
                  )

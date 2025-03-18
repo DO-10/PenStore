@@ -9,7 +9,9 @@ public class OrderItem {
     private String order_id;
 
     // 商品ID
-    private String productId;
+    private String goods_id;
+    // 商品名称
+    private String name;
 
     // 购买数量
     private int quantity;
@@ -51,12 +53,12 @@ public class OrderItem {
         this.order_id = order_id;
     }
 
-    public String getProductId() {
-        return productId;
+    public String getGoods_id() {
+        return goods_id;
     }
 
-    public void setProduct_id(String productId) {
-        this.productId = productId;
+    public void setGoods_id(String goods_id) {
+        this.goods_id = goods_id;
     }
 
     public int getQuantity() {
@@ -80,5 +82,11 @@ public class OrderItem {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

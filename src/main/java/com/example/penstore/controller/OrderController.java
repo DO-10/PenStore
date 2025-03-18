@@ -84,7 +84,7 @@ public class OrderController {
     public String checkout(@RequestParam("totalPrice") BigDecimal totalPrice,
                            @RequestParam("selectedProducts") String[] selectedProductIds,
                            @RequestParam("userId") String userId,
-                           @RequestParam("quantity")int[] quantity,
+                           @RequestParam("quantity")String[] quantity,
                            Model model) {
         // 获取选中的商品信息
         List<Goods> orderItems = goodsService.getProductsWithCartQuantities(selectedProductIds);
@@ -145,8 +145,8 @@ public class OrderController {
         User user = (User) session.getAttribute("user");
         String userId = user.getId();
         orderRequest.setUserId(userId);
-        String name=user.getUsername();
-        orderRequest.setName(name);
+        String username=user.getUsername();
+        orderRequest.setUserName(username);
         String finalAddress = "existing".equals(orderRequest.getAddressType()) ? orderRequest.getExistingAddress() : orderRequest.getNewAddress();
         orderRequest.setShipping_address(finalAddress);
         orderRequest.setOrder_status("待付款");

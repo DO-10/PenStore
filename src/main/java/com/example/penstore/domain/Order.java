@@ -13,6 +13,7 @@ public class Order {
     private String name;//商品名称
     private String shipping_address;
     private String payment_status;
+    private String price;
     private String order_status;
     private String tracking_number;
     private java.time.LocalDateTime created_at;
@@ -25,8 +26,9 @@ public class Order {
     private String delivery_time;
     private String status;
     private int quantity;
-    private String createdAt;
     private List<Goods> goodsList;
+
+
     public String getOrder_id() {
         return order_id;
     }
@@ -135,18 +137,17 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
     public List<Goods> getGoodsList() {
         return goodsList;
     }
     public void setGoodsList(List<Goods> goodsList) {
         this.goodsList = goodsList;
+    }
+    public String getPrice() {
+        return price;
+    }
+    public void setPrice(String price) {
+        this.price = price;
     }
   // 其他字段...
         private String productId;  // 新增商品ID字段

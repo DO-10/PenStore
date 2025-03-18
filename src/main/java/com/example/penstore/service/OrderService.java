@@ -122,7 +122,7 @@ public class OrderService {
             orderItem.setStatus("unpaid");
             orderItem.setShop_id(userId);
             orderItem.setOrder_id(orderId);
-            orderItem.setProduct_id(productId);
+            orderItem.setGoods_id(productId);
             int quantity = cartMapper.getProductQuantity(userId, productId);
             orderItem.setQuantity(quantity);
             orderItem.setPrice(product.getPrice());
@@ -162,8 +162,16 @@ public class OrderService {
 //    }
     // 获取用户订单
     public List<Order> getOrdersByUserId(String userId) {
-        return orderMapper.getOrdersByUserId(userId); // 获取用户订单
+        List<Order> orderList = orderMapper.getOrdersByUserId(userId);
+        for (Order order : orderList) {
+            List<Goods> goodsList = orderMapper.getGoodsByOrderId(order.getOrder_id());
+            order.setGoodsList(goodsList);
+        }
+        return orderList;// 获取用户订单
     }
+
+
+
     // 获取全部订单
     public List<Order> getOrders(String shop_id) {
         return orderMapper.getOrders(shop_id);
