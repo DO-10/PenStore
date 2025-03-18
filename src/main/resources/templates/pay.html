@@ -2,11 +2,89 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>订单支付</title>
+    <title>订单支付 - 在线商城</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .payment-title {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .payment-button {
+            background: #007bff;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .payment-button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .order-id-hint {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <a th:href="@{/order/pay}">支付</a>
+<div class="payment-container">
+    <h1 class="payment-title">订单支付</h1>
+
+    <form class="payment-form" th:action="@{/order/pay}" method="post">
+        <input type="hidden" name="orderId" th:value="${orderId}">
+
+        <!-- 可以添加更多支付信息 -->
+        <div class="order-id-hint">
+            订单号：<span th:text="${orderId}"></span>
+        </div>
+
+        <button type="submit" class="payment-button">
+            立即支付
+        </button>
+    </form>
 </div>
 </body>
 </html>

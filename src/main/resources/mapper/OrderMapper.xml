@@ -86,7 +86,8 @@
             created_at,
             username,
             order_status,
-            amount
+            amount,
+            name
         ) VALUES (
                      #{order_id},
                      #{user_id},
@@ -96,7 +97,8 @@
                      #{created_at},
                      #{username},
                      #{order_status},
-                     #{amount}
+                     #{amount},
+                     #{username}
                  )
     </insert>
     <insert id="insertOrderItem" parameterType="com.example.penstore.domain.OrderItem">
@@ -111,7 +113,7 @@
         ) VALUES (
                      #{order_items_id},
                      #{order_id},
-                     #{productId},
+                     #{goods_id},
                      #{quantity},
                      #{price},
                      #{status},
@@ -119,7 +121,7 @@
                  )
     </insert>
     <update id="payOrder">
-        UPDATE `order` SET order_status = 'paid' WHERE order_id = #{orderId}
+        UPDATE `order_items` SET status = 'unshipped' WHERE order_id = #{orderId}
     </update>
 
 </mapper>
