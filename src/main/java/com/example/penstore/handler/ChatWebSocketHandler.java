@@ -1,7 +1,7 @@
 // ChatWebSocketHandler.java
 package com.example.penstore.handler;
 
-import com.example.penstore.entity.ChatMessage;
+import com.example.penstore.domain.ChatMessage;
 import com.example.penstore.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;

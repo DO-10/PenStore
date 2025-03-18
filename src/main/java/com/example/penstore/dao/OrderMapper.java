@@ -1,6 +1,6 @@
 package com.example.penstore.dao;
 import java.util.List;
-import com.example.penstore.entity.Order;
+import com.example.penstore.domain.Order;
 import org.apache.ibatis.annotations.Mapper;
 import com.example.penstore.dto.OrderRequest;
 

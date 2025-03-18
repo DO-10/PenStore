@@ -1,4 +1,4 @@
-package com.example.penstore.entity;
+package com.example.penstore.domain;
 
 import org.springframework.stereotype.Component;
 

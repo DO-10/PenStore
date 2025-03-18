@@ -8,17 +8,17 @@
     </insert>
 
     <select id="signin" parameterType="com.example.penstore.dto.UserRequest"
-            resultType="com.example.penstore.entity.User">
+            resultType="com.example.penstore.domain.User">
         SELECT * FROM user WHERE email = #{email} AND password = #{password}
     </select>
 
-    <select id="a" resultType="com.example.penstore.entity.User">
+    <select id="a" resultType="com.example.penstore.domain.User">
         SELECT * FROM user
     </select>
     <select id="checkEmailExists" resultType="boolean">
         SELECT COUNT(*) FROM user WHERE email = #{email}
     </select>
-    <select id="getById" resultType="com.example.penstore.entity.User">
+    <select id="getById" resultType="com.example.penstore.domain.User">
         SELECT * FROM user WHERE id = #{id}
     </select>
     <update id="updateUser" parameterType="com.example.penstore.dto.UserRequest">

@@ -2,7 +2,7 @@
 package com.example.penstore.service;
 
 import com.example.penstore.dao.TransactionSnapshotMapper;
-import com.example.penstore.entity.TransactionSnapshot;
+import com.example.penstore.domain.TransactionSnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

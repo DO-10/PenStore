@@ -2,7 +2,7 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.entity.User;
+import com.example.penstore.domain.User;
 import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.UserService;
 import jakarta.servlet.http.HttpSession;

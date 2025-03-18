@@ -2,7 +2,7 @@ package com.example.penstore.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import com.example.penstore.entity.Comment;
+import com.example.penstore.domain.Comment;
 import com.example.penstore.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

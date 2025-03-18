@@ -1,7 +1,7 @@
 // TransactionSnapshotMapper.java
 package com.example.penstore.dao;
 
-import com.example.penstore.entity.TransactionSnapshot;
+import com.example.penstore.domain.TransactionSnapshot;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

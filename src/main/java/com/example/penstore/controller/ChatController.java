@@ -1,17 +1,15 @@
 // ChatController.java
 package com.example.penstore.controller;
 
-import com.example.penstore.entity.ChatMessage;
-import com.example.penstore.entity.User;
+import com.example.penstore.domain.ChatMessage;
+import com.example.penstore.domain.User;
 import com.example.penstore.service.ChatService;
 import com.example.penstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller

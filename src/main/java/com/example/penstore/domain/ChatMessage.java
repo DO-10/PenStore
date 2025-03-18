@@ -1,9 +1,8 @@
-package com.example.penstore.entity;
+package com.example.penstore.domain;
 
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 聊天消息实体（纯Java对象版本）

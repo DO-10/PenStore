@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.GoodsMapper">
-    <select id="getByCategory" resultType="com.example.penstore.entity.Goods">
+    <select id="getByCategory" resultType="com.example.penstore.domain.Goods">
         SELECT * FROM goods WHERE category_id = #{category_id}
     </select>
 
-    <select id="getById" resultType="com.example.penstore.entity.Goods">
+    <select id="getById" resultType="com.example.penstore.domain.Goods">
         SELECT * FROM goods WHERE id = #{id}
     </select>
 
-    <select id="getByInput" resultType="com.example.penstore.entity.Goods">
+    <select id="getByInput" resultType="com.example.penstore.domain.Goods">
         SELECT * FROM  goods WHERE name LIKE CONCAT('%', #{username}, '%')
     </select>
-    <select id="searchProducts" resultType="com.example.penstore.entity.Goods">
+    <select id="searchProducts" resultType="com.example.penstore.domain.Goods">
         SELECT id, name, price
         FROM goods
         WHERE name LIKE CONCAT('%', #{query}, '%')
     </select>
-    <select id="getProductsByIds" resultType="com.example.penstore.entity.Goods">
+    <select id="getProductsByIds" resultType="com.example.penstore.domain.Goods">
         SELECT id, name, price, description -- 选择特定字段
         FROM goods
         WHERE id IN
@@ -31,14 +31,14 @@
         VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{shop_id}, #{status})
     </insert>
 
-    <select id="getGoodsByShopId" resultType="com.example.penstore.entity.Goods">
+    <select id="getGoodsByShopId" resultType="com.example.penstore.domain.Goods">
         SELECT * FROM goods WHERE shop_id = #{shop_id}
     </select>
-    <select id="getGoodsByStatus" resultType="com.example.penstore.entity.Goods">
+    <select id="getGoodsByStatus" resultType="com.example.penstore.domain.Goods">
         SELECT * FROM goods WHERE status = #{status} AND shop_id = #{shop_id}
     </select>
     <select id="getGoodsByQuery" parameterType="com.example.penstore.dto.GoodsRequest"
-            resultType="com.example.penstore.entity.Goods">
+            resultType="com.example.penstore.domain.Goods">
         SELECT * FROM goods
         WHERE 1 = 1
         <if test="name != null and name != ''">  <!-- 检查空字符串 -->

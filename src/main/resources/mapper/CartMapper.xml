@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.CartMapper">
-    <select id="getCartItemsByUserId" resultType="com.example.penstore.entity.Goods">
+    <select id="getCartItemsByUserId" resultType="com.example.penstore.domain.Goods">
         SELECT p.id, p.name, p.description, p.price, c.quantity
         FROM cart c
         JOIN goods p ON c.goods_id = p.id
@@ -13,7 +13,7 @@
         INSERT INTO cart (id, user_id, goods_id, quantity) VALUES (#{id}, #{user_id}, #{product_id}, 1)
     </insert>
 
-    <select id="getChosenCartItemsByUserId" resultType="com.example.penstore.entity.Goods">
+    <select id="getChosenCartItemsByUserId" resultType="com.example.penstore.domain.Goods">
         SELECT p.id, p.name, p.price, c.quantity
         FROM cart c
                  JOIN goods p ON c.goods_id = p.id

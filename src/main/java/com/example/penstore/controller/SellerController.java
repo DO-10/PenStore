@@ -2,10 +2,10 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.entity.Goods;
-import com.example.penstore.entity.Order;
-import com.example.penstore.entity.TransactionSnapshot;
-import com.example.penstore.entity.User;
+import com.example.penstore.domain.Goods;
+import com.example.penstore.domain.Order;
+import com.example.penstore.domain.TransactionSnapshot;
+import com.example.penstore.domain.User;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.OrderRequest;
 import com.example.penstore.service.*;

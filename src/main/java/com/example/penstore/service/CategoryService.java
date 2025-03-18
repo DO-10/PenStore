@@ -1,7 +1,7 @@
 package com.example.penstore.service;
 
 import com.example.penstore.dao.CategoryMapper;
-import com.example.penstore.entity.Category;
+import com.example.penstore.domain.Category;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

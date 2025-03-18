@@ -1,7 +1,7 @@
 package com.example.penstore.service;
 
 import com.example.penstore.dao.GoodsMapper;
-import com.example.penstore.entity.Goods;
+import com.example.penstore.domain.Goods;
 import com.example.penstore.dto.GoodsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

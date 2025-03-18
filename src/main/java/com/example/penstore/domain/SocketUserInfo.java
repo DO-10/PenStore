@@ -1,4 +1,4 @@
-package com.example.penstore.entity;
+package com.example.penstore.domain;
 
 
 //在宋铁老师的视频里，说这个domain的包名在springboot里面最好要改成entity,要不要改一下呢

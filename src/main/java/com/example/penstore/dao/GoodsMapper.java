@@ -1,6 +1,6 @@
 package com.example.penstore.dao;
 
-import com.example.penstore.entity.Goods;
+import com.example.penstore.domain.Goods;
 import com.example.penstore.dto.GoodsRequest;
 import org.apache.ibatis.annotations.Mapper;
 

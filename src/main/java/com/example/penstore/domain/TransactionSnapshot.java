@@ -1,5 +1,5 @@
 // TransactionSnapshot.java
-package com.example.penstore.entity;
+package com.example.penstore.domain;
 
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;

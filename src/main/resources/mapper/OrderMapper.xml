@@ -24,20 +24,20 @@
     </insert>
 
     <!-- 根据用户ID获取订单 -->
-    <select id="getOrdersByUserId" resultType="com.example.penstore.entity.Order">
+    <select id="getOrdersByUserId" resultType="com.example.penstore.domain.Order">
         SELECT * FROM `order`
         WHERE user_id = #{userId}
     </select>
 
     <!-- 根据店铺获取全部订单 -->
-    <select id="getOrders" resultType="com.example.penstore.entity.Order">
+    <select id="getOrders" resultType="com.example.penstore.domain.Order">
         SELECT o.*, g.name, g.image_url, oi.status, oi.quantity FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
         WHERE oi.shop_id = #{shop_id}
     </select>
 <!--    根据状态获取订单-->
-    <select id="getOrdersByStatus" resultType="com.example.penstore.entity.Order">
+    <select id="getOrdersByStatus" resultType="com.example.penstore.domain.Order">
         SELECT o.*, g.name,g.image_url, oi.status,oi.quantity FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
@@ -45,7 +45,7 @@
     </select>
     <!-- 搜索订单 -->
     <select id="getOrdersByQuery" parameterType="com.example.penstore.dto.OrderRequest"
-            resultType="com.example.penstore.entity.Order">
+            resultType="com.example.penstore.domain.Order">
             SELECT DISTINCT o.* g.name,g.image_url, oi.status, oi.quantity
             FROM `order` o
             JOIN order_items oi ON o.order_id = oi.order_id
