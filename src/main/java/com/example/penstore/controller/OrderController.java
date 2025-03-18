@@ -159,12 +159,9 @@ public class OrderController {
         return "pay";
     }
     @PostMapping("/pay")
-    public void payOrder(@RequestParam("orderId") String orderId, Model model) {
-        // 支付订单
+    public String payOrder(@RequestParam("orderId") String orderId) {
         orderService.payOrder(orderId);
-
-        // 返回支付成功页面
-
+        return "redirect:/home"; // 推荐重定向防止重复提交
     }
 
 }
