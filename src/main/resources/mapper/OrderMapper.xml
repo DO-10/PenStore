@@ -30,8 +30,8 @@
     </select>
 
     <!-- 根据订单ID获取订单项 -->
-    <select id="getGoodsByOrderId" resultType="com.example.penstore.domain.OrderItem">
-        SELECT oi.*, g.name, g.description, g.price
+    <select id="getGoodsByOrderId" resultType="com.example.penstore.domain.Goods">
+        SELECT oi.*, g.name, g.description, g.price,g.id
         FROM order_items oi
                  JOIN goods g ON oi.goods_id = g.id
         WHERE oi.order_id = #{orderId}
