@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<div class="av">
+<div class="avatar">
   <h2>您的头像:</h2>
   <img th:src="@{/{imageName}(imageName=${session.user.avatar})}" alt="用户头像" width="100" height="100">
 </div>
@@ -40,32 +40,17 @@
   <!-- user_order.html -->
   <div class="tab-panel active" id="tab-1">
     <h2>您的订单:</h2>
-    <div th:each="order : ${orders}" class="order-item">
-      <div class="order-header">
-        <h3>订单 ID: [[${order.order_id}]]</h3>
-        <a class="snapshot-link"
-           th:href="@{/order/snapshot/{orderId}(orderId=${order.order_id})}">
-          查看交易快照
-        </a>
-      </div>
-
-      <h4>下单时间：[[${ordercreatedAt}]]</h4>
-
-      <ul class="product-list">
-        <li  th:each="goods : ${order.goodsList}">
-          [[${goods.name}]] -
-          数量: [[${goods.quantity}]] -
-          单价: ¥[[${#numbers.formatDecimal(goods.price, 1, 2)}]]
+    <div th:each="order : ${orders}">
+      <h3>订单 ID: [[${order.order_id}]]</h3>
+      <h4>下单时间：[[${order.created_at}]]</h4>
+      <ul>
+        <li th:each="goods : ${order.goodsList}">
+          [[${goods.name}]] - 数量: [[${goods.quantity}]] - 价格: [[${goods.price}]]
         </li>
       </ul>
-
-      <div class="order-footer">
-        <p class="total-price">
-          订单总额: ¥[[${#numbers.formatDecimal(order.total_price, 1, 2)}]]
-        </p>
-      </div>
     </div>
   </div>
+</div>
 
   <div class="tab-panel" id="tab-2">
     <h2>地址管理</h2>

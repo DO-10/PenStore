@@ -4,7 +4,7 @@
     <!-- SQL 语句 -->
     <insert id="insertSnapshot" parameterType="com.example.penstore.domain.TransactionSnapshot">
         INSERT INTO transaction_snapshot (id, user_id, user_name, product_id, total_price, created_at)
-        VALUES (#{id}, #{userId}, #{userName}, #{productId}, #{totalPrice}, #{createdAt})
+        VALUES (#{snapshotId}, #{userId}, #{userName}, #{productId}, #{price}, #{createdAt})
     </insert>
 
     <select id="findByUserId" resultType="com.example.penstore.domain.TransactionSnapshot">

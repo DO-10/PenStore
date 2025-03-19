@@ -2,6 +2,7 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
+import com.example.penstore.domain.Order;
 import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.FileService;
 import com.example.penstore.service.OrderService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @SessionAttributes("user")
@@ -24,7 +27,10 @@ public class MyPageController {
 
     @GetMapping
     public String myPage(@RequestParam String id, Model model) {
-        model.addAttribute("orders", orderService.getOrdersByUserId(id));
+        List<Order> orderList =  orderService.getOrdersByUserId(id);
+
+        model.addAttribute("orders", orderList);
+
         return Pages.MYPAGE;
     }
     @PostMapping("/changeInfo")

@@ -43,10 +43,9 @@
 </div>//次导航
 <div class="search">
     <form method="post">
-        <label class="searchlabel">订单号：<input th:type="text" th:name="orderid" class ="searchbox"></label>
-        <label class="searchlabel">买家：<input th:type="text" th:name="consumer" class ="searchbox"></label>
+        <label class="searchlabel">订单号：<input th:type="text" th:name="order_id" class ="searchbox"></label>
+        <label class="searchlabel">买家：<input th:type="text" th:name="username" class ="searchbox"></label>
         <label class="searchlabel">商品名称：<input th:type="text" th:name="name" class ="searchbox"></label>
-        <label class="searchlabel" th:if="${status == null}">订单状态：<input th:type="text" th:name="status" class ="searchbox"></label>
         <label class="searchlabel">下单时间：<input th:type="text" th:name="date" class ="searchbox"></label>
         <button th:type="submit" class="submit">搜索</button>
     </form>
@@ -86,17 +85,17 @@
                 <label th:text="${order.status}"></label>
                 <a th:href="@{未知连接}">订单详情</a>
             </span>
-            <label th:text="${order.amount}"></label>
+            <label th:text="${order.price}"></label>
             <span>
-                <div th:if="${order.order_status == 'unshipped'}">
+                <div th:if="${order.status == 'unshipped'}">
                     <button type="submit" class="submit">发货</button>//需要操作数据库减少库存
                     <button type="submit" class="submit">退款</button>
                 </div>
-                <div th:if="${order.order_status == 'unpaid'}">
+                <div th:if="${order.status == 'unpaid'}">
                      <button type="submit" class="submit">催付款</button>//发消息
                      <button type="submit" class="submit">关闭交易</button>//需要操作数据库增加在售
                 </div>
-                <div th:if="${order.order_status == 'completed'}">
+                <div th:if="${order.status == 'completed'}">
                     <button type="submit" class="submit">查看物流</button>
                 </div>
             </span>

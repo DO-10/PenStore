@@ -1,6 +1,7 @@
 package com.example.penstore.domain;
 
 import org.springframework.stereotype.Component;
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -12,9 +13,10 @@ public class Order {
     private String name;//商品名称
     private String shipping_address;
     private String payment_status;
+    private String price;
     private String order_status;
     private String tracking_number;
-    private String created_at;
+    private java.time.LocalDateTime created_at;
     private String updated_at;
     private String order_date;
     private String phone;
@@ -24,8 +26,9 @@ public class Order {
     private String delivery_time;
     private String status;
     private int quantity;
-    private String createdAt;
     private List<Goods> goodsList;
+
+
     public String getOrder_id() {
         return order_id;
     }
@@ -74,10 +77,10 @@ public class Order {
     public void setTracking_number(String tracking_number) {
         this.tracking_number = tracking_number;
     }
-    public String getCreated_at() {
+    public java.time.LocalDateTime getCreated_at() {
         return created_at;
     }
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(java.time.LocalDateTime created_at) {
         this.created_at = created_at;
     }
     public String getUpdated_at() {
@@ -134,18 +137,17 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
     public List<Goods> getGoodsList() {
         return goodsList;
     }
     public void setGoodsList(List<Goods> goodsList) {
         this.goodsList = goodsList;
+    }
+    public String getPrice() {
+        return price;
+    }
+    public void setPrice(String price) {
+        this.price = price;
     }
   // 其他字段...
         private String productId;  // 新增商品ID字段

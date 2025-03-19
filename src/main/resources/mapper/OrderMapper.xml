@@ -4,7 +4,7 @@
 <mapper namespace="com.example.penstore.dao.OrderMapper">
     <insert id="createOrder" parameterType="com.example.penstore.dto.OrderRequest">
         INSERT INTO `order` (order_id, user_id, shipping_address, created_at)
-        VALUES (#{orderId}, #{userId}, #{address}, NOW())
+        VALUES (#{order_id}, #{user_id}, #{address}, NOW())
     </insert>
 
     <!-- 根据产品ID获取购物车中的数量 -->
@@ -29,16 +29,23 @@
         WHERE user_id = #{userId}
     </select>
 
+    <!-- 根据订单ID获取订单项 -->
+    <select id="getGoodsByOrderId" resultType="com.example.penstore.domain.OrderItem">
+        SELECT oi.*, g.name, g.description, g.price
+        FROM order_items oi
+                 JOIN goods g ON oi.goods_id = g.id
+        WHERE oi.order_id = #{orderId}
+    </select>
     <!-- 根据店铺获取全部订单 -->
     <select id="getOrders" resultType="com.example.penstore.domain.Order">
-        SELECT o.*, g.name, g.image_url, oi.status, oi.quantity FROM `order` o
+        SELECT o.*, g.name, g.image_url, oi.status, oi.quantity, oi.price FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
         WHERE oi.shop_id = #{shop_id}
     </select>
 <!--    根据状态获取订单-->
     <select id="getOrdersByStatus" resultType="com.example.penstore.domain.Order">
-        SELECT o.*, g.name,g.image_url, oi.status,oi.quantity FROM `order` o
+        SELECT o.*, g.name,g.image_url, oi.status,oi.quantity,oi.price FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
         WHERE oi.shop_id = #{shop_id} AND oi.status = #{status}
@@ -46,33 +53,75 @@
     <!-- 搜索订单 -->
     <select id="getOrdersByQuery" parameterType="com.example.penstore.dto.OrderRequest"
             resultType="com.example.penstore.domain.Order">
-            SELECT DISTINCT o.* g.name,g.image_url, oi.status, oi.quantity
+            SELECT DISTINCT o.*, g.name,g.image_url, oi.status, oi.quantity, oi.price
             FROM `order` o
             JOIN order_items oi ON o.order_id = oi.order_id
             JOIN goods g ON oi.goods_id = g.id
             WHERE 1 = 1
-            <if test="orderId != null">
-                AND o.order_id = #{orderId}
+            <if test="order_id != null and order_id != ''">
+                AND o.order_id = #{order_id}
             </if>
-            <if test="username != null">
+            <if test="username != null and username != ''">
                 AND o.username LIKE CONCAT('%', #{username}, '%')
             </if>
-            <if test="startDate != null and endDate != null">
+            <if test="startDate != null and endDate != null and startDate != '' and endDate != ''">
                 AND o.created_at BETWEEN #{startDate} AND #{endDate}
             </if>
-            <if test="order_status != null">
-                AND o.order_status = #{order_status}
-            </if>
-            <if test="goodsName != null">
+            <if test="goodsName != null and goodsName != ''">
                 AND g.name LIKE CONCAT('%', #{goodsName}, '%')
             </if>
-            AND oi.shop_id = #{shop_id} AND oi.status = #{status}
+            AND oi.shop_id = #{shop_id}
         </select>
 
-
-
-
-
-
+    <select id="findAddress" resultType="String">
+        SELECT address FROM address WHERE user_id=#{userId}
+    </select>
+    <insert id="insertOrder" parameterType="com.example.penstore.dto.OrderRequest">
+        INSERT INTO `order` (
+            order_id,
+            user_id,
+            shipping_address,
+            note,
+            phone,
+            created_at,
+            username,
+            order_status,
+            amount,
+            name
+        ) VALUES (
+                     #{order_id},
+                     #{user_id},
+                     #{shipping_address},
+                     #{note},
+                     #{phone},
+                     #{created_at},
+                     #{username},
+                     #{order_status},
+                     #{amount},
+                     #{username}
+                 )
+    </insert>
+    <insert id="insertOrderItem" parameterType="com.example.penstore.domain.OrderItem">
+        INSERT INTO order_items (
+            order_items_id,
+            order_id,
+            goods_id,
+            quantity,
+            price,
+            status,
+            shop_id
+        ) VALUES (
+                     #{order_items_id},
+                     #{order_id},
+                     #{goods_id},
+                     #{quantity},
+                     #{price},
+                     #{status},
+                     #{shop_id}
+                 )
+    </insert>
+    <update id="payOrder">
+        UPDATE `order_items` SET status = 'unshipped' WHERE order_id = #{orderId}
+    </update>
 
 </mapper>

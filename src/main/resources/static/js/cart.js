@@ -93,10 +93,12 @@ $(document).ready(function() {
                     // 如果是增加或减少数量，更新数量显示
                     var newQuantity = response.newQuantity;
                     $('#'+productId).text(newQuantity);
+                    $('#quantity_' + productId).val(newQuantity);
                 }
 
                 // 更新总价格
                 $('#totalPrice').text(response.totalPrice);
+                $('#amount').val(response.totalPrice);
             },
             error: function (xhr, status, error) {
                 alert('操作失败，请稍后再试！');

@@ -9,10 +9,10 @@ public class TransactionSnapshot {
     private String snapshotId;
     private String orderId;
     private String userId;
-    private String username;
+    private String userName;
     private String productId;
 
-    private String shopId=userId;
+    private String shopId;
     private BigDecimal price; // 商品单价
     private int quantity;    // 商品数量
 
@@ -26,8 +26,8 @@ public class TransactionSnapshot {
     public void setOrderId(String orderId) { this.orderId = orderId; }
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
     public String getProductId() { return productId; }
     public void setProductId(String productId) { this.productId = productId; }
     public BigDecimal getTotalPrice() { return totalPrice; }

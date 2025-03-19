@@ -43,6 +43,8 @@
                 <tr th:each="goods : ${cartItems}" th:id="'product_' + ${goods.id}">
                     <td>
                         <input type="checkbox" class="product-checkbox" th:data-product-id="${goods.id}" name="selectedProducts" th:value="${goods.id}"/>
+                        <input type="hidden" name="quantity" th:id="'quantity_' + ${goods.id}" th:value="${goods.quantity}"/>
+
                     </td>
                     <td th:text="${goods.name}"></td>
                     <td th:text="${goods.description}"></td>
@@ -60,7 +62,7 @@
         </div>
         <div class="checkout">
             <h2>总价格: <span id="totalPrice" th:text="${totalPrice != null ? totalPrice : 0}"></span></h2>
-            <input type="hidden" name="totalPrice" th:value="${totalPrice != null ? totalPrice : 0}" />
+            <input type="hidden" name="totalPrice" th:id="amount"/>
             <button type="submit" class="submit" name="checkout" value="结算">结算</button>
         </div>
     </form>
