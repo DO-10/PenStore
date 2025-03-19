@@ -39,7 +39,7 @@
 
     <!-- 获取所有聊天记录（双方往来消息） -->
     <select id="selectAllChatMessages" resultType="com.example.penstore.domain.ChatMessage">
-        SELECT *
+        SELECT id, sender_id AS senderId, receiver_id AS receiverId, content, timestamp, is_read AS isRead,commentId
         FROM chat_messages
         WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId})
            OR (sender_id = #{receiverId} AND receiver_id = #{senderId})
