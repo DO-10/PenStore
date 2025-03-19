@@ -1,5 +1,7 @@
 package com.example.penstore.controller;
 
+import com.example.penstore.service.ChatService;
+import com.example.penstore.service.GoodsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.penstore.domain.Comment;
@@ -7,6 +9,9 @@ import com.example.penstore.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.penstore.domain.ChatMessage;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/api/comments")
@@ -14,10 +19,26 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ChatService chatService;
+    @Autowired
+    private  ChatMessage message;
+    @Autowired
+    private GoodsService goodsService;
 
     @PostMapping
     public ResponseEntity<?> createComment(@RequestBody Comment comment) {
         commentService.addComment(comment);
+        message.setContent(comment.getContent());
+        message.setReceiverId(goodsService.getById(comment.getGoodsId()).getShop_id());
+        message.setSenderId(comment.getUser_id());
+        message.setCommentId(comment.getId());
+        message.setTimestamp(LocalDateTime.now());
+        chatService.sendMessage(message);
+
+
+
+
         return ResponseEntity.ok().build();
     }
     @GetMapping("/submit")
