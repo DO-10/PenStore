@@ -1,6 +1,5 @@
 package com.example.penstore.dao;
 
-import com.example.penstore.domain.Cart;
 import com.example.penstore.domain.Goods;
 import com.example.penstore.dto.CartRequest;
 import com.example.penstore.dto.UserRequest;

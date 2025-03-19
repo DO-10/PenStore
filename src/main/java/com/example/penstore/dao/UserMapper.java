@@ -3,8 +3,6 @@ package com.example.penstore.dao;
 import com.example.penstore.domain.User;
 import com.example.penstore.dto.UserRequest;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
