@@ -33,6 +33,12 @@ public class MyPageController {
 
         return Pages.MYPAGE;
     }
+    @GetMapping("/{userId}")
+    public String myPageByPath(@PathVariable String userId, Model model) {
+        List<Order> orders = orderService.getOrdersByUserId(userId);
+        model.addAttribute("orders", orders);
+        return Pages.MYPAGE;
+    }
     @PostMapping("/changeInfo")
     public String myPageOperation(@ModelAttribute("userRequest") UserRequest userRequest, Model model) {
         String image_url = fileService.saveFile(userRequest.getAvatar(),"avatar");
