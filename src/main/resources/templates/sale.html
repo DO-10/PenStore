@@ -1,127 +1,121 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
   <title>销售看板</title>
-  <!-- 引入 Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- 引入 Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    .dashboard-header {
-      background-color: #f8f9fa;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-    .chart-container {
-      height: 400px;
-      margin: 20px 0;
-    }
-  </style>
+  <!-- 引入 Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/sale.css}">
 </head>
 <body>
-<div class="container-fluid">
+
+<!-- 统计卡片 -->
+<div class="stats-cards">
   <!-- 实时销售额 -->
-  <div class="dashboard-header">
-    <h1>销售看板</h1>
-    <div class="alert alert-success" role="alert">
-      今日实时销售额:
-      <span th:text="${#numbers.formatCurrency(realtimeSales)}">0</span>
-    </div>
-  </div>
-
-  <!-- 统计概览 -->
-  <div class="row mb-4">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">总销售额</h5>
-          <p class="card-text" th:text="${#numbers.formatCurrency(salesData.stats['totalSales'])}">0</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">总订单数</h5>
-          <p class="card-text" th:text="${salesData.stats['totalOrders']}">0</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">平均订单额</h5>
-          <p class="card-text" th:text="${#numbers.formatCurrency(salesData.stats['averageOrderAmount'])}">0</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 销售趋势图 -->
   <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">销售趋势</h5>
-      <div class="chart-container">
-        <canvas id="trendChart"></canvas>
-      </div>
-    </div>
+    <h3>实时销售额</h3>
+    <p th:text="${#numbers.formatCurrency(realtimeSales)}">0.00</p>
   </div>
 
-  <!-- 商品销售排行 -->
-  <div class="card mt-4">
-    <div class="card-body">
-      <h5 class="card-title">热销商品 TOP 10</h5>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>商品名称</th>
-          <th>销售数量</th>
-          <th>销售额</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product : ${salesData.topProducts}">
-          <td th:text="${product['productName']}">商品A</td>
-          <td th:text="${product['totalSold']}">100</td>
-          <td th:text="${#numbers.formatCurrency(product['totalSales'])}">￥1000</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- 总销售额 -->
+  <div class="card">
+    <h3>总销售额</h3>
+    <p th:text="${#numbers.formatCurrency(salesData.stats['totalSales'])}">0.00</p>
+  </div>
+
+  <!-- 总订单数 -->
+  <div class="card">
+    <h3>总订单数</h3>
+    <p th:text="${salesData.stats['orderCount']}">0</p>
+  </div>
+
+  <!-- 平均客单价 -->
+  <div class="card">
+    <h3>平均客单价</h3>
+    <p th:text="${#numbers.formatCurrency(salesData.stats['avgOrderValue'])}">0.00</p>
   </div>
 </div>
 
-<script>
-  // 销售趋势图初始化
-  document.addEventListener('DOMContentLoaded', function() {
-    const trendData = {
-      labels: [[${#strings.listJoin(salesData.trend.![date], ',')}]],
-      datasets: [{
-        label: '每日销售额',
-        data: [[${#strings.listJoin(salesData.trend.![totalSales], ',')}]],
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    };
+<!-- 趋势图表 -->
+<div class="chart-container">
+  <canvas id="salesTrendChart"></canvas>
+</div>
 
-    new Chart(document.getElementById('trendChart'), {
-      type: 'line',
-      data: trendData,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true
+<!-- 商品排行 -->
+<div class="product-ranking">
+  <h3>热销商品TOP10</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>排名</th>
+      <th>商品名称</th>
+      <th>销售额</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product, iter : ${salesData.topProducts}">
+      <td th:text="${iter.count}">1</td>
+      <td th:text="${product['product_name']}">商品A</td>
+      <td th:text="${#numbers.formatCurrency(product['total_sales'])}">$1000.00</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<script th:inline="javascript">
+  /* 初始化趋势数据 */
+  const trendData = {
+    labels: [[${salesData.trend.![salesDate]}]],
+    datasets: [{
+      label: '每日销售额',
+      data: [[${salesData.trend.![dailyAmount]}]],
+      borderColor: '#3498db',
+      backgroundColor: 'rgba(52, 152, 219, 0.1)',
+      borderWidth: 2,
+      tension: 0.3,
+      fill: true,
+      pointRadius: 4,
+      pointBackgroundColor: '#fff',
+      pointBorderColor: '#3498db'
+    }]
+
+  };
+
+  /* 渲染图表 */
+  new Chart(document.getElementById('salesTrendChart'), {
+    type: 'line',
+    data: trendData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: '近7天销售趋势',
+          font: { size: 16 }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#e9ecef' },
+          ticks: {
+            callback: function(value) { return '¥' + value },
+            font: { size: 12 }
           }
+        },
+        x: {
+          grid: { display: false }
         }
       }
-    });
+    }
   });
 </script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
