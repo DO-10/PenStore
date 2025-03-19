@@ -15,10 +15,17 @@ public class Goods {
     private String createTime;
     private String saleTime;
     private String status;
+    private String shop_id;
 
     public String getId() {
         return id;
     }
+
+    public void setShop_id(String shop_id) {this.shop_id = shop_id;}
+    public String getShop_id() {
+        return shop_id;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

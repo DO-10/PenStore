@@ -16,12 +16,15 @@ public class ChatMessage {
     private String content;      // 消息内容
     private LocalDateTime timestamp; // 发送时间
     private boolean isRead;      // 是否已读
+    private String commentId;
 
     // 无参构造方法（必须）
     public ChatMessage() {
     }
 
     // Getter & Setter 方法
+    public String getCommentId() {return commentId;}
+    public void setCommentId(String commentId) {this.commentId = commentId;}
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
