@@ -46,7 +46,11 @@
       <ul>
         <li th:each="goods : ${order.goodsList}">
           [[${goods.name}]] - 数量: [[${goods.quantity}]] - 价格: [[${goods.price}]]
+          <a th:href="@{/api/comments/submit(goodsId=${goods.id})}">去评论</a>
+<!--          查看快照-->
         </li>
+
+
       </ul>
     </div>
   </div>
