@@ -46,7 +46,9 @@
         <label class="searchlabel">订单号：<input th:type="text" th:name="order_id" class ="searchbox"></label>
         <label class="searchlabel">买家：<input th:type="text" th:name="username" class ="searchbox"></label>
         <label class="searchlabel">商品名称：<input th:type="text" th:name="name" class ="searchbox"></label>
-        <label class="searchlabel">下单时间：<input th:type="text" th:name="date" class ="searchbox"></label>
+        <label class="searchlabel">下单时间：<input th:type="datetime-local" name="startDate" class="searchbox"></label>
+        <label class="searchlabel">至<input th:type="datetime-local" name="endDate" class="searchbox"></label>
+
         <button th:type="submit" class="submit">搜索</button>
     </form>
 </div>

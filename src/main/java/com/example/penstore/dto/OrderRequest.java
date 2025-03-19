@@ -23,8 +23,8 @@ public class OrderRequest {
     private String images;
     private String delivery_time;
     private int number;
-    private String startDate;
-    private String endDate;
+    private String startDate;                 //封装开始时间
+    private String endDate;                   //封装结束时间
     private String goodsName;
     private String shop_id;                   //封装店铺id
     private String status;                    //传次导航参数
