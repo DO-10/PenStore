@@ -16,15 +16,13 @@
     </select>
     <select id="getDailySalesTrend" resultType="map">
         SELECT
-        <if test="_databaseId == 'mysql'">
-            DATE_FORMAT(o.created_at, '%Y-%m-%d') AS salesDate,
-        </if>
+        DATE_FORMAT(o.created_at, '%Y-%m-%d') AS salesDate,
         SUM(oi.quantity*oi.price) AS dailyAmount
         FROM `order` o
         JOIN order_items oi ON o.order_id=oi.order_id
-        WHERE o.created_at BETWEEN #{start} AND #{end}
-        GROUP BY DATE_FORMAT(o.created_at, '%Y-%m-%d')
-        ORDER BY DATE_FORMAT(o.created_at, '%Y-%m-%d') ASC
+        AND o.created_at BETWEEN #{start} AND #{end}
+        GROUP BY salesDate
+        ORDER BY salesDate ASC
     </select>
     <select id="getTopProducts" resultType="map">
         SELECT g.name AS product_name,SUM(oi.quantity) AS total_quantity,
@@ -34,7 +32,7 @@
             oi.goods_id=g.id
         GROUP BY
             oi.goods_id,g.name
-        ORDER BY total_quantity DESC
+        ORDER BY total_sales DESC
             LIMIT #{limit}
     </select>
     <select id="getTodaySales" resultType="java.math.BigDecimal">
