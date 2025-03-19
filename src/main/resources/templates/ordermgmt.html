@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>店家</title>
+    <link rel="stylesheet" th:href="@{/css/ordermgmt.css}">
+
 </head>
 <body>
 <div class="header">
     <div class="username">
         <span th:if="${session.user != null}">
-            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            欢迎, <a th:href="@{/mypage(id=${session.user.id})}" th:text="${session.user.username}"></a>
             <a th:href="@{/logout}">退出登录</a>
         </span>
         <span th:unless="${session.user != null}">
@@ -21,6 +23,7 @@
     <div class="utility">
         <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
         <a th:href="@{/customerService}">消息</a>
+        <a th:href="@{/sales}">销售</a>
     </div>
 </div>
 <div class="navigation">
@@ -54,57 +57,64 @@
 </div>
 <div class="orders">
     <div class="body">
-        <span class="title">订单</span>
-        <span class="title">数量</span>
+        <span class="title">商品</span>
+        <span class="title">订单信息</span>
         <span class="title">状态</span>
         <span class="title">金额</span>
         <span class="title">操作</span>
     </div>
+
     <div class="main" th:each="order: ${orders}">
+        <!-- 订单信息 -->
         <div class="info">
-            <span class="small"><label>订单编号：</label><label th:text="${order.order_id}"></label></span>
-            <span class="small"><label>下单时间：</label><label th:text="${order.created_at}"></label></span>
-            <span class="small"><label>买家：</label><label th:text="${order.username}"></label></span>
+            <span><label>订单编号：</label><label th:text="${order.order_id}"></label></span>
+            <span><label>下单时间：</label><label th:text="${order.created_at}"></label></span>
+            <span><label>买家：</label><label th:text="${order.username}"></label></span>
         </div>
-        <div class="body">
-            <image th:url="${order.image_url}"></image>
-            <p th:text="${order.name}"></p>
-<!--            <a th:href="@{等待圣遗物连接}">交易快照</a>-->
-            <a th:href="@{/seller/snapshot/{orderId}(orderId=${order.order_id})}" >交易快照</a>
 
-            <script>
-                function openSnapshot(orderId) {
-                    window.open(
-                        '/order/snapshot/' + orderId,
-                        '交易快照',
-                        'width=500,height=400,top=100,left=100'
-                    );
-                }
-            </script>
+        <!-- 订单内容 -->
+        <div class="order-content">
+            <!-- 商品图片 -->
+            <div class="image-container">
+                <img th:src="${order.image_url}" alt="商品图片" class="order-img">
+            </div>
 
-            <label th:text="${order.quantity}"></label>
-            <span>
-                <label th:text="${order.status}"></label>
-                <a th:href="@{未知连接}">订单详情</a>
-            </span>
-            <label th:text="${order.price}"></label>
-            <span>
+            <!-- 商品信息 -->
+            <div class="product-info">
+                <p class="product-name" th:text="${order.goodsName}"></p>
+                <a class="snapshot-link" th:href="@{/seller/snapshot/{orderId}(orderId=${order.order_id})}">交易快照</a>
+            </div>
+
+            <!-- 订单状态 -->
+            <div class="order-status">
+                <label th:if="${order.status == 'unpaid'}">未付款</label>
+                <label th:if="${order.status == 'unshipped'}">未发货</label>
+                <label th:if="${order.status == 'completed'}">已完成</label>
+                <label th:if="${order.status == 'closed'}">已关闭</label>
+            </div>
+
+            <!-- 订单金额 -->
+            <div class="order-price">
+                <label th:text="${order.price}"></label>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="order-actions">
                 <div th:if="${order.status == 'unshipped'}">
-                    <button type="submit" class="submit">发货</button>//需要操作数据库减少库存
-                    <button type="submit" class="submit">退款</button>
+                    <a th:href="@{/order/deliver(goodsId=${order.goods_id}, status=${status},id=${session.user.id})}"><button type="submit" class="submit">发货</button></a>
+                    <a th:href="@{/order/close(goodsId=${order.goods_id}, status=${status},id=${session.user.id})}"><button type="submit" class="submit">退款</button></a>
                 </div>
                 <div th:if="${order.status == 'unpaid'}">
-                     <button type="submit" class="submit">催付款</button>//发消息
-                     <button type="submit" class="submit">关闭交易</button>//需要操作数据库增加在售
+                    <button type="submit" class="submit">催付款</button>
+                    <a th:href="@{/order/close(goodsId=${order.goods_id}, status=${status},id=${session.user.id})}"><button type="submit" class="submit">关闭交易</button></a>
                 </div>
                 <div th:if="${order.status == 'completed'}">
                     <button type="submit" class="submit">查看物流</button>
                 </div>
-            </span>
-
-
+            </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

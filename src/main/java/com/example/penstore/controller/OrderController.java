@@ -1,6 +1,7 @@
 package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
+import com.example.penstore.constants.PathConstants;
 import com.example.penstore.domain.Goods;
 import com.example.penstore.domain.Order;
 import com.example.penstore.domain.TransactionSnapshot;
@@ -162,6 +163,22 @@ public class OrderController {
     public String payOrder(@RequestParam("orderId") String orderId) {
         orderService.payOrder(orderId);
         return "redirect:/home"; // 推荐重定向防止重复提交
+    }
+    @GetMapping("/deliver")
+    public String deliverOrder(@RequestParam("goodsId") String orderId, @RequestParam("status") String status, @RequestParam("id") String id) {
+        orderService.deliverOrder(orderId);
+        if(status.isEmpty()) {
+            return "redirect:"+ PathConstants.SELLER+PathConstants.ORDERMANAGEMENT+"/"+id; // 推荐重定向防止重复提交
+        }
+        return "redirect:"+ PathConstants.SELLER+PathConstants.ORDER+"/"+status+"/"+id; // 推荐重定向防止重复提交
+    }
+    @GetMapping("/close")
+    public String closeOrder(@RequestParam("goodsId") String orderId, @RequestParam("status") String status, @RequestParam("id") String id) {
+        orderService.closeOrder(orderId);
+        if(status.isEmpty()) {
+            return "redirect:"+ PathConstants.SELLER+PathConstants.ORDERMANAGEMENT+"/"+id; // 推荐重定向防止重复提交
+        }
+        return "redirect:"+ PathConstants.SELLER+PathConstants.ORDER+"/"+status+"/"+id; // 推荐重定向防止重复提交
     }
 
 }

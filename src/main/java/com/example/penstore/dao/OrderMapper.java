@@ -26,6 +26,8 @@ public interface OrderMapper {
     void insertOrder(OrderRequest orderRequest);
     void insertOrderItem(OrderItem orderItem);
     void payOrder(String orderId);
+    void deliverOrder(String orderId);
+    void closeOrder(String orderId);
 
 
 }

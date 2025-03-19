@@ -1,0 +1,205 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* 头部 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+}
+
+.username a,
+.utility a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.logo img {
+    height: 50px;
+}
+
+/* 导航栏 */
+.navigation, .classification {
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+    padding: 10px;
+}
+
+.navigation a,
+.classification a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    transition: background 0.3s ease;
+}
+
+.navigation a:hover,
+.classification a:hover {
+    background: #666;
+}
+
+/* 搜索框 */
+.search {
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.search label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.searchbox {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.submit {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background: #218838;
+}
+
+/* 订单部分 */
+.orders {
+    background: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 订单表头 */
+.body {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 10px;
+    background: #ddd;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 每个订单 */
+.main {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 订单信息条 */
+.info {
+    display: flex;
+    justify-content: space-between;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.info span {
+    margin-right: 15px;
+}
+
+/* 订单内容部分 */
+.order-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    align-items: center;
+}
+
+/* 图片 */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* 商品信息 */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.snapshot-link {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.snapshot-link:hover {
+    text-decoration: underline;
+}
+
+/* 状态、金额 */
+.order-status,
+.order-price {
+    text-align: center;
+    font-size: 14px;
+}
+
+/* 操作按钮部分 */
+.order-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+

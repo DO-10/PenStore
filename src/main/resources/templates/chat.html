@@ -84,7 +84,7 @@
 
 <script>
     const currentUserId = document.getElementById('currentUserId').value;
-    const websocket = new WebSocket(`ws://localhost:8080/chat?userId=${currentUserId}`);
+    const websocket = new WebSocket(`ws://100.69.127.1:8080/chat?userId=${currentUserId}`);
 
     websocket.onopen = function() {
         console.log('WebSocket connection opened');

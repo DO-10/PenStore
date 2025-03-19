@@ -15,6 +15,7 @@ public class Goods {
     private String createTime;
     private String saleTime;
     private String status;
+    private String shopId;
 
     public String getId() {
         return id;
@@ -81,6 +82,12 @@ public class Goods {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getShop_id() {
+        return shopId;
+    }
+    public void setShop_id(String shopId) {
+        this.shopId = shopId;
     }
 
 

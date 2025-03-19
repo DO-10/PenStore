@@ -37,7 +37,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         chatMessage.setTimestamp(LocalDateTime.now());
         chatService.sendMessage(chatMessage);
 
-        WebSocketSession receiverSession = sessions.get(chatMessage.getReceiverId());
+        WebSocketSession receiverSession = sessions.get(chatMessage.getReceiver_id());
         if (receiverSession != null && receiverSession.isOpen()) {
             receiverSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
         }

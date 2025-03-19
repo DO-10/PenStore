@@ -25,11 +25,11 @@ public class ChatMessage {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getSenderId() { return senderId; }
-    public void setSenderId(String senderId) { this.senderId = senderId; }
+    public String getSender_id() { return senderId; }
+    public void setSender_id(String senderId) { this.senderId = senderId; }
 
-    public String getReceiverId() { return receiverId; }
-    public void setReceiverId(String receiverId) { this.receiverId = receiverId; }
+    public String getReceiver_id() { return receiverId; }
+    public void setReceiver_id(String receiverId) { this.receiverId = receiverId; }
 
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
@@ -37,6 +37,6 @@ public class ChatMessage {
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 
-    public boolean getIsRead() { return isRead; }
-    public void setIsRead(boolean read) { isRead = read; }
+    public boolean getIs_read() { return isRead; }
+    public void setIs_read(boolean read) { isRead = read; }
 }

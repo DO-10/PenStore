@@ -9,8 +9,9 @@ import java.util.List;
 public class Order {
     private String order_id;
     private String user_id;
+    private String goods_id;
     private String username;
-    private String name;//商品名称
+    private String goodsName;//商品名称
     private String shipping_address;
     private String payment_status;
     private String price;
@@ -47,11 +48,11 @@ public class Order {
     public void setUsername(String username) {
         this.username = username;
     }
-    public String getName() {
-        return name;
+    public String getGoodsName() {
+        return goodsName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String goodsName) {
+        this.goodsName = goodsName;
     }
     public String getShipping_address() {
         return shipping_address;
@@ -153,4 +154,10 @@ public class Order {
         private String productId;  // 新增商品ID字段
         public String getProductId() { return productId; }
         public void setProductId(String productId) { this.productId = productId; }
+    public String getGoods_id() {
+        return goods_id;
+    }
+    public void setGoods_id(String goods_id) {
+        this.goods_id = goods_id;
+    }
 }

@@ -11,7 +11,7 @@ public class FileService {
     public String saveFile(MultipartFile file, String kind) {
         String dir = System.getProperty("user.dir");
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        File destFile = new File(dir + "/static/images/"+ kind + fileName);
+        File destFile = new File(dir + "/static/images/"+ kind +"/" + fileName);
         destFile.getParentFile().mkdirs();
         try {
             file.transferTo(destFile);
