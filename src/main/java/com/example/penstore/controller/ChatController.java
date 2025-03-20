@@ -34,7 +34,7 @@ public class ChatController {
                 otherUserId
         );
         chatService.markMessagesAsRead(currentUser.getId(), otherUserId);
-
+        System.out.println("使得"+ messages.get(0).getCommentId());
         model.addAttribute("otherUser", otherUser);
         model.addAttribute("messages", messages);
         model.addAttribute("currentUser", currentUser);
