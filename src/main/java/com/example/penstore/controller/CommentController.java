@@ -32,7 +32,7 @@ public class CommentController {
         message.setContent(comment.getContent());
         message.setReceiverId(goodsService.getById(comment.getGoodsId()).getShop_id());
         message.setSenderId(comment.getUser_id());
-        message.setCommentId(comment.getId());
+        message.setCommentId("goodsId="+comment.getGoodsId()+"&parentId="+comment.getId());
         message.setTimestamp(LocalDateTime.now());
         chatService.sendMessage(message);
 

@@ -71,6 +71,15 @@
             <div class="content">
                 <div class="sender" th:text="${message.senderId == currentUser.id ? 'You' : otherUser.username}">Sender</div>
                 <div th:text="${message.content}">Message content</div>
+                <div class="text">
+                    <a th:if="${message.commentId != null}"
+                       th:href="@{/api/comments/reply(
+     goodsId=${#strings.substringBefore(#strings.substringAfter(message.commentId,'goodsId='),'&')},
+     parentId=${#strings.substringAfter(message.commentId,'parentId=')}
+   )}">
+                        用户给你的商品评论啦（点击回复）
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -84,7 +93,7 @@
 
 <script>
     const currentUserId = document.getElementById('currentUserId').value;
-    const websocket = new WebSocket(`ws://100.69.127.1:8080/chat?userId=${currentUserId}`);
+    const websocket = new WebSocket(`ws://localhost:8080/chat?userId=${currentUserId}`);
 
     websocket.onopen = function() {
         console.log('WebSocket connection opened');
@@ -120,7 +129,6 @@
         } else {
             messageElement.classList.add('other');
         }
-
         messageElement.innerHTML = `
             <div class="content">
                 <div class="sender">${message.senderId === currentUserId ? 'You' : document.querySelector('h2').textContent}</div>
