@@ -3,16 +3,22 @@ package com.example.penstore.controller;
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
 import com.example.penstore.domain.Order;
+import com.example.penstore.domain.User;
 import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.FileService;
 import com.example.penstore.service.OrderService;
 import com.example.penstore.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @SessionAttributes("user")
@@ -47,4 +53,15 @@ public class MyPageController {
         model.addAttribute("user", userService.getById(userRequest.getId()));
         return Pages.MYPAGE;
     }
+    @PostMapping("/update")
+    @ResponseBody
+    public String updateAddress(
+            @RequestParam String userId,
+            @RequestParam String newAddress) {
+
+        // 直接调用服务层（假设服务层不做任何校验）
+        userService.addAddress(userId, newAddress);
+        return "地址更新成功"; // 直接返回字符串
+    }
+
 }

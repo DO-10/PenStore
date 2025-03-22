@@ -26,5 +26,9 @@
         SET avatar = #{avatarPath}, username = #{username}, password = #{password}
         WHERE id = #{id}
     </update>
+    <insert id="addAddress">
+        INSERT INTO address (user_id, address)
+        VALUES (#{userId}, #{address})
+    </insert>
 
 </mapper>

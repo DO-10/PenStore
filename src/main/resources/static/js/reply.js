@@ -27,7 +27,7 @@ $(document).ready(function () {
             data: JSON.stringify(payload),
             success: function (response) {
                 alert('回复提交成功');
-                window.location.href = `/goods/${goodsId}`; // 提交成功后跳转回商品页
+                window.location.href = `/customerService`;
             },
             error: function (xhr, status, error) {
                 console.error('提交失败:', error);
