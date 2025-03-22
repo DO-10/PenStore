@@ -63,5 +63,18 @@ public class MyPageController {
         userService.addAddress(userId, newAddress);
         return "地址更新成功"; // 直接返回字符串
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Map<String, Object>> deleteAddress(
+            @RequestParam String userId,
+            @RequestParam String address) {
+
+        Map<String, Object> response = new HashMap<>();
+
+            userService.deleteAddress(userId, address);
+            response.put("status", "success");
+            response.put("message", "地址删除成功");
+            return ResponseEntity.ok(response);
+
+    }
 
 }

@@ -74,3 +74,62 @@ body {
 .av {
     margin-left: 20px;
 }
+/*地址模块*/
+.address-list {
+    margin-bottom: 20px;
+}
+
+.address-block {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.address-content {
+    flex-grow: 1;
+    margin-right: 15px;
+}
+
+/* 表单样式 */
+.form-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#newAddress {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.message {
+    font-size: 14px;
+    margin-top: 10px;
+}
+/* 删除按钮样式 */
+.btn-delete {
+    background: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-delete:hover {
+    background: #ff7875;
+}
+
+/* 地址块悬停效果 */
+.address-block:hover {
+    transform: translateX(5px);
+    transition: transform 0.3s;
+}
