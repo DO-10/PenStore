@@ -51,5 +51,10 @@ public class UserService {
 
     public void updateUser(UserRequest userRequest) {userMapper.updateUser(userRequest);}
 
+    //更新地址
+    public void addAddress(String userId, String address) {
+        userMapper.addAddress(userId,address);
+    }
+
 
 }

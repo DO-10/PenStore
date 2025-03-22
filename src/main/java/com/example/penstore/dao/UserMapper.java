@@ -22,5 +22,6 @@ public interface UserMapper {
 
     User getById(String id);
     void updateUser(UserRequest userRequest);
+    void addAddress(String userId, String address);
 }
 

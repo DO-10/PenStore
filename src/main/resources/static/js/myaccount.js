@@ -25,24 +25,13 @@ $(document).ready(function(){
         const userId = $("#userId").val();
         const newAddress = $("#newAddress").val();
 
-        if (!newAddress.trim()) {
-            alert("地址不能为空！");
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "changeAddressServlet",
-            data: {
-                userId: userId,
-                newAddress: newAddress,
-            },
-            success: function (response) {
-                $("#responseMessage").text(response).css("color", "green");
-            },
-            error: function () {
-                $("#responseMessage").text("更新失败，请稍后重试。").css("color", "red");
-            },
+        $.post("/mypage/update", {
+            userId: userId,
+            newAddress: newAddress
+        }, function(response) {
+            $("#responseMessage").css("color", "green").text(response);
+        }).fail(function() {
+            $("#responseMessage").css("color", "red").text("更新失败");
         });
     });
 });
