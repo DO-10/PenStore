@@ -74,7 +74,8 @@ public class SellerController {
     }
     //请求添加/修改商品页面
     @GetMapping(PathConstants.GOODSMANAGEMENT+"/{id}")
-    public String updateGoods(@PathVariable String id) {
+    public String updateGoods(@PathVariable String id, Model model) {
+        model.addAttribute("goods", goodsService.getById(id));
         return Pages.NEWGOODS;
     }
     @PostMapping(PathConstants.GOODSMANAGEMENT+"/{id}")//请求添加/修改商品
@@ -154,6 +155,7 @@ public class SellerController {
         model.addAttribute("status", status);
         return Pages.GOODSMANAGEMENT;
     }
+    //上架下架删除商品
     @GetMapping(PathConstants.GOODSMANAGEMENT+"/{operation}/{id}")
     public String goods(@PathVariable String operation, Model model, @PathVariable String id/*, @RequestParam String status*/) {
         String shop_id = id;
@@ -163,10 +165,9 @@ public class SellerController {
         }
         else {
             goodsService.updateGoods(id, operation, shop_id);
+            model.addAttribute("goods", goodsService.getGoodsByShopId(shop_id));
             return Pages.GOODSMANAGEMENT;
         }
-//        List<Goods> goodsList = goodsService.getGoodsByStatus(status,shop_id);
-//        model.addAttribute("goods", goodsList);
 
     }
     @GetMapping(PathConstants.SHOPMANAGEMENT+PathConstants.CATEGORYMANAGEMENT+"/{id}")

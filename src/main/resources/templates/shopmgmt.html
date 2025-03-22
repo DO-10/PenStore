@@ -191,7 +191,7 @@
 <div class="header">
     <div class="username">
         <span th:if="${session.user != null}">
-            欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
+            欢迎, <a th:href="@{/mypage(id=${session.user.id})}" th:text="${session.user.username}"></a>
             <a th:href="@{/logout}">退出登录</a>
         </span>
         <span th:unless="${session.user != null}">
@@ -225,8 +225,8 @@
         <div class="section">
             <h3 class="section-title">店铺管理</h3>
             <div class="link-group">
-                <a th:href="@{/seller/shopmanagement/{id}(id=${shop.shopid})}" id="shop-info-link">店铺信息</a>
-                <a th:href="@{/seller/shopmanagement/{id}(id=${shop.shopid}, activeSection='edit')}" id="shop-edit-link">修改店铺</a>
+                <a th:href="@{/seller/shopmanagement/info(id=${session.user.id}, activeSection='info')}" id="shop-info-link">店铺信息</a>
+                <a th:href="@{/seller/shopmanagement/edit(id=${session.user.id}, activeSection='edit')}" id="shop-edit-link">修改店铺</a>
             </div>
         </div>
 
@@ -234,14 +234,14 @@
             <h3 class="section-title">商品管理</h3>
             <div class="link-group">
                 <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
-                <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+                <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品详情</a>
             </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">店铺打理</h3>
             <div class="link-group">
-                <a th:href="@{/seller/shopmanagement/{id}(id=${shop.shopid}, method=${shop.method},activeSection='customize')}" id="customize-link">自定义</a>
+                <a th:href="@{/seller/shopmanagement/customize(id=${session.user.id})}" id="customize-link">自定义</a>
             </div>
         </div>
 

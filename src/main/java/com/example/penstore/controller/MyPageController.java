@@ -46,12 +46,16 @@ public class MyPageController {
         return Pages.MYPAGE;
     }
     @PostMapping("/changeInfo")
+    @ResponseBody
     public String myPageOperation(@ModelAttribute("userRequest") UserRequest userRequest, Model model) {
         String image_url = fileService.saveFile(userRequest.getAvatar(),"avatar");
         userRequest.setAvatarPath(image_url);
         userService.updateUser(userRequest);
         model.addAttribute("user", userService.getById(userRequest.getId()));
-        return Pages.MYPAGE;
+//        // 更新用户信息后，重新获取订单列表
+//        List<Order> orderList = orderService.getOrdersByUserId(userRequest.getId());
+//        model.addAttribute("orders", orderList);
+        return "用户信息更新成功";
     }
     @PostMapping("/update")
     @ResponseBody

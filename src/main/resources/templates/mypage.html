@@ -70,9 +70,10 @@
     <h2>账户管理</h2>
     <form th:action="@{/mypage/changeInfo}" method="post" enctype="multipart/form-data">
       <input type="hidden" name="id" th:value="${session.user.id}">
-      <label>用户名:<input type="text" name="username" th:placeholder="${session.user.username}"></label>
+      <label>用户名:<input type="text" name="username" th:value="${session.user.username}"></label>
       <label>头像：<input type="file" name="avatar"></label>
-      <label>密码：<input type="password" name="password" th:placeholder="${session.user.password}"></label>
+      <label>密码：<input type="password" name="password" th:value="${session.user.password}"></label>
+      <label>电话：<input type="text" name="phone" th:value="${session.user.phone ?: ''}"></label>
       <button type="submit">更新信息</button>
     </form>
   </div>

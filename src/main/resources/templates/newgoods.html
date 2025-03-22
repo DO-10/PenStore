@@ -11,33 +11,33 @@
   <form class="product-form" th:action="@{/seller/goodsmanagement/{id}(id=${session.user.id})}" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label>商品种类：</label>
-      <select name="category_id">
-        <option th:value="1" th:text="书写"></option>
-        <option th:value="2" th:text="书法"></option>
-        <option th:value="3" th:text="绘画"></option>
-        <option th:value="4" th:text="儿童"></option>
-        <option th:value="5" th:text="相关"></option>
+      <select name="category_id" required>
+        <option th:value="1" th:selected="${goods?.category_id == 1}" th:text="书写"></option>
+        <option th:value="2" th:selected="${goods?.category_id == 2}" th:text="书法"></option>
+        <option th:value="3" th:selected="${goods?.category_id == 3}" th:text="绘画"></option>
+        <option th:value="4" th:selected="${goods?.category_id == 4}" th:text="儿童"></option>
+        <option th:value="5" th:selected="${goods?.category_id == 5}" th:text="相关"></option>
       </select>
     </div>
 
     <div class="form-group">
       <label>商品名称：</label>
-      <input type="text" name="name" required>
+      <input type="text" name="name" th:placeholder="${goods?.name ?: '请输入商品名称'}" required>
     </div>
 
     <div class="form-group">
       <label>价格：</label>
-      <input type="number" name="price" step="0.01" required>
+      <input type="number" name="price" step="0.01" th:placeholder="${goods?.price ?: '请输入商品价格'}" required>
     </div>
 
     <div class="form-group">
       <label>商品详情：</label>
-      <textarea name="description" rows="3"></textarea>
+      <textarea name="description" rows="3" th:placeholder="${goods?.description ?: '请输入商品描述'}"></textarea>
     </div>
 
     <div class="form-group">
       <label>数量：</label>
-      <input type="number" name="stock" required>
+      <input type="number" name="stock" th:placeholder="${goods?.quantity ?: '请输入商品数量'}" required>
     </div>
 
     <div class="form-group">
@@ -47,9 +47,9 @@
 
     <div class="form-group">
       <label>状态：</label>
-      <select name="status">
-        <option value="available">上架出售</option>
-        <option value="unsold">暂不上架</option>
+      <select name="status" required>
+        <option value="available" th:selected="${goods?.status == 'available'}">立即出售</option>
+        <option value="unsold" th:selected="${goods?.status == 'unsold'}">暂不上架</option>
       </select>
     </div>
 

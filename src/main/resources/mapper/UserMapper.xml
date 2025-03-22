@@ -23,7 +23,7 @@
     </select>
     <update id="updateUser" parameterType="com.example.penstore.dto.UserRequest">
         UPDATE user
-        SET avatar = #{avatarPath}, username = #{username}, password = #{password}
+        SET avatar = #{avatarPath}, username = #{username}, password = #{password}, phone = #{phone}
         WHERE id = #{id}
     </update>
     <insert id="addAddress">

@@ -16,6 +16,7 @@ public class Goods {
     private String saleTime;
     private String status;
     private String shopId;
+    private String categoryId;
 
     public String getId() {
         return id;
@@ -88,6 +89,12 @@ public class Goods {
     }
     public void setShop_id(String shopId) {
         this.shopId = shopId;
+    }
+    public String getCategory_id() {
+        return categoryId;
+    }
+    public void setCategory_id(String categoryId) {
+        this.categoryId = categoryId;
     }
 
 
