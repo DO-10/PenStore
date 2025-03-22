@@ -23,5 +23,7 @@ public interface UserMapper {
     User getById(String id);
     void updateUser(UserRequest userRequest);
     void addAddress(String userId, String address);
+
+    void deleteAddress(String userId, String address);
 }
 

@@ -58,6 +58,10 @@
 
   <div class="tab-panel" id="tab-2">
     <h2>地址管理</h2>
+    <!-- 新增地址展示容器 -->
+    <div id="addressList" class="address-list">
+      <!-- 地址块将动态插入此处 -->
+    </div>
     <form id="addressForm">
       <input type="hidden" id="userId" th:value="${session.user.id}">
       <input type="text" id="newAddress" placeholder="请输入新地址" required>
