@@ -2,10 +2,7 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.Order;
-import com.example.penstore.domain.TransactionSnapshot;
-import com.example.penstore.domain.User;
+import com.example.penstore.domain.*;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.OrderRequest;
 import com.example.penstore.service.*;
@@ -14,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(PathConstants.SELLER)
@@ -33,16 +33,43 @@ public class SellerController {
     private FileService fileService;
     @Autowired
     private TransactionSnapshotService snapshotService;
+    @Autowired
+    private SalesService salesService;
 
     @GetMapping("/{id}")//请求卖家页面
-    public String seller(@PathVariable String id, Model model) {
+    public String seller(@PathVariable String id, @RequestParam(required = false) String period, Model model) {
         model.addAttribute("user", userService.getById(id));
+        String method=shopService.getShopMethodById(String.valueOf(1));
+        Shop shop=shopService.getShopById(String.valueOf(1));
+        model.addAttribute("shop",shop);
+        model.addAttribute("method",method);
+
+            LocalDate startDate = LocalDate.now().minusDays(7);
+            LocalDate endDate = LocalDate.now();
+
+            if ("month".equals(period)) {
+                startDate = LocalDate.now().minusMonths(1);
+            } else if ("year".equals(period)) {
+                startDate = LocalDate.now().minusYears(1);
+            }
+
+            Map<String, Object> salesData = salesService.getSalesOverview(startDate, endDate);
+            BigDecimal realtimeSales = salesService.getRealtimeSales();
+            model.addAttribute("realtimeSales", realtimeSales);
+            model.addAttribute("salesData", salesData);
+            model.addAttribute("period", period != null ? period : "week");
+//            return Pages.SALE;
+
         return Pages.DASHBOARD;
     }
     @GetMapping(PathConstants.SHOPMANAGEMENT+"/{id}")//请求店铺管理页面
-    public String shopManagement(@PathVariable String id, Model model) {
-        //根据userid找到店铺(等待固件完成）
-//        model.addAttribute("shop",shopService.getShopByUserId(id));
+    public String shopManagement(@PathVariable String id,
+                                 @RequestParam(value = "activeSection",required = false) String activeSection,
+                                 @RequestParam(value = "method",required = false) String method,
+                                 Model model) {
+        Shop shop = shopService.getShopById(id);
+        model.addAttribute("shop", shop);
+        model.addAttribute("activeSection", activeSection);
         return Pages.SHOPMANAGEMENT;
     }
     //请求添加/修改商品页面
@@ -95,6 +122,8 @@ public class SellerController {
     //请求商品管理页面
     @GetMapping(PathConstants.SHOPMANAGEMENT+PathConstants.GOODSMANAGEMENT+"/{id}")
     public String goodsManagement(@PathVariable String id, Model model) {
+        Shop shop = shopService.getShopById(id);
+        model.addAttribute("shop", shop);
         String shop_id = id;
         model.addAttribute("goods", goodsService.getGoodsByShopId(shop_id));
         return Pages.GOODSMANAGEMENT;

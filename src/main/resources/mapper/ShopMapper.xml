@@ -1,6 +1,29 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- resources/mapper/SalesMapper.xml -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.ShopMapper">
-
+    <resultMap id="ShopResult" type="com.example.penstore.domain.Shop">
+        <id property="shopid" column="shopid"/>
+        <result property="shopname" column="shopname"/>
+        <result property="shopphone" column="shopphone"/>
+        <result property="salesman" column="salesman"/>
+        <result property="introduction" column="introduction"/>
+        <result property="license" column="license"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <resultMap id="PictureResult" type="com.example.penstore.dto.PictureRequest">
+        <id property="picid" column="picid"/>
+        <result property="picture" column="picture" jdbcType="VARCHAR"/>
+        <!--  确保类型匹配  -->
+    </resultMap>
+    <select id="getShopMethodById" parameterType="com.example.penstore.dto.ShopRequest" resultType="java.lang.String"> SELECT method FROM shop where shopid=#{shopid} </select>
+    <select id="getPictures" resultMap="PictureResult"> SELECT * FROM pic </select>
+    <insert id="insertPicture" parameterType="com.example.penstore.dto.PictureRequest"> INSERT INTO pic (picture) VALUES (#{picture}) </insert>
+    <delete id="deletePicture" parameterType="string"> DELETE FROM pic WHERE picid = #{picid} </delete>
+    <update id="updateShopMethodById" parameterType="com.example.penstore.dto.ShopRequest"> UPDATE shop set method=#{method} where shopid=#{shopid} </update>
+    <insert id="insertShop" parameterType="com.example.penstore.domain.Shop"> INSERT INTO shop (shopid, shopname, shopphone, salesman, introduction, license, status) VALUES (#{shopid}, #{shopname}, #{shopphone}, #{salesman}, #{introduction}, #{license}, #{status}) </insert>
+    <update id="updateShop" parameterType="com.example.penstore.domain.Shop"> UPDATE shop SET shopname = #{shopname}, shopphone = #{shopphone}, salesman = #{salesman}, introduction = #{introduction}, license = #{license}, status = #{status} WHERE shopid = #{shopid} </update>
+    <select id="getShopById" parameterType="string" resultMap="ShopResult"> SELECT * FROM shop WHERE shopid = #{shopid} </select>
+    <select id="getAllShops" resultMap="ShopResult"> SELECT * FROM shop </select>
 </mapper>

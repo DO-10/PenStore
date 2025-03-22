@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;  /* 白色背景 */
+    color: #333333;  /* 深灰色文本 */
+    margin: 0;
+    padding: 0;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+}
+.username a,
+.utility a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.logo img {
+    height: 50px;
+}
+.navigation, .classification {
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+    padding: 10px;
+}
+
+.navigation a,
+.classification a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    transition: background 0.3s ease;
+}
+
+.navigation a:hover,
+.classification a:hover {
+    background: #666;
+}

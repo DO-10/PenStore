@@ -1,6 +1,10 @@
-package com.example.penstore.domain;
+package com.example.penstore.dto;
 
-public class Shop {
+import org.springframework.stereotype.Component;
+
+@Component
+public class ShopRequest {
+
 
     private String shopname;
     private String shopphone;
@@ -8,19 +12,8 @@ public class Shop {
     private String introduction;
     private String license;
     private String shopid;
-    private String status; // 新增状态字段
+    private String status;
 
-    private String method;
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
-    // getters and setters
     public String getStatus() {
         return status;
     }
@@ -36,7 +29,29 @@ public class Shop {
     public void setShopid(String shopid) {
         this.shopid = shopid;
     }
+    private String method;
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+    public ShopRequest()
+    {
+
+    }
+    public ShopRequest(String shopid, String shopname, String shopphone, String salesman, String introduction, String license, String status,String method) {
+        this.shopid = shopid;
+        this.shopname = shopname;
+        this.shopphone = shopphone;
+        this.salesman = salesman;
+        this.introduction = introduction;
+        this.license = license;
+        this.status = status;
+        this.method=method;
+    }
     public String getShopname() {
         return shopname;
     }

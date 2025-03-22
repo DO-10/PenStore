@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>店家</title>
+    <link rel="stylesheet" th:href="@{/css/goodsmgmt.css}">
 </head>
 <body>
 <div class="header">
-  <div class="username">
+    <div class="username">
         <span th:if="${session.user != null}">
             欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
             <a th:href="@{/logout}">退出登录</a>
         </span>
-    <span th:unless="${session.user != null}">
+        <span th:unless="${session.user != null}">
             你好， <a th:href="@{/logsign}">请登录</a>
         </span>
-  </div>
-  <div class="logo">
-    <img th:src="@{/images/logo.png}" alt="peiahuishi">
-  </div>
-  <div class="utility">
-    <a th:href="@{/customerService}">消息</a>
-  </div>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo1.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/customerService}">消息</a>
+    </div>
 </div>
 <div class="navigation">
     <div class="dashboard">
@@ -34,65 +36,102 @@
         <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
     </div>
 </div>
-<div class="shop">
-    <div class="sub">
-        <label>店铺信息</label>
-        <a th:href="@{seller/shopmanagement/{id}(id=${session.user.id})}">查看</a>
-        <a th:href="@{等待固件连接}">修改</a>
-    </div>
-    <div class="sub">
-        <label>商品管理</label>
-        <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
-        <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
-    </div>
-    <div class="sub">
-        <label>店铺打理</label>
-        <a th:href="@{等待固件连接}">店铺外观</a>
-        <a th:href="@{等待固件连接}">人员管理</a>
-    </div>
-</div>
-<div class="status">
-    <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">全部商品</a>
-    <a th:href="@{/seller/shopmanagement/goodsmanagement/available/{id}(id=${session.user.id})}">在售</a>
-    <a th:href="@{/seller/shopmanagement/goodsmanagement/unsold/{id}(id=${session.user.id})}">未售</a>
-</div>
-<div class="search">
-    <form method="post">
-        <label>商品名称：<input th:type="text" th:name="name"></label>
-        <label>商品编号：<input th:type="text" th:name="id"></label>
-        <label>商品分类：<input th:if="${status == null}" th:type="text" th:name="category"></label>
-        <label>商品价格：<input th:type="text" th:name="price"><input th:type="text" th:name="price"></label>
-        <button th:type="submit" class="submit">搜索</button>
-    </form>
-</div>
-<a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">
-    <button type="button" class="submit">添加商品</button>
-</a>
-<div class="goodslist">
-    <div class="column">
-        <label>商品名称</label>
-        <label>商品价格</label>
-        <label>商品库存</label>
-        <label>商品销量</label>
-        <label>入库时间</label>
-        <label>发售时间</label>
-        <label>操作</label>
-    </div>
-    <div class="goods" th:each="goods: ${goods}">
-        <image th:if="${goods.image_url}" th:src="@{/{imageName}(imageName=${goods.image_url})}" alt="商品图片"></image>
-        <label th:text="${goods.name}"></label>
-        <label th:text="${goods.price}"></label>
-        <label th:text="${goods.stock}"></label>
-        <label th:text="${goods.sales}"></label>
-        <label th:text="${goods.createTime}"></label>
-        <label th:text="${goods.saleTime}"></label>
-        <div class="operation">
-        <a th:href="@{/seller/goodsmanagement/update/{id}(id=${goods.id})}">编辑商品</a>
-        <a th:if="${goods.status == 'unsold'}" th:href="@{/seller/goodsmanagement/available/{id}(id=${goods.id})}">立即上架</a>
-        <a th:if="${goods.status == 'available'}" th:href="@{/seller/goodsmanagement/unsold/{id}(id=${goods.id})}">立即下架</a>
-        <a th:href="@{/seller/goodsmanagement/delete/{id}(id=${goods.id})}">删除商品</a>
+<div class="container">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <div class="section">
+            <h3 class="section-title">店铺管理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/info(id=${session.user.id}, activeSection='info')}" id="shop-info-link">店铺信息</a>
+                <a th:href="@{/seller/shopmanagement/edit(id=${session.user.id}, activeSection='edit')}" id="shop-edit-link">修改店铺</a>
+            </div>
         </div>
+
+        <div class="section">
+            <h3 class="section-title">商品管理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
+                <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">店铺打理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/customize(id=${session.user.id})}" id="customize-link">自定义</a>
+            </div>
+        </div>
+
     </div>
+
+    <!-- 右侧内容区域 -->
+    <div class="content">
+        <div class="status">
+            <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">全部商品</a>
+            <a th:href="@{/seller/shopmanagement/goodsmanagement/available/{id}(id=${session.user.id})}">在售</a>
+            <a th:href="@{/seller/shopmanagement/goodsmanagement/unsold/{id}(id=${session.user.id})}">未售</a>
+        </div>
+        <div class="search">
+            <form method="post">
+                <label>商品名称：<input th:type="text" th:name="name"></label>
+                <label>商品编号：<input th:type="text" th:name="id"></label>
+                <label>商品分类：<input th:if="${status == null}" th:type="text" th:name="category"></label>
+                <label>商品价格：<input th:type="text" th:name="price">——<input th:type="text" th:name="price"></label>
+                <button th:type="submit" class="submit">搜索</button>
+            </form>
+        </div>
+        <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">
+            <button type="button" class="submit">添加商品</button>
+        </a>
+        <div class="goodslist">
+            <div class="column">
+                <label>商品图片</label>
+                <label>商品名称</label>
+                <label>商品价格</label>
+                <label>商品库存</label>
+                <label>商品销量</label>
+                <label>入库时间</label>
+                <label>发售时间</label>
+                <label>操作</label>
+            </div>
+            <div class="goods" th:each="goods: ${goods}">
+                <img th:if="${goods.image_url}" th:src="@{/{imageName}(imageName=${goods.image_url})}" alt="商品图片">
+                <label th:text="${goods.name}"></label>
+                <label th:text="${goods.price}"></label>
+                <label th:text="${goods.stock}"></label>
+                <label th:text="${goods.sales}"></label>
+                <label th:text="${goods.createTime}"></label>
+                <label th:text="${goods.saleTime}"></label>
+                <div class="operation">
+                    <a th:href="@{/seller/goodsmanagement/update/{id}(id=${goods.id})}">编辑商品</a>
+                    <a th:if="${goods.status == 'unsold'}" th:href="@{/seller/goodsmanagement/available/{id}(id=${goods.id})}">立即上架</a>
+                    <a th:if="${goods.status == 'available'}" th:href="@{/seller/goodsmanagement/unsold/{id}(id=${goods.id})}">立即下架</a>
+                    <a th:href="@{/seller/goodsmanagement/delete/{id}(id=${goods.id})}">删除商品</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    <!--    &lt;!&ndash; 商品管理部分 &ndash;&gt;-->
+    <!--    <div id="goods-add-content" th:if="${activeSection == 'addgoods'}">-->
+    <!--        <h2>商品管理</h2>-->
+    <!--        <div class="card">-->
+    <!--            <h3>商品种类</h3>-->
+    <!--            <ul class="goods-list">-->
+    <!--                <li th:each="good : ${goods}">-->
+    <!--                    <span th:text="${good.name}"></span>-->
+    <!--                    <span th:text="${good.description}"></span>-->
+    <!--                    <span th:text="${good.price}"></span>-->
+    <!--                </li>-->
+    <!--            </ul>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+
+
+</div>
+
 </div>
 </body>
 </html>

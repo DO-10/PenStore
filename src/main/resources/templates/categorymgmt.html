@@ -3,24 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <title>店家</title>
+    <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;  /* 白色背景 */
+    color: #333333;  /* 深灰色文本 */
+    margin: 0;
+    padding: 0;
+    }
+    .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    }
+    .username a,
+    .utility a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    }
+
+    .logo img {
+    height: 50px;
+    }
+    .navigation, .classification {
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+    padding: 10px;
+    }
+
+    .navigation a,
+    .classification a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    transition: background 0.3s ease;
+    }
+
+    .navigation a:hover,
+    .classification a:hover {
+    background: #666;
+    }
+    .container {
+    display: flex;
+    gap: 20px; /* 添加列之间的间隔 */
+    }
+    .sidebar {
+    width: 200px;
+    border-right: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 10px;
+    }
+    .content {
+    flex: 1;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    }
+    .section {
+    margin-bottom: 20px;
+    }
+    .section-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    }
+    .link-group {
+    margin-bottom: 15px;
+    }
+    .link-group a {
+    display: block;
+    padding: 8px 5px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    }
+    .link-group a:hover {
+    background-color: #f0f0f0;
+    }
+    .link-group a.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    }
+    .category {
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    /* 分类表单 */
+    .insert form {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .insert input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .submit {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .submit:hover {
+        background-color: #45a049;
+    }
+
+    /* 分类列表 */
+    .category-list {
+        margin-top: 15px;
+    }
+
+    /* 父类 */
+    .parent-category {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    /* 子类 */
+    .child-category {
+        margin-left: 20px;
+        padding-left: 10px;
+        border-left: 2px solid #ccc;
+    }
+
+    .child-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 5px;
+    }
+
+    .child-item {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    /* 文字样式 */
+    .category-title {
+        font-weight: bold;
+        color: #333;
+        margin-right: 10px;
+    }
+
+    .category-name {
+        margin-right: 10px;
+        color: #555;
+    }
+
+    /* 删除按钮 */
+    .delete-btn {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .delete-btn:hover {
+        background-color: #c0392b;
+    }
+
+    </style>
 </head>
 <body>
 <div class="header">
-  <div class="username">
+    <div class="username">
         <span th:if="${session.user != null}">
             欢迎, <a th:href="@{/mypage}" th:text="${session.user.username}"></a>
             <a th:href="@{/logout}">退出登录</a>
         </span>
-    <span th:unless="${session.user != null}">
+        <span th:unless="${session.user != null}">
             你好， <a th:href="@{/logsign}">请登录</a>
         </span>
-  </div>
-  <div class="logo">
-    <img th:src="@{/images/logo.png}" alt="peiahuishi">
-  </div>
-  <div class="utility">
-    <a th:href="@{/customerService}">消息</a>
-  </div>
+    </div>
+    <div class="logo">
+        <img th:src="@{/images/logo1.png}" alt="peiahuishi">
+    </div>
+    <div class="utility">
+        <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
+        <a th:href="@{/customerService}">消息</a>
+    </div>
 </div>
 <div class="navigation">
   <div class="dashboard">
@@ -34,52 +227,76 @@
     <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
   </div>
 </div>
-<div class="shop">
-    <div class="sub">
-        <label>店铺信息</label>
-        <a th:href="@{seller/shopmanagement/{id}(id=${session.user.id})}">查看</a>
-        <a th:href="@{等待固件连接}">修改</a>
-    </div>
-    <div class="sub">
-        <label>商品管理</label>
-        <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
-        <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
-    </div>
-    <div class="sub">
-        <label>店铺打理</label>
-        <a th:href="@{等待固件连接}">店铺外观</a>
-        <a th:href="@{等待固件连接}">人员管理</a>
-    </div>
-</div>
-<div class="category">
-  <div class="insert">
-    <form method="post">
-      <label>父类 <input type="text" name="parent"> </label>
-      <label>子类 <input type="text" name="child"> </label>
-      <button th:type="submit" th:class="submit">添加</button>
-    </form>
-  </div>
-  <div th:each="parent : ${categories}" th:class="category">
-   <span>
-    <label>父类</label><label th:text="${parent.name}"></label>
-       <form th:action="@{/seller/categorymanagement/delete/{id}(id=${parent.id})}" method="post">
-            <input type="hidden" name="shopId" th:value="${session.user.id}">
-            <button type="submit">删除</button>
-        </form>
-   </span>
-      <div th:if="${parent.children}">
-    <label>子类</label>
-    <span th:each="child : ${parent.children}">
-    <label th:text="${child.name}"></label>
-        <form th:action="@{/seller/categorymanagement/delete/{id}(id=${child.id})}" method="post">
-                <input type="hidden" name="shopId" th:value="${session.user.id}">
-                <button type="submit">删除</button>
-            </form>
-    </span>
-      </div>
-  </div>
-</div>
+<div class="container">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <div class="section">
+            <h3 class="section-title">店铺管理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/info(id=${session.user.id}, activeSection='info')}" id="shop-info-link">店铺信息</a>
+                <a th:href="@{/seller/shopmanagement/edit(id=${session.user.id}, activeSection='edit')}" id="shop-edit-link">修改店铺</a>
+            </div>
+        </div>
 
+        <div class="section">
+            <h3 class="section-title">商品管理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
+                <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+            </div>
+        </div>
 
+        <div class="section">
+            <h3 class="section-title">店铺打理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/customize(id=${session.user.id})}" id="customize-link">自定义</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 右侧内容区域 -->
+    <div class="content">
+        <div class="category">
+            <!-- 添加分类 -->
+            <div class="insert">
+                <form method="post">
+                    <label>父类 <input type="text" name="parent"> </label>
+                    <label>子类 <input type="text" name="child"> </label>
+                    <button type="submit" class="submit">添加</button>
+                </form>
+            </div>
+
+            <!-- 分类列表 -->
+            <div class="category-list">
+                <div th:each="parent : ${categories}" class="category-item">
+                    <div class="parent-category">
+                        <span class="category-title">父类</span>
+                        <span class="category-name" th:text="${parent.name}"></span>
+                        <form th:action="@{/seller/categorymanagement/delete/{id}(id=${parent.id})}" method="post">
+                            <input type="hidden" name="shopId" th:value="${session.user.id}">
+                            <button type="submit" class="delete-btn">删除</button>
+                        </form>
+                    </div>
+
+                    <div class="child-category" th:if="${parent.children}">
+                        <span class="category-title">子类</span>
+                        <div class="child-list">
+                            <div th:each="child : ${parent.children}" class="child-item">
+                                <span class="category-name" th:text="${child.name}"></span>
+                                <form th:action="@{/seller/categorymanagement/delete/{id}(id=${child.id})}" method="post">
+                                    <input type="hidden" name="shopId" th:value="${session.user.id}">
+                                    <button type="submit" class="delete-btn">删除</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>

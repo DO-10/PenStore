@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>店家</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/sale.css}">
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="header">
@@ -16,15 +22,14 @@
         </span>
     </div>
     <div class="logo">
-        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+        <img th:src="@{/images/logo1.png}" alt="peiahuishi">
     </div>
     <div class="utility">
         <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
         <a th:href="@{/customerService}">消息</a>
     </div>
 </div>
-
-    <div class="navigation">
+<div class="navigation">
         <div class="dashboard">
             <a th:href="@{/seller/{id}(id=${session.user.id})}" >主页</a>
         </div>
@@ -35,69 +40,111 @@
             <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
         </div>
     </div>
-        <div class="rate">
-            <a th:href="@{/workerAnswer}">后台客服</a><-----!这里是新加的后台客服按钮------>
-            <div class="purchase">lala</div>
-            <div class="profit">haha</div>
-        </div>
-        <div class="order">
-            <span>
-                <div class="1">
-                    <label th:text="${待付款}"></label>
-                    <label th:text="待付款"></label>
-                </div>
-            </span>
-            <span>
-                <div class="1">
-                    <label th:text="${待发货}"></label>
-                    <label th:text="待发货"></label>
-                </div>
-            </span>
-            <span>
-                <div class="1">
-                    <label th:text="${待退款}"></label>
-                    <label th:text="退款"></label>
-                </div>
-            </span>
-            <span>
-                <div class="1">
-                    <label th:text="${异常}"></label>
-                    <label th:text="异常"></label>
-                </div>
-            </span>
-        </div>
-        <div class="goods">
-            <span>
-                <div class="1">
-                    <label th:text="${全部商品}"></label>
-                    <label th:text="全部商品"></label>
-                </div>
-            </span>
-            <span>
-                <div class="1">
-                    <label th:text="${在库}"></label>
-                    <label th:text="在库"></label>
-                </div>
-            </span>
-            <span>
-                <div class="1">
-                    <label th:text="${在售}"></label>
-                    <label th:text="在售"></label>
-                </div>
-            </span>
-            <span>
-                <div class="1">
-                    <label th:text="${异常}"></label>
-                    <label th:text="异常"></label>
-                </div>
-            </span>
-        </div>
-        <div class="3" th:text="${number}">haha</div>
-        <div class="4">
-            <p th:text="${goods}">lala</p>
-        </div>
+
+<!-- 统计卡片 -->
+<div class="stats-cards">
+    <!-- 实时销售额 -->
+    <div class="card">
+        <h3>实时销售额</h3>
+        <p th:text="${#numbers.formatCurrency(realtimeSales)}">0.00</p>
     </div>
-    <div class="orderinfo"></div>
-    <div class="consumerinfo"></div>
+
+    <!-- 总销售额 -->
+    <div class="card">
+        <h3>总销售额</h3>
+        <p th:text="${#numbers.formatCurrency(salesData.stats['totalSales'])}">0.00</p>
+    </div>
+
+    <!-- 总订单数 -->
+    <div class="card">
+        <h3>总订单数</h3>
+        <p th:text="${salesData.stats['orderCount']}">0</p>
+    </div>
+
+    <!-- 平均客单价 -->
+    <div class="card">
+        <h3>平均客单价</h3>
+        <p th:text="${#numbers.formatCurrency(salesData.stats['avgOrderValue'])}">0.00</p>
+    </div>
+</div>
+
+<!-- 趋势图表 -->
+<div class="chart-container">
+    <canvas id="salesTrendChart"></canvas>
+</div>
+
+<!-- 商品排行 -->
+<div class="product-ranking">
+    <h3>热销商品TOP10</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>排名</th>
+            <th>商品名称</th>
+            <th>销售额</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product, iter : ${salesData.topProducts}">
+            <td th:text="${iter.count}">1</td>
+            <td th:text="${product['product_name']}">商品A</td>
+            <td th:text="${#numbers.formatCurrency(product['total_sales'])}">$1000.00</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:inline="javascript">
+    /* 初始化趋势数据 */
+    const trendData = {
+        labels: [[${salesData.trend.![salesDate]}]],
+    datasets: [{
+        label: '每日销售额',
+        data: [[${salesData.trend.![dailyAmount]}]],
+    borderColor: '#3498db',
+        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+        borderWidth: 2,
+        tension: 0.3,
+        fill: true,
+        pointRadius: 4,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#3498db'
+    }]
+
+    };
+
+    /* 渲染图表 */
+    new Chart(document.getElementById('salesTrendChart'), {
+        type: 'line',
+        data: trendData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: '近7天销售趋势',
+                    font: { size: 16 }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#e9ecef' },
+                    ticks: {
+                        callback: function(value) { return '¥' + value },
+                        font: { size: 12 }
+                    }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>

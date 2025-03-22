@@ -2,7 +2,190 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>店家</title>
+    <title>店铺管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;  /* 白色背景 */
+            color: #333333;  /* 深灰色文本 */
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+        .username a,
+        .utility a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+        .navigation, .classification {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px;
+        }
+
+        .navigation a,
+        .classification a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            transition: background 0.3s ease;
+        }
+
+        .navigation a:hover,
+        .classification a:hover {
+            background: #666;
+        }
+        .container {
+            display: flex;
+            gap: 20px; /* 添加列之间的间隔 */
+        }
+        .sidebar {
+            width: 200px;
+            border-right: 1px solid #ccc;
+            background-color: #f9f9f9;
+            padding: 10px;
+        }
+        .content {
+            flex: 1;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .link-group {
+            margin-bottom: 15px;
+        }
+        .link-group a {
+            display: block;
+            padding: 8px 5px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-bottom: 5px;
+        }
+        .link-group a:hover {
+            background-color: #f0f0f0;
+        }
+        .link-group a.active {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+        /*.card {*/
+        /*    background-color: #f9f9f9;*/
+        /*    border-radius: 5px;*/
+        /*    padding: 15px;*/
+        /*    margin-bottom: 20px;*/
+        /*}*/
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: calc(100% - 30px); /* 确保内容与边框有间隔 */
+            margin-left: 15px; /* 左边距 */
+            margin-right: 15px; /* 右边距 */
+        }
+
+        .edit-form {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            /*display: none;*/
+        }
+        .active-form {
+            display: block;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-group button {
+            flex: 1;
+            margin: 0 5px;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        #modify-btn {
+            width: 180px; /* 增加宽度 */
+            padding: 10px 25px; /* 增加内边距 */
+            font-size: 16px; /* 增加字体大小 */
+        }
+        button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100px; /* 统一按钮宽度 */
+            text-align: center; /* 文本居中 */
+        }
+
+        #return-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #return-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        #return-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        button.active {
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+        }
+
+        .goods-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .goods-list li {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .goods-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
 <div class="header">
@@ -16,12 +199,11 @@
         </span>
     </div>
     <div class="logo">
-        <img th:src="@{/images/logo.png}" alt="peiahuishi">
+        <img th:src="@{/images/logo1.png}" alt="peiahuishi">
     </div>
     <div class="utility">
         <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
-        <a th:href="@{/cart}">购物车</a>
-        <a th:href="@{/customerService}">客服</a>
+        <a th:href="@{/customerService}">消息</a>
     </div>
 </div>
 <div class="navigation">
@@ -35,40 +217,256 @@
         <a th:href="@{/seller/ordermanagement/{id}(id=${session.user.id})}">订单管理</a>
     </div>
 </div>
-<div class="shop">
-    <div class="sub">
-        <label>店铺信息</label>
-        <a th:href="@{seller/shopmanagement/{id}(id=${session.user.id})}">查看</a>
-        <a th:href="@{等待固件连接}">修改</a>
-    </div>
-    <div class="sub">
-        <label>商品管理</label>
-        <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
-        <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
-    </div>
-    <div class="sub">
-        <label>店铺打理</label>
-        <a th:href="@{等待固件连接}">店铺外观</a>
-        <a th:href="@{等待固件连接}">人员管理</a>
-    </div>
-</div>
+<!-- 在 HTML 中添加一个隐藏元素 -->
+<input type="hidden" id="shop-id" th:value="${shop.shopid}">
+<div class="container">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar">
+        <div class="section">
+            <h3 class="section-title">店铺管理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/{id}(id=${shop.shopid})}" id="shop-info-link">店铺信息</a>
+                <a th:href="@{/seller/shopmanagement/{id}(id=${shop.shopid}, activeSection='edit')}" id="shop-edit-link">修改店铺</a>
+            </div>
+        </div>
 
-<!--等待固件补充-->
-<!--<div class="card">-->
-<!--    <div class="avatar">-->
-<!--        <image></image>-->
-<!--    </div>-->
-<!--    <span>名称：<label th:text="${shop.name}"></label></span>-->
-<!--    <span>简介：<label th:text="${shop.description}"></label></span>-->
-<!--    <span>联系方式：<label th:text="${shop.contact}"></label></span>-->
-<!--    <span>人员：<label th:each="member: ${shop.member}" th:text="${shop.member.name}"></label></span>-->
-<!--    <span>名称：<label th:text="${shop.name}"></label></span>-->
-<!--    <span>执照：<label th:text="${shop.licence}"></label></span>-->
-<!--</div>-->
+        <div class="section">
+            <h3 class="section-title">商品管理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/categorymanagement/{id}(id=${session.user.id})}">商品种类</a>
+                <a th:href="@{/seller/shopmanagement/goodsmanagement/{id}(id=${session.user.id})}">商品个体</a>
+            </div>
+        </div>
 
-<!--<div class="addgoods">-->
-<!--    <a th:href="@{/seller/goodsmanagement/{id}(id=${session.user.id})}">添加商品</a>-->
-<!--</div>-->
+        <div class="section">
+            <h3 class="section-title">店铺打理</h3>
+            <div class="link-group">
+                <a th:href="@{/seller/shopmanagement/{id}(id=${shop.shopid}, method=${shop.method},activeSection='customize')}" id="customize-link">自定义</a>
+            </div>
+        </div>
 
+    </div>
+
+    <!-- 右侧内容区域 -->
+    <div class="content">
+        <!-- 店铺信息部分 -->
+        <div id="shop-info-content" th:if="${activeSection == 'info' || activeSection == null}">
+            <h2>店铺信息</h2>
+            <div class="card">
+                <p>名称：<label th:text="${shop.shopname}"></label></p>
+                <p>简介：<label th:text="${shop.introduction}"></label></p>
+                <p>联系方式：<label th:text="${shop.shopphone}"></label></p>
+                <p>负责人：<label th:text="${shop.salesman}"></label></p>
+                <p>执照：<label th:text="${shop.license}"></label></p>
+                <p>状态：<label th:text="${shop.status}"></label></p>
+            </div>
+
+        </div>
+
+        <!-- 修改店铺信息的表单 -->
+        <div id="shop-edit-content" class="edit-form" th:if="${activeSection == 'edit'}">
+            <h2>编辑店铺信息</h2>
+            <form th:action="@{/seller/shopmanagement/update(id=${shop.shopid})}" th:object="${shop}" method="post">
+                <div class="form-group">
+                    <label>店铺ID：<input type="text" th:field="*{shopid}" style="width: 100%; padding: 5px;"></label>
+                </div>
+                <div class="form-group">
+                    <label>店铺名称：<input type="text" th:field="*{shopname}" style="width: 100%; padding: 5px;"></label>
+                </div>
+                <div class="form-group">
+                    <label>联系电话：<input type="text" th:field="*{shopphone}" style="width: 100%; padding: 5px;"></label>
+                </div>
+                <div class="form-group">
+                    <label>负责人：<input type="text" th:field="*{salesman}" style="width: 100%; padding: 5px;"></label>
+                </div>
+                <div class="form-group">
+                    <label>店铺简介：<textarea th:field="*{introduction}" style="width: 100%; height: 100px; padding: 5px;"></textarea></label>
+                </div>
+                <div class="form-group">
+                    <label>营业执照：<input type="text" th:field="*{license}" style="width: 100%; padding: 5px;"></label>
+                </div>
+                <div class="form-group">
+                    <label>状态：
+                        <select th:field="*{status}" style="width: 100%; padding: 5px;">
+                            <option value="正常">正常</option>
+                            <option value="停业">停业</option>
+                        </select>
+                    </label>
+                </div>
+                <button type="submit">保存修改</button>
+<!--                <button type="button" id="cancel-edit-button">取消</button>-->
+            </form>
+        </div>
+
+
+        <!-- 店铺打理部分 -->
+        <div id="customize-content" th:if="${activeSection == 'customize'}">
+            <h2>店铺打理</h2>
+            <div class="card">
+                <h3>自定义</h3>
+                <div class="form-group">
+                    <button id="carousel-btn">轮播</button>
+                    <button id="thumbnail-btn">缩略图</button>
+                    <button id="single-btn">单张</button>
+                    <button id="multiple-btn">多张</button>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <button id="modify-btn">修改</button>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+
+    </div>
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        // 获取 shop.shopid 的值-->
+<!--        const shopId = document.getElementById('shop-id').value;-->
+<!--console.log(111)-->
+<!--        // 获取URL中的activeSection参数-->
+<!--        const urlParams = new URLSearchParams(window.location.search);-->
+<!--        const activeSection = urlParams.get('activeSection') || 'info';-->
+<!--        const style = urlParams.get('method') || 'carousel';-->
+<!--        // const style = urlParams.get('method');-->
+
+<!--        // 根据activeSection设置默认显示的部分-->
+<!--        if (activeSection === 'info') {-->
+<!--            document.getElementById('shop-info-link').classList.add('active');-->
+<!--        } else if (activeSection === 'edit') {-->
+<!--            document.getElementById('shop-edit-link').classList.add('active');-->
+<!--        } else if (activeSection === 'goods') {-->
+<!--            document.getElementById('goods-list-link').classList.add('active');-->
+
+<!--        }-->
+<!--        else if (activeSection === 'customize') {-->
+<!--            document.getElementById('customize-link').classList.add('active');-->
+<!--        }-->
+
+
+
+<!--        // 点击导航链接时更新内容-->
+<!--        document.getElementById('shop-info-link').addEventListener('click', function(event) {-->
+<!--            event.preventDefault();-->
+<!--            document.querySelectorAll('.link-group a').forEach(link => link.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            console.log("info")-->
+<!--            window.location.href = '/seller/shopmanagement/info?id=' + shopId + '&activeSection=info';-->
+<!--        });-->
+
+
+
+<!--        document.getElementById('shop-edit-link').addEventListener('click', function(event) {-->
+<!--            event.preventDefault();-->
+<!--            document.querySelectorAll('.link-group a').forEach(link => link.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            console.log("edit");-->
+<!--            window.location.href = '/seller/shopmanagement/edit?id=' + shopId + '&activeSection=edit';-->
+<!--        });-->
+<!--        // document.getElementById('edit-shop-button').addEventListener('click', function(event) {-->
+<!--        //     // event.preventDefault();-->
+<!--        //     // document.querySelectorAll('.link-group a').forEach(link => link.classList.remove('active'));-->
+<!--        //     // document.getElementById('shop-edit-link').classList.add('active');-->
+<!--        //     // window.location.href = '/seller/shopmanagement/edit?id=' + shopId + '&activeSection=edit';-->
+<!--        // });-->
+<!--        document.getElementById('goods-list-link').addEventListener('click', function(event) {-->
+<!--            // event.preventDefault();-->
+<!--            document.querySelectorAll('.link-group a').forEach(link => link.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            console.log("goods")-->
+<!--            window.location.href = '/seller/shopmanagement/goods?id=' + shopId + '&activeSection=goods';-->
+<!--        });-->
+
+<!--        // document.getElementById('add-goods-link').addEventListener('click', function(event) {-->
+<!--        //     event.preventDefault();-->
+<!--        //     document.querySelectorAll('.link-group a').forEach(link => link.classList.remove('active'));-->
+<!--        //     this.classList.add('active');-->
+<!--        //     window.location.href = '/seller/shopmanagement/addgoods?id=' + shopId + '&activeSection=addgoods';-->
+<!--        // });-->
+
+
+
+<!--        document.getElementById('customize-link').addEventListener('click', function(event) {-->
+<!--            // event.preventDefault();-->
+<!--            document.querySelectorAll('.link-group a').forEach(link => link.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+
+<!--            window.location.href = '/seller/shopmanagement/customize?id=' + shopId + '&activeSection=customize'+ '&method='+style;-->
+<!--        });-->
+
+
+
+
+<!--        // 点击“修改”按钮时跳转到 shop.html-->
+<!--        document.getElementById('modify-btn').addEventListener('click', function(event) {-->
+<!--            event.preventDefault();-->
+<!--            // const shopId = document.getElementById('shop-id').value;-->
+<!--            window.location.href = '/seller/shopmanagement/shop?id=' + shopId + '&style=' + style+ '&from=revise';-->
+<!--        });-->
+
+<!--        // 根据activeSection设置默认显示的部分-->
+<!--        if (style === 'carousel') {-->
+<!--            document.getElementById('carousel-btn').classList.add('active');-->
+<!--        } else if (style === 'thumbnail') {-->
+<!--            document.getElementById('thumbnail-btn').classList.add('active');-->
+<!--        } else if (style === 'single') {-->
+<!--            document.getElementById('single-btn').classList.add('active');-->
+<!--        } else if (style === 'multiple') {-->
+<!--            document.getElementById('multiple-btn').classList.add('active');-->
+<!--        }-->
+
+
+
+
+<!--        // 点击样式选择按钮时更新样式-->
+<!--        document.getElementById('carousel-btn').addEventListener('click', function(event) {-->
+
+<!--            // updateStyle('carousel');-->
+<!--            event.preventDefault();-->
+<!--            document.querySelectorAll('.form-group button').forEach(button => button.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            console.log("car button")-->
+<!--            window.location.href = '/seller/shopmanagement/updatemethod?id=' + shopId + '&method=carousel' + '&activeSection=customize';-->
+
+<!--        });-->
+
+<!--        document.getElementById('thumbnail-btn').addEventListener('click', function(event) {-->
+
+<!--            event.preventDefault();-->
+<!--            document.querySelectorAll('.form-group button').forEach(button => button.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            window.location.href = '/seller/shopmanagement/updatemethod?id=' + shopId + '&method=thumbnail&activeSection=customize';-->
+<!--        });-->
+
+<!--        document.getElementById('single-btn').addEventListener('click', function(event) {-->
+
+<!--            // updateStyle('single');-->
+<!--            event.preventDefault();-->
+<!--            document.querySelectorAll('.form-group button').forEach(button => button.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            window.location.href = '/seller/shopmanagement/updatemethod?id=' + shopId + '&method=single' + '&activeSection=customize';-->
+<!--        });-->
+
+<!--        document.getElementById('multiple-btn').addEventListener('click', function(event) {-->
+
+<!--            // updateStyle('multiple');-->
+<!--            event.preventDefault();-->
+<!--            document.querySelectorAll('.form-group button').forEach(button => button.classList.remove('active'));-->
+<!--            this.classList.add('active');-->
+<!--            window.location.href = '/seller/shopmanagement/updatemethod?id=' + shopId + '&method=multiple' + '&activeSection=customize';-->
+<!--        });-->
+
+
+<!--    });-->
+
+
+
+
+
+
+
+<!--</script>-->
 </body>
 </html>

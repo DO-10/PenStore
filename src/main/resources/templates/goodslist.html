@@ -56,6 +56,7 @@
       <p>Price: $<span th:text="${goods.price}">价格</span></p>
       <p>Stock: <span th:text="${goods.stock}">库存</span></p>
       <a th:href="@{/goods/goodsdisplay(id=${goods.id})}">查看详情</a>
+      <a th:href="@{/seller/shopmanagement/shopfrom(id=${session.user.id},method=${method},from=${from})}">浏览店铺</a>
       <!-- 隐藏的描述，若需要在 JS 中使用 -->
       <div class="description" style="display: none;" th:text="${goods.description}"></div>
     </div>

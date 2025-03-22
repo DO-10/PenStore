@@ -25,4 +25,5 @@ public class PathConstants {
     public static final String CATEGORYMANAGEMENT = "/categorymanagement";
     public static final String Worker = "/workerAnswer";//客服后台界面
     public static final String CustomerService = "/customerService";//用户客服界面
+    public static final String ShopInfo = "/shopinfo";
 }

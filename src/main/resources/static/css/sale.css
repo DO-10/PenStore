@@ -5,11 +5,11 @@
     font-family: 'Roboto', sans-serif;
 }
 
-body {
-    background-color: #f5f6fa;
-    padding: 2rem;
-    min-height: 100vh;
-}
+/*body {*/
+/*    background-color: #f5f6fa;*/
+/*    padding: 2rem;*/
+/*    min-height: 100vh;*/
+/*}*/
 
 /* 统计卡片样式 */
 .stats-cards {
@@ -17,6 +17,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
     margin-bottom: 3rem;
+    margin-top: 10px;
 }
 
 .card {
