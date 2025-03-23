@@ -85,6 +85,7 @@ public class SellerController {
         goodsRequest.setShop_id(id);
         goodsService.insertGoods(goodsRequest);
         model.addAttribute("goods", goodsService.getGoodsByShopId(id));
+        model.addAttribute("successMessage", "商品添加成功！");
         return Pages.GOODSMANAGEMENT;
     }
 

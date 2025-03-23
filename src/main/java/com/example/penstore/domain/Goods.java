@@ -66,10 +66,10 @@ public class Goods {
     public void setSales(String sales) {
         this.sales = sales;
     }
-    public String getCreateTime() {
+    public String getCreate_time() {
         return createTime;
     }
-    public void setCreateTime(String createTime) {
+    public void setCreate_time(String createTime) {
         this.createTime = createTime;
     }
     public String getSaleTime() {

@@ -75,7 +75,7 @@
         <div class="order-content">
             <!-- 商品图片 -->
             <div class="image-container">
-                <img th:src="${order.image_url}" alt="商品图片" class="order-img">
+                <img  class="order-img" th:if="${order.image_url}" th:src="@{/{imageName}(imageName=${order.image_url})}" alt="商品图片">
             </div>
 
             <!-- 商品信息 -->

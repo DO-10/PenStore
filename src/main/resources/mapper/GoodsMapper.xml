@@ -27,8 +27,8 @@
         </foreach>
     </select>
     <insert id="insertGoods" parameterType="com.example.penstore.dto.GoodsRequest">
-        INSERT INTO goods (id,name, price, description, stock, category_id, image_url, shop_id, status)
-        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{shop_id}, #{status})
+        INSERT INTO goods (id,name, price, description, stock, category_id, image_url, shop_id, status, create_time)
+        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{shop_id}, #{status}, NOW())
     </insert>
 
     <select id="getGoodsByShopId" resultType="com.example.penstore.domain.Goods">

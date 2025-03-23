@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <title>店家</title>
     <link rel="stylesheet" th:href="@{/css/goodsmgmt.css}">
+    <script>
+        window.onload = function () {
+            let messageBox = document.getElementById("successMessage");
+            if (messageBox) {
+                setTimeout(function () {
+                    messageBox.style.transition = "opacity 0.5s ease";
+                    messageBox.style.opacity = "0";
+                    setTimeout(() => messageBox.style.display = "none", 500); // 完全透明后隐藏
+                }, 3000); // 3秒后开始消失
+            }
+        };
+    </script>
 </head>
 <body>
 <div class="header">
@@ -24,6 +36,10 @@
         <a th:href="@{/customerService}">消息</a>
     </div>
 </div>
+<div th:if="${successMessage}" id="successMessage" class="alert alert-success">
+    <span th:text="${successMessage}"></span>
+</div>
+
 <div class="navigation">
     <div class="dashboard">
 
@@ -100,7 +116,7 @@
                 <label th:text="${goods.price}"></label>
                 <label th:text="${goods.stock}"></label>
                 <label th:text="${goods.sales}"></label>
-                <label th:text="${goods.createTime}"></label>
+                <label th:text="${goods.create_time}"></label>
                 <label th:text="${goods.saleTime}"></label>
                 <div class="operation">
                     <a th:href="@{/seller/goodsmanagement/update/{id}(id=${goods.id})}">编辑商品</a>
@@ -110,26 +126,6 @@
                 </div>
             </div>
         </div>
-
-
-
-    <!--    &lt;!&ndash; 商品管理部分 &ndash;&gt;-->
-    <!--    <div id="goods-add-content" th:if="${activeSection == 'addgoods'}">-->
-    <!--        <h2>商品管理</h2>-->
-    <!--        <div class="card">-->
-    <!--            <h3>商品种类</h3>-->
-    <!--            <ul class="goods-list">-->
-    <!--                <li th:each="good : ${goods}">-->
-    <!--                    <span th:text="${good.name}"></span>-->
-    <!--                    <span th:text="${good.description}"></span>-->
-    <!--                    <span th:text="${good.price}"></span>-->
-    <!--                </li>-->
-    <!--            </ul>-->
-    <!--        </div>-->
-    <!--    </div>-->
-
-
-
 </div>
 
 </div>
