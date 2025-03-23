@@ -7,10 +7,10 @@
         VALUES (#{order_id}, #{user_id}, #{address}, NOW())
     </insert>
 
-    <select id="getById" resultType="com.example.penstore.domain.Order">
+    <select id="getById" resultType="com.example.penstore.entity.Order">
             SELECT g.id AS goods_id, g.name AS goodsName, g.stock, oi.quantity
             FROM order_items oi
-                     JOIN goods g ON oi.goods_id = g.goods_id
+                     JOIN goods g ON oi.goods_id = g.id
             WHERE oi.order_id = #{orderId}
         </select>
 
@@ -31,27 +31,27 @@
     </insert>
 
     <!-- 根据用户ID获取订单 -->
-    <select id="getOrdersByUserId" resultType="com.example.penstore.domain.Order">
+    <select id="getOrdersByUserId" resultType="com.example.penstore.entity.Order">
         SELECT * FROM `order`
         WHERE user_id = #{userId}
     </select>
 
     <!-- 根据订单ID获取订单项 -->
-    <select id="getGoodsByOrderId" resultType="com.example.penstore.domain.Goods">
+    <select id="getGoodsByOrderId" resultType="com.example.penstore.entity.Goods">
         SELECT oi.*, g.name, g.description, g.price,g.id
         FROM order_items oi
                  JOIN goods g ON oi.goods_id = g.id
         WHERE oi.order_id = #{orderId}
     </select>
     <!-- 根据店铺获取全部订单 -->
-    <select id="getOrders" resultType="com.example.penstore.domain.Order">
+    <select id="getOrders" resultType="com.example.penstore.entity.Order">
         SELECT o.*,g.id AS goods_id, g.name AS goodsName, g.image_url, oi.status, oi.quantity, oi.price FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
         WHERE oi.shop_id = #{shop_id}
     </select>
 <!--    根据状态获取订单-->
-    <select id="getOrdersByStatus" resultType="com.example.penstore.domain.Order">
+    <select id="getOrdersByStatus" resultType="com.example.penstore.entity.Order">
         SELECT o.*,g.id AS goods_id, g.name AS goodsName,g.image_url, oi.status,oi.quantity,oi.price FROM `order` o
         JOIN order_items oi ON o.order_id = oi.order_id
         JOIN goods g ON oi.goods_id = g.id
@@ -59,7 +59,7 @@
     </select>
     <!-- 搜索订单 -->
     <select id="getOrdersByQuery" parameterType="com.example.penstore.dto.OrderRequest"
-            resultType="com.example.penstore.domain.Order">
+            resultType="com.example.penstore.entity.Order">
             SELECT DISTINCT o.*,g.id AS goods_id, g.name AS goodsName, g.image_url, oi.status, oi.quantity, oi.price
             FROM `order` o
             JOIN order_items oi ON o.order_id = oi.order_id
@@ -109,7 +109,7 @@
                  )
     </insert>
 <!--    //添加订单项-->
-    <insert id="insertOrderItem" parameterType="com.example.penstore.domain.OrderItem">
+    <insert id="insertOrderItem" parameterType="com.example.penstore.entity.OrderItem">
         INSERT INTO order_items (
             order_items_id,
             order_id,

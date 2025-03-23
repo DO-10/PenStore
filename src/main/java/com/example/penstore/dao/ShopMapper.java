@@ -1,6 +1,6 @@
 package com.example.penstore.dao;
 
-import com.example.penstore.domain.Shop;
+import com.example.penstore.entity.Shop;
 import com.example.penstore.dto.PictureRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

@@ -1,7 +1,6 @@
-package com.example.penstore.domain;
+package com.example.penstore.entity;
 
 import org.springframework.stereotype.Component;
-import java.time.LocalDateTime;
 
 import java.util.List;
 

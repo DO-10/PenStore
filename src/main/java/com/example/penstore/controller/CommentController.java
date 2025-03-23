@@ -4,12 +4,12 @@ import com.example.penstore.service.ChatService;
 import com.example.penstore.service.GoodsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import com.example.penstore.domain.Comment;
+import com.example.penstore.entity.Comment;
 import com.example.penstore.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.penstore.domain.ChatMessage;
+import com.example.penstore.entity.ChatMessage;
 
 import java.time.LocalDateTime;
 

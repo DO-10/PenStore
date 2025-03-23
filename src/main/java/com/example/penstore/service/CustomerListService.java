@@ -2,7 +2,7 @@ package com.example.penstore.service;
 
 import com.example.penstore.dao.ChatMessageMapper;
 import com.example.penstore.dao.UserMapper;
-import com.example.penstore.domain.User;
+import com.example.penstore.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

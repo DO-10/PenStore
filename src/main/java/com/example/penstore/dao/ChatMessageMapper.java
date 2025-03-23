@@ -1,6 +1,6 @@
 package com.example.penstore.dao;
 
-import com.example.penstore.domain.ChatMessage;
+import com.example.penstore.entity.ChatMessage;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

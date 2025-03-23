@@ -1,8 +1,8 @@
 // ChatController.java
 package com.example.penstore.controller;
 
-import com.example.penstore.domain.ChatMessage;
-import com.example.penstore.domain.User;
+import com.example.penstore.entity.ChatMessage;
+import com.example.penstore.entity.User;
 import com.example.penstore.service.ChatService;
 import com.example.penstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

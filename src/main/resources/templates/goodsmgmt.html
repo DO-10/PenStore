@@ -7,8 +7,7 @@
     <script>
         window.onload = function () {
             let messageBox = document.getElementById("successMessage");
-            let errorBox = document.getElementById("errorMessage");
-            if (messageBox || errorBox) {
+            if (messageBox) {
                 setTimeout(function () {
                     messageBox.style.transition = "opacity 0.5s ease";
                     messageBox.style.opacity = "0";
@@ -37,11 +36,8 @@
         <a th:href="@{/customerService}">消息</a>
     </div>
 </div>
-<div th:if="${success}" id="successMessage" class="alert alert-success">
-    <span th:text="${success}"></span>
-</div>
-<div th:if="${error}" id="errorMessage" class="alert alert-success">
-    <span th:text="${error}"></span>
+<div th:if="${successMessage}" id="successMessage" class="alert alert-success">
+    <span th:text="${successMessage}"></span>
 </div>
 
 <div class="navigation">

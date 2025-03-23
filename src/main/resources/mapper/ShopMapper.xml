@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.ShopMapper">
-    <resultMap id="ShopResult" type="com.example.penstore.domain.Shop">
+    <resultMap id="ShopResult" type="com.example.penstore.entity.Shop">
         <id property="shopid" column="shopid"/>
         <result property="shopname" column="shopname"/>
         <result property="shopphone" column="shopphone"/>
@@ -22,8 +22,8 @@
     <insert id="insertPicture" parameterType="com.example.penstore.dto.PictureRequest"> INSERT INTO pic (picture) VALUES (#{picture}) </insert>
     <delete id="deletePicture" parameterType="string"> DELETE FROM pic WHERE picid = #{picid} </delete>
     <update id="updateShopMethodById" parameterType="com.example.penstore.dto.ShopRequest"> UPDATE shop set method=#{method} where shopid=#{shopid} </update>
-    <insert id="insertShop" parameterType="com.example.penstore.domain.Shop"> INSERT INTO shop (shopid, shopname, shopphone, salesman, introduction, license, status) VALUES (#{shopid}, #{shopname}, #{shopphone}, #{salesman}, #{introduction}, #{license}, #{status}) </insert>
-    <update id="updateShop" parameterType="com.example.penstore.domain.Shop"> UPDATE shop SET shopname = #{shopname}, shopphone = #{shopphone}, salesman = #{salesman}, introduction = #{introduction}, license = #{license}, status = #{status} WHERE shopid = #{shopid} </update>
+    <insert id="insertShop" parameterType="com.example.penstore.entity.Shop"> INSERT INTO shop (shopid, shopname, shopphone, salesman, introduction, license, status)VALUES (#{shopid}, #{shopname}, #{shopphone}, #{salesman}, #{introduction}, #{license}, #{status}) </insert>
+    <update id="updateShop" parameterType="com.example.penstore.entity.Shop"> UPDATE shop SET shopname = #{shopname},shopphone = #{shopphone},salesman = #{salesman},introduction = #{introduction},license = #{license},status = #{status}WHERE shopid = #{shopid} </update>
     <select id="getShopById" parameterType="string" resultMap="ShopResult"> SELECT * FROM shop WHERE shopid = #{shopid} </select>
     <select id="getAllShops" resultMap="ShopResult"> SELECT * FROM shop </select>
 </mapper>

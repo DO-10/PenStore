@@ -1,4 +1,4 @@
-package com.example.penstore.domain;
+package com.example.penstore.entity;
 
 import java.util.List;
 

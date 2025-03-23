@@ -2,7 +2,7 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.domain.*;
+import com.example.penstore.entity.*;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.OrderRequest;
 import com.example.penstore.service.*;
@@ -99,7 +99,7 @@ public class SellerController {
         }
 
         // 添加成功消息，重定向时依然可以获取
-        redirectAttributes.addFlashAttribute("successMessage", "商品添加成功！");
+        redirectAttributes.addFlashAttribute("successMessage", "商品添加成功！id为" + goodsRequest.getId());
 
         // 重定向到商品管理页面
         return "redirect:" + PathConstants.SELLER + PathConstants.SHOPMANAGEMENT + PathConstants.GOODSMANAGEMENT + "/" + id;

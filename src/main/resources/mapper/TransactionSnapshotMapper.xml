@@ -2,22 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.TransactionSnapshotMapper">
     <!-- SQL 语句 -->
-    <insert id="insertSnapshot" parameterType="com.example.penstore.domain.TransactionSnapshot">
+    <insert id="insertSnapshot" parameterType="com.example.penstore.entity.TransactionSnapshot">
         INSERT INTO transaction_snapshot (id, user_id, user_name, product_id, total_price, created_at)
         VALUES (#{snapshotId}, #{userId}, #{userName}, #{productId}, #{price}, #{createdAt})
     </insert>
 
-    <select id="findByUserId" resultType="com.example.penstore.domain.TransactionSnapshot">
+    <select id="findByUserId" resultType="com.example.penstore.entity.TransactionSnapshot">
         SELECT * FROM transaction_snapshot WHERE user_id = #{userId}
     </select>
 
     <!-- TransactionSnapshotMapper.xml -->
-    <select id="findByShopAndProduct" resultType="com.example.penstore.domain.TransactionSnapshot">
+    <select id="findByShopAndProduct" resultType="com.example.penstore.entity.TransactionSnapshot">
         SELECT * FROM transaction_snapshot
         WHERE shop_id = #{shopId} AND product_id = #{productId}
     </select>
 
-    <select id="findByShopId" resultType="com.example.penstore.domain.TransactionSnapshot">
+    <select id="findByShopId" resultType="com.example.penstore.entity.TransactionSnapshot">
         SELECT * FROM transaction_snapshot
         WHERE shop_id = #{shopId}
     </select>

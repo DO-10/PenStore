@@ -2,12 +2,11 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.Order;
-import com.example.penstore.domain.TransactionSnapshot;
-import com.example.penstore.domain.User;
+import com.example.penstore.entity.Goods;
+import com.example.penstore.entity.Order;
+import com.example.penstore.entity.TransactionSnapshot;
+import com.example.penstore.entity.User;
 import com.example.penstore.dto.OrderRequest;
-import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import com.example.penstore.service.TransactionSnapshotService;
@@ -24,11 +23,9 @@ import java.util.*;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import com.example.penstore.service.GoodsService;
-import com.example.penstore.service.CartService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Controller
 @SessionAttributes("user")

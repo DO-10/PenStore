@@ -1,26 +1,19 @@
 package com.example.penstore.service;
 
-import com.example.penstore.aspect.GenerateID;
 import com.example.penstore.dao.CartMapper;
 import com.example.penstore.dao.GoodsMapper;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.Order;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.TransactionSnapshot;
+import com.example.penstore.entity.Goods;
+import com.example.penstore.entity.Order;
 import com.example.penstore.dao.OrderMapper;
 import com.example.penstore.dto.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.example.penstore.dto.OrderRequest;
-import java.math.BigDecimal;
-import com.example.penstore.domain.OrderItem;
+import com.example.penstore.entity.OrderItem;
 
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 

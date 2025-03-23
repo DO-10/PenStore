@@ -3,23 +3,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.GoodsMapper">
 <!--    根据商品种类展示商品-->
-    <select id="getByCategory" resultType="com.example.penstore.domain.Goods">
+    <select id="getByCategory" resultType="com.example.penstore.entity.Goods">
         SELECT * FROM goods WHERE category_id = #{category_id} AND status = 'available'
     </select>
 
-    <select id="getById" resultType="com.example.penstore.domain.Goods">
+    <select id="getById" resultType="com.example.penstore.entity.Goods">
         SELECT * FROM goods WHERE id = #{id}
     </select>
 
-    <select id="getByInput" resultType="com.example.penstore.domain.Goods">
+    <select id="getByInput" resultType="com.example.penstore.entity.Goods">
         SELECT * FROM  goods WHERE name LIKE CONCAT('%', #{username}, '%')
     </select>
-    <select id="searchProducts" resultType="com.example.penstore.domain.Goods">
+    <select id="searchProducts" resultType="com.example.penstore.entity.Goods">
         SELECT id, name, price
         FROM goods
         WHERE name LIKE CONCAT('%', #{query}, '%')
     </select>
-    <select id="getProductsByIds" resultType="com.example.penstore.domain.Goods">
+    <select id="getProductsByIds" resultType="com.example.penstore.entity.Goods">
         SELECT id, name, price, description -- 选择特定字段
         FROM goods
         WHERE id IN
@@ -35,12 +35,12 @@
     <update id="updateGoods" parameterType="com.example.penstore.dto.GoodsRequest">
         UPDATE goods
         SET name = #{name}, price = #{price}, description = #{description}, stock = #{stock},
-            category_id = #{category_id}, image_url = #{image_url}, status = #{status},
+            category_id = #{category_id}, image_url = #{image_url}, status = #{status},category = #{category},
             update_time = NOW()
         WHERE id = #{id}
     </update>
 
-    <select id="getGoodsByShopId" resultType="com.example.penstore.domain.Goods">
+    <select id="getGoodsByShopId" resultType="com.example.penstore.entity.Goods">
         SELECT
             g.*,
             (
@@ -53,11 +53,11 @@
         WHERE
             g.shop_id = #{shop_id}
     </select>
-    <select id="getGoodsByStatus" resultType="com.example.penstore.domain.Goods">
+    <select id="getGoodsByStatus" resultType="com.example.penstore.entity.Goods">
         SELECT * FROM goods WHERE status = #{status} AND shop_id = #{shop_id}
     </select>
     <select id="getGoodsByQuery" parameterType="com.example.penstore.dto.GoodsRequest"
-            resultType="com.example.penstore.domain.Goods">
+            resultType="com.example.penstore.entity.Goods">
         SELECT * FROM goods
         WHERE 1 = 1
         <if test="name != null and name != ''">  <!-- 检查空字符串 -->

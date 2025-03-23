@@ -1,5 +1,5 @@
 package com.example.penstore.dto;
-import com.example.penstore.domain.Goods;
+import com.example.penstore.entity.Goods;
 
 import java.util.List;
 

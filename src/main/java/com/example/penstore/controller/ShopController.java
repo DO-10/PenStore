@@ -1,9 +1,8 @@
 package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
-import com.example.penstore.constants.PathConstants;
-import com.example.penstore.domain.Goods;
-import com.example.penstore.domain.Shop;
+import com.example.penstore.entity.Goods;
+import com.example.penstore.entity.Shop;
 import com.example.penstore.dto.PictureRequest;
 import com.example.penstore.service.GoodsService;
 import com.example.penstore.service.ShopService;

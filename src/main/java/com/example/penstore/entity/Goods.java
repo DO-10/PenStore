@@ -1,4 +1,4 @@
-package com.example.penstore.domain;
+package com.example.penstore.entity;
 
 import org.springframework.stereotype.Component;
 
@@ -18,6 +18,7 @@ public class Goods {
     private String shopId;
     private String categoryId;
     private String updateTime;
+    private String category;
 
     public String getId() {
         return id;
@@ -103,6 +104,11 @@ public class Goods {
     public void setUpdate_time(String updateTime) {
         this.updateTime = updateTime;
     }
-
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
 }

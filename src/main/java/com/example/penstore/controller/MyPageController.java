@@ -2,15 +2,12 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.domain.Order;
-import com.example.penstore.domain.User;
+import com.example.penstore.entity.Order;
 import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.FileService;
 import com.example.penstore.service.OrderService;
 import com.example.penstore.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
