@@ -7,6 +7,13 @@
         VALUES (#{order_id}, #{user_id}, #{address}, NOW())
     </insert>
 
+    <select id="getById" resultType="com.example.penstore.domain.Order">
+            SELECT g.id AS goods_id, g.name AS goodsName, g.stock, oi.quantity
+            FROM order_items oi
+                     JOIN goods g ON oi.goods_id = g.goods_id
+            WHERE oi.order_id = #{orderId}
+        </select>
+
     <!-- 根据产品ID获取购物车中的数量 -->
     <select id="getQuantityByProductId" resultType="java.lang.String">
         SELECT quantity FROM cart WHERE product_id = #{productId}

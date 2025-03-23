@@ -26,7 +26,8 @@ public class Order {
     private String image_url;
     private String delivery_time;
     private String status;
-    private int quantity;
+    private int quantity;//封装商品数量
+    private int stock;
     private List<Goods> goodsList;
 
 
@@ -159,5 +160,11 @@ public class Order {
     }
     public void setGoods_id(String goods_id) {
         this.goods_id = goods_id;
+    }
+    public int getStock() {
+        return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

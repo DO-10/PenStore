@@ -7,7 +7,8 @@
     <script>
         window.onload = function () {
             let messageBox = document.getElementById("successMessage");
-            if (messageBox) {
+            let errorBox = document.getElementById("errorMessage");
+            if (messageBox || errorBox) {
                 setTimeout(function () {
                     messageBox.style.transition = "opacity 0.5s ease";
                     messageBox.style.opacity = "0";
@@ -36,8 +37,11 @@
         <a th:href="@{/customerService}">消息</a>
     </div>
 </div>
-<div th:if="${successMessage}" id="successMessage" class="alert alert-success">
-    <span th:text="${successMessage}"></span>
+<div th:if="${success}" id="successMessage" class="alert alert-success">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}" id="errorMessage" class="alert alert-success">
+    <span th:text="${error}"></span>
 </div>
 
 <div class="navigation">
@@ -107,7 +111,7 @@
                 <label>商品库存</label>
                 <label>商品销量</label>
                 <label>入库时间</label>
-                <label>发售时间</label>
+                <label>修改时间</label>
                 <label>操作</label>
             </div>
             <div class="goods" th:each="goods: ${goods}">
@@ -117,12 +121,12 @@
                 <label th:text="${goods.stock}"></label>
                 <label th:text="${goods.sales}"></label>
                 <label th:text="${goods.create_time}"></label>
-                <label th:text="${goods.saleTime}"></label>
+                <label th:text="${goods.update_time}"></label>
                 <div class="operation">
-                    <a th:href="@{/seller/goodsmanagement/update/{id}(id=${goods.id})}">编辑商品</a>
-                    <a th:if="${goods.status == 'unsold'}" th:href="@{/seller/goodsmanagement/available/{id}(id=${goods.id})}">立即上架</a>
-                    <a th:if="${goods.status == 'available'}" th:href="@{/seller/goodsmanagement/unsold/{id}(id=${goods.id})}">立即下架</a>
-                    <a th:href="@{/seller/goodsmanagement/delete/{id}(id=${goods.id})}">删除商品</a>
+                    <a th:href="@{/seller/goodsmanagement/update/{id}(id=${session.user.id}, goodsId=${goods.id})}">编辑商品</a>
+                    <a th:if="${goods.status == 'unsold'}" th:href="@{/seller/goodsmanagement/available/{id}(id=${session.user.id}, goodsId=${goods.id})}">立即上架</a>
+                    <a th:if="${goods.status == 'available'}" th:href="@{/seller/goodsmanagement/unsold/{id}(id=${session.user.id}, goodsId=${goods.id})}">立即下架</a>
+                    <a th:href="@{/seller/goodsmanagement/delete/{id}(id=${session.user.id}, goodsId=${goods.id})}">删除商品</a>
                 </div>
             </div>
         </div>

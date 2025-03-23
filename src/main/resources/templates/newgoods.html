@@ -8,7 +8,7 @@
 <body>
 <div class="container">
   <h2>商品入库</h2>
-  <form class="product-form" th:action="@{/seller/goodsmanagement/{id}(id=${session.user.id})}" method="post" enctype="multipart/form-data">
+  <form class="product-form" th:action="@{/seller/goodsmanagement/{id}(id=${session.user.id}, goodsId=${goods?.id})}" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label>商品种类：</label>
       <select name="category_id" required>
@@ -19,25 +19,29 @@
         <option th:value="5" th:selected="${goods?.category_id == 5}" th:text="相关"></option>
       </select>
     </div>
+    <div class="form-group">
+      <label>在店铺中的种类：</label>
+      <input type="text" name="category" th:value="${goods?.category ?: '请输入商品种类'}" required>
+    </div>
 
     <div class="form-group">
       <label>商品名称：</label>
-      <input type="text" name="name" th:placeholder="${goods?.name ?: '请输入商品名称'}" required>
+      <input type="text" name="name" th:value="${goods?.name ?: '请输入商品名称'}" required>
     </div>
 
     <div class="form-group">
       <label>价格：</label>
-      <input type="number" name="price" step="0.01" th:placeholder="${goods?.price ?: '请输入商品价格'}" required>
+      <input type="number" name="price" step="0.01" th:value="${goods?.price ?: '请输入商品价格'}" required>
     </div>
 
     <div class="form-group">
       <label>商品详情：</label>
-      <textarea name="description" rows="3" th:placeholder="${goods?.description ?: '请输入商品描述'}"></textarea>
+      <textarea name="description" rows="3" th:text="${goods?.description ?: '请输入商品描述'}"></textarea>
     </div>
 
     <div class="form-group">
       <label>数量：</label>
-      <input type="number" name="stock" th:placeholder="${goods?.quantity ?: '请输入商品数量'}" required>
+      <input type="number" name="stock" th:value="${goods?.stock ?: '请输入商品数量'}" required>
     </div>
 
     <div class="form-group">

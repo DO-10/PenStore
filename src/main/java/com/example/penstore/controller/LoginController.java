@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -20,17 +21,20 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping
-    public String signin(@ModelAttribute("userRequest") UserRequest userRequest, Model model, HttpSession session) {
+    public String signin(@ModelAttribute("userRequest") UserRequest userRequest,
+                         RedirectAttributes redirectAttributes,
+                         HttpSession session) {
         User user = userService.signin(userRequest);
         if (user == null) {
-            model.addAttribute("accounterror", "用户名或密码错误");
-            return Pages.LOGIN;
+            // 将错误信息通过 RedirectAttributes 传递到下一个请求
+            redirectAttributes.addFlashAttribute("accounterror", "用户名或密码错误");
+            return "redirect:/login";  // 重定向到登录页面
         }
         session.setAttribute("user", user);
-        model.addAttribute("user", user);
-//        model.addAttribute("id",user.getId());//将id存入session
-        return Pages.HOME;
+        redirectAttributes.addFlashAttribute("user", user);  // 将 user 信息传递到下一个请求
+        return "redirect:/home";  // 重定向到主页
     }
+
 
 
 

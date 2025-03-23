@@ -11,12 +11,13 @@ public class Goods {
     private int stock;
     private String image_url;
     private String quantity;
-    private String sales;
+    private int sales;
     private String createTime;
     private String saleTime;
     private String status;
     private String shopId;
     private String categoryId;
+    private String updateTime;
 
     public String getId() {
         return id;
@@ -60,10 +61,10 @@ public class Goods {
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
-    public String getSales() {
+    public int getSales() {
         return sales;
     }
-    public void setSales(String sales) {
+    public void setSales(int sales) {
         this.sales = sales;
     }
     public String getCreate_time() {
@@ -95,6 +96,12 @@ public class Goods {
     }
     public void setCategory_id(String categoryId) {
         this.categoryId = categoryId;
+    }
+    public String getUpdate_time() {
+        return updateTime;
+    }
+    public void setUpdate_time(String updateTime) {
+        this.updateTime = updateTime;
     }
 
 

@@ -58,4 +58,10 @@ public class GoodsService {
             goodsMapper.GoodsUnsold(id, shop_id);
         }
     }
+    public void newGoods(GoodsRequest goodsRequest) {
+        goodsMapper.updateGoods(goodsRequest);
+    }
+    public void updateStock(String id, int stock) {
+        goodsMapper.updateStock(id, stock);
+    }
 }

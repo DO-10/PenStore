@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -74,19 +75,34 @@ public class SellerController {
     }
     //请求添加/修改商品页面
     @GetMapping(PathConstants.GOODSMANAGEMENT+"/{id}")
+    //id为店铺id
     public String updateGoods(@PathVariable String id, Model model) {
         model.addAttribute("goods", goodsService.getById(id));
         return Pages.NEWGOODS;
     }
-    @PostMapping(PathConstants.GOODSMANAGEMENT+"/{id}")//请求添加/修改商品
-    public String addGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id, Model model) {
-        String image_url = fileService.saveFile(goodsRequest.getImage(),"goods");
-        goodsRequest.setImageUrl(image_url);
+    @PostMapping(PathConstants.GOODSMANAGEMENT + "/{id}") // 请求添加/修改商品
+    public String addGoods(
+            @ModelAttribute("goods") GoodsRequest goodsRequest,
+            @PathVariable String id,
+            @RequestParam(value = "goodsId", required = false) String goodsId,
+            RedirectAttributes redirectAttributes) {
+
+        goodsRequest.setId(goodsId);
+        String imageUrl = fileService.saveFile(goodsRequest.getImage(), "goods");
+        goodsRequest.setImageUrl(imageUrl);
         goodsRequest.setShop_id(id);
-        goodsService.insertGoods(goodsRequest);
-        model.addAttribute("goods", goodsService.getGoodsByShopId(id));
-        model.addAttribute("successMessage", "商品添加成功！");
-        return Pages.GOODSMANAGEMENT;
+
+        if (goodsId == null || goodsId.isEmpty()) {
+            goodsService.insertGoods(goodsRequest);
+        } else {
+            goodsService.newGoods(goodsRequest);
+        }
+
+        // 添加成功消息，重定向时依然可以获取
+        redirectAttributes.addFlashAttribute("successMessage", "商品添加成功！");
+
+        // 重定向到商品管理页面
+        return "redirect:" + PathConstants.SELLER + PathConstants.SHOPMANAGEMENT + PathConstants.GOODSMANAGEMENT + "/" + id;
     }
 
     //请求订单管理页面
@@ -130,6 +146,7 @@ public class SellerController {
         model.addAttribute("goods", goodsService.getGoodsByShopId(shop_id));
         return Pages.GOODSMANAGEMENT;
     }
+    //搜索商品
     @PostMapping(PathConstants.SHOPMANAGEMENT+PathConstants.GOODSMANAGEMENT+"/{id}")
     public String searchGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id, Model model) {
         String shop_id = id;//等待固件的工作
@@ -156,21 +173,26 @@ public class SellerController {
         model.addAttribute("status", status);
         return Pages.GOODSMANAGEMENT;
     }
-    //上架下架删除商品
-    @GetMapping(PathConstants.GOODSMANAGEMENT+"/{operation}/{id}")
-    public String goods(@PathVariable String operation, Model model, @PathVariable String id/*, @RequestParam String status*/) {
-        String shop_id = id;
-        if(operation.equals("update")) {
-            model.addAttribute("goods", goodsService.getById(id));
-            return Pages.NEWGOODS;
-        }
-        else {
-            goodsService.updateGoods(id, operation, shop_id);
-            model.addAttribute("goods", goodsService.getGoodsByShopId(shop_id));
-            return Pages.GOODSMANAGEMENT;
-        }
+    //更新 上架下架删除商品
+    @GetMapping(PathConstants.GOODSMANAGEMENT + "/{operation}/{shopId}")
+    public String goods(
+            @PathVariable String operation,
+            @PathVariable String shopId,
+            @RequestParam("goodsId") String goodsId,
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
+        if ("update".equals(operation)) {
+            model.addAttribute("goods", goodsService.getById(goodsId));
+            return Pages.NEWGOODS; // 直接返回页面
+        } else {
+            goodsService.updateGoods(goodsId, operation, shopId);
+            model.addAttribute("goods", goodsService.getById(shopId));
+            redirectAttributes.addFlashAttribute("successMessage", "操作成功！");
+            return "redirect:" + PathConstants.SELLER + PathConstants.SHOPMANAGEMENT + PathConstants.GOODSMANAGEMENT + "/" + shopId;
+        }
     }
+
     @GetMapping(PathConstants.SHOPMANAGEMENT+PathConstants.CATEGORYMANAGEMENT+"/{id}")
     public String categoryManagement(@PathVariable String id, Model model) {
         String shop_id = id;

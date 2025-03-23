@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>店铺展示</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/shop.js}"></script>
     <style>
         /* 通用样式 */
         body {
@@ -75,149 +77,28 @@
             text-decoration: underline;
         }
 
-        .container {
-            display: flex;
-            gap: 20px;
-        }
-        .sidebar {
-            width: 200px;
-            border-right: 1px solid #ccc;
-            background-color: #f9f9f9;
-            padding: 10px;
-        }
-        .content {
-            flex: 1;
-            padding: 50px;
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-        }
-        .card {
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
-            width: calc(100% - 30px); /* 确保内容与边框有间隔 */
-            margin-left: 15px; /* 左边距 */
-            margin-right: 15px; /* 右边距 */
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .add-button {
-            text-align: right;
-        }
-        .add-button button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .image-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .image-item {
-            transition: transform 0.3s;
-            border-radius: 8px;
-            position: relative;   /* 关键：为删除按钮提供定位基准 */
-            margin: 10px;         /* 增加外边距，避免按钮被相邻图片遮挡 */
-        }
-
-        .image-item:hover {
-            transform: scale(1.05);
-        }
-        .image-item.single {
-            width: 100%;
-            height: 400px;
-        }
-        .delete-button {
-            background: #ff4757;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            position: absolute;    /* 绝对定位 */
-            top: -1px;           /* 向上偏移，贴紧外边框 */
-            right: -26.5px;         /* 向右偏移，贴紧外边框 */
-            z-index: 10;          /* 确保按钮在最上层 */
-            cursor: pointer;
-            border: none;         /* 移除默认边框 */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 添加阴影增强可视性 */
-        }
-        .carousel-container {
-            width: 100%;
-            height: 400px;
-            border-radius: 12px;
-            overflow: hidden;
+        .accordion-panel {display: none;}
+        .tab-panel{display: none;}
+        .tab-panel.active{display: block;}
+        #photo-viewer{
             position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin: 20px 0;
+            height: 300px;
+            overflow: hidden;
         }
-
-        /* 轮播项 */
-        .carousel-item {
-            width: 100%;
-            height: 100%;
+        #photo-viewer.is-loading:after {
+            content:url("img/loading.gif");
             position: absolute;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            background-size: cover;
-            background-position: center;
-            border-radius: 12px;
+            top:0;
+            right: 0;
         }
-        .carousel-item.active {
-            opacity: 1;
-        }
-        /* 轮播指示器 */
-        .carousel-indicators {
+        #photo-viewer img {
             position: absolute;
-            bottom: 20px;
+            max-width: 100%;
+            max-height: 100%;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
         }
-
-        .carousel-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .carousel-indicator.active {
-            background-color: #fff;
-        }
-        /* 缩略图模式 */
-        .image-item.thumbnail {
-            width: 100px;      /* 宽度缩小 */
-            height: 100px;     /* 高度缩小 */
-            border-radius: 6px; /* 圆角微调 */
-            /*transition: transform 0.3s;*/
-            margin: 2px;  /* 进一步缩小间距 */
-        }
-        /* 调整图片容器间距 */
-
-        .image-item.multiple {
-            width: 150px;
-            height: 150px;
-        }
+        a.active{opacity: 0.3;}
     </style>
 </head>
 <body>
@@ -240,224 +121,60 @@
         <a th:href="@{/customerService}">消息</a>    <a th:href="@{/sales}">销售</a>
     </div>
 </div>
-
-<div class="container">
-
-
-    <!-- 右侧内容区域 -->
-
-    <div class="content">
-        <div class="header">
-            <h2>店铺信息</h2>
-            <span th:if="${from=='revise'}">
-        <div class="add-button">
-                <button id="add-image-btn">添加</button>
-            </div>
-        </span>
-
-        </div>
-        <!-- 店铺信息部分 -->
-        <div id="shop-info-content">
-
-            <div class="card">
-                <p>名称：<label th:text="${shop.shopname}"></label></p>
-                <p>简介：<label th:text="${shop.introduction}"></label></p>
-                <p>联系方式：<label th:text="${shop.shopphone}"></label></p>
-                <p>负责人：<label th:text="${shop.salesman}"></label></p>
-                <p>执照：<label th:text="${shop.license}"></label></p>
-                <p>状态：<label th:text="${shop.status}"></label></p>
-            </div>
-
-        </div>
-        <div class="carousel-container" id="carousel-container">
-            <!-- 轮播图片将在这里动态生成 -->
-        </div>
-
-        <div class="image-gallery" id="image-gallery">
-            <!-- 图片将在这里动态生成 -->
-        </div>
+<h1>欢迎来到[[${shop.shopname}]]</h1>
+<form>
+    <input type="text" name="goodsname" placeholder="商品名称">
+    <button type="submit" class="submit">搜索</button>
+</form>
+<div class="category">
+    <div th:class="parent" th:each="parent: ${shop.categories}">
+    <button type="button" class="category-button" th:text="${parent.name}"></button>
+        <a th:each="child: ${shop.categories.child}" th:href="@{/goods/category/${shop.shopid}/${child.name}}"></a>
     </div>
 </div>
+<div class="Display">
+    <div class="accordion">
+    <ul class="accordion">
+        <li>
+            <button class="accordion-control">Classics</button>
+            <div class="accordion-panel">Panel content goes here...</div>
+        </li>
+        <li>
+            <button class="accordion-control">Classics</button>
+            <div class="accordion-panel">Panel content goes here...</div>
+        </li>
+        <li>
+            <button class="accordion-control">Classics</button>
+            <div class="accordion-panel">Panel content goes here...</div>
+        </li>
+    </ul>
+    </div>
+    <div class="Tab-list">
+        <ul class="tab-list">
+            <li class="active"><a class="tab-control" href="#tab-1">description</a></li>
+            <li><a class="tab-control" href="#tab-2">description</a></li>
+            <li><a class="tab-control" href="#tab-3">description</a></li>
+        </ul>
+        <div class="tab-panel active" id="tab-1">content</div>
+        <div class="tab-panel active" id="tab-2">content</div>
+        <div class="tab-panel active" id="tab-3">content</div>
+    </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const style = new URLSearchParams(window.location.search).get('method') || new URLSearchParams(window.location.search).get('style');
-        const from = new URLSearchParams(window.location.search).get('from') ;
-        loadPictures(style,from);
-    });
+        <div class="Photo-viewer">
+            <div id="photo-viewer"></div>
+            <div id="thumbnails">
+                <a href="img/q.jpg" class="thumb active" title="Elderberry mallow">
+                    <img src="img/thumb-1.jpg" alt="Elderberry Marshmallow"/>
+                </a>
+                <a href="img/q.jpg" class="thumb active" title="Elderberry mallow">
+                    <img src="img/thumb-1.jpg" alt="Elderberry Marshmallow"/>
+                </a>
+                <a href="img/q.jpg" class="thumb active" title="Elderberry mallow">
+                    <img src="img/thumb-1.jpg" alt="Elderberry Marshmallow"/>
+                </a>
+            </div>
+        </div>
+</div>
 
-    function loadPictures(style,from) {
-        fetch('/seller/shopmanagement/getPictures')
-            .then(response => response.json())
-            .then(pictures => {
-                const gallery = document.getElementById('image-gallery');
-                const carousel = document.getElementById('carousel-container');
-
-                // 清空现有内容
-                gallery.innerHTML = '';
-                carousel.innerHTML = '';
-
-                // 根据样式参数显示/隐藏容器
-                if (style !== 'carousel') {
-                    carousel.style.display = 'none';    // 隐藏轮播容器
-                    gallery.style.display = 'flex';     // 显示缩略图容器
-                }
-                else  if (style==='carousel'&&from==='good')
-                {
-                    carousel.style.display = 'block';   // 显示轮播容器
-                    gallery.style.display = 'none';     // 不显示缩略图容器
-                }
-                else if(style==='carousel'&&from==='revise')
-                {
-                    carousel.style.display = 'block';   // 显示轮播容器
-                    gallery.style.display = 'flex';     // 其他模式下可选择性隐藏或显示
-                }
-
-
-
-                // 动态生成轮播项和缩略图
-                pictures.forEach((pic, index) => {
-                    // 生成轮播项
-                    const carouselItem = document.createElement('div');
-                    carouselItem.className = `carousel-item ${index === 0 ? 'active' : ''}`;
-                    carouselItem.style.backgroundImage = `url('${pic.picture}')`;
-                    carousel.appendChild(carouselItem);
-
-                    // 根据样式参数动态添加类名
-                    const thumbnail = document.createElement('div');
-                    let itemClass = 'image-item multiple'; // 默认多张模式
-
-                    console.log(style);
-                    if (style === 'thumbnail') {
-                        itemClass = 'image-item thumbnail'; // 缩略图模式
-                    }
-                    else if (style === 'single') {
-                        itemClass = 'image-item single';    // 单张模式
-                    }
-
-                    thumbnail.className = itemClass;
-                    if (from === 'revise') {
-                        thumbnail.innerHTML = `
-                    <img src="${pic.picture}" style="width: 100%; height: 100%; object-fit: cover;">
-
-
-                    <button class="delete-button" onclick="deletePicture(${pic.picid})">×</button>
-                `;
-                    }
-
-                    if (from === 'good') {
-                        thumbnail.innerHTML = `
-                    <img src="${pic.picture}" style="width: 100%; height: 100%; object-fit: cover;">
-
-
-
-                `;
-                    }
-
-
-                    gallery.appendChild(thumbnail);
-                });
-
-                // 添加轮播指示器
-                const indicators = document.createElement('div');
-                indicators.className = 'carousel-indicators';
-                pictures.forEach((_, index) => {
-                    const indicator = document.createElement('div');
-                    indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
-                    indicator.onclick = () => setActiveSlide(index);
-                    indicators.appendChild(indicator);
-                });
-                carousel.appendChild(indicators);
-
-                // 启动自动轮播
-                startCarousel(pictures.length);
-            });
-    }
-
-    let currentSlide = 0;
-    let intervalId = null;
-
-    // 设置自动切换
-    function startCarousel(totalSlides) {
-        if (intervalId) clearInterval(intervalId);
-        intervalId = setInterval(() => {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            setActiveSlide(currentSlide);
-        }, 3000); // 3秒切换一次
-    }
-
-    // 切换激活的轮播项
-    function setActiveSlide(index) {
-        currentSlide = index;
-        const items = document.querySelectorAll('.carousel-item');
-        const indicators = document.querySelectorAll('.carousel-indicator');
-
-        items.forEach((item, i) => {
-            item.classList.toggle('active', i === index);
-        });
-
-        indicators.forEach((indicator, i) => {
-            indicator.classList.toggle('active', i === index);
-        });
-    }
-
-    function initCarousel(pictures) {
-        const carousel = document.getElementById('carousel-container');
-        let current = 0;
-        pictures.forEach((pic, index) => {
-            const slide = document.createElement('div');
-            slide.className = `carousel-item ${index === 0 ? 'active' : ''}`;
-            slide.style.backgroundImage = `url(${pic.picture})`;
-            carousel.appendChild(slide);
-        });
-        setInterval(() => {
-            current = (current + 1) % pictures.length;
-            document.querySelectorAll('.carousel-item').forEach((item, i) => {
-                item.classList.toggle('active', i === current);
-            });
-        }, 3000);
-    }
-
-    // 修改 deletePicture 函数
-    function deletePicture(picid) {
-        const style = new URLSearchParams(window.location.search).get('method') ||
-            new URLSearchParams(window.location.search).get('style');
-        const from = new URLSearchParams(window.location.search).get('from');
-        fetch('/seller/shopmanagement/deletePicture?picid=' + picid, { method: 'POST' })
-            .then(() => loadPictures(style, from)); // 传递当前参数
-    }
-
-    // 修改上传成功的回调
-
-
-
-    document.getElementById('add-image-btn').addEventListener('click', function() {
-        const style = new URLSearchParams(window.location.search).get('method') ||
-            new URLSearchParams(window.location.search).get('style');
-        const from = new URLSearchParams(window.location.search).get('from');
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = e => {
-            const file = e.target.files[0];
-            const formData = new FormData();
-            formData.append('file', file); // 参数名需与后端 @RequestParam("file") 一致
-
-            // 发送 POST 请求
-            fetch('/seller/shopmanagement/uploadPicture', {
-                method: 'POST',
-                body: formData // 直接发送 FormData
-            }).then(response => {
-                if (response.ok) {
-                    loadPictures(style,from); // 上传成功后刷新图片列表
-                } else {
-                    alert('上传失败');
-                }
-            });
-        };
-        input.click();
-    });
-
-</script>
 </body>
 </html>

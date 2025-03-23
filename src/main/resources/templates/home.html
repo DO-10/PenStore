@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <title>佩阿回氏</title>
   <link rel="stylesheet" th:href="@{/css/home.css}">
+  <script>
+    window.onload = function () {
+      let messageBox = document.getElementById("successMessage");
+      if (messageBox) {
+        setTimeout(function () {
+          messageBox.style.transition = "opacity 0.5s ease";
+          messageBox.style.opacity = "0";
+          setTimeout(() => messageBox.style.display = "none", 500); // 完全透明后隐藏
+        }, 3000); // 3秒后开始消失
+      }
+    };
+  </script>
 </head>
 <body>
 <div class="header">
@@ -22,10 +34,12 @@
   <div class="utility">
     <a th:href="@{/seller/{id}(id=${session.user.id})}">卖家中心</a>
     <a th:href="@{/cart}">购物车</a>
-    <a th:href="@{/customerService}">消息</a>    <a th:href="@{/sales}">销售</a>
+    <a th:href="@{/customerService}">消息</a>
   </div>
 </div>
-
+<div th:if="${successMessage}" id="successMessage" class="alert alert-success">
+  <span th:text="${successMessage}"></span>
+</div>
 <div class="container">
   <div class="search-box">
     <form th:action="@{/goods/search}" method="get">

@@ -85,6 +85,9 @@ public class OrderService {
 //        return orderId;
 //    }
 
+    public List<Order> getById(String id) {
+        return orderMapper.getById(id);
+    }
     public String createOrder(OrderRequest orderRequest) {
         // 生成UUID订单ID
         String orderId = UUID.randomUUID().toString();
@@ -193,7 +196,9 @@ public class OrderService {
     }
 
     public void payOrder(String orderId) {
+
         orderMapper.payOrder(orderId);
+
     }
     public void deliverOrder(String orderId) {
         orderMapper.deliverOrder(orderId);

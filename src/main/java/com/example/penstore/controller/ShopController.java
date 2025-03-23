@@ -30,16 +30,12 @@ public class ShopController {
     @Autowired
     private GoodsService goodsService;
 
-
-
-    @GetMapping(PathConstants.ShopInfo)
+    @GetMapping("/info")
     public String getShopInfo(@RequestParam String id, Model model) {
-        Shop shop = shopService.getShopById(String.valueOf(1));
+        //得到shop
+        Shop shop = shopService.getShopById(id);
         model.addAttribute("shop", shop);
-        List<Goods> goodsList = goodsService.getByCategory(String.valueOf(2));
-        model.addAttribute("goods", goodsList);
         model.addAttribute("activeSection", "info");
-        System.out.println("shopinfo");
         return Pages.SHOPMANAGEMENT;
     }
     @GetMapping("/edit")
@@ -50,28 +46,8 @@ public class ShopController {
         model.addAttribute("activeSection", "edit");
 
         System.out.println("edit");
-        return "shopmgmt";
+        return  Pages.SHOPMANAGEMENT;
     }
-
-//    @GetMapping("/goods")
-//    public String getGoodsList(@RequestParam String id, Model model) {
-//        Shop shop = shopService.getShopById(id);
-//        List<Goods> goodsList = goodsService.getByCategory(id);
-//        model.addAttribute("shop", shop);
-//        model.addAttribute("goods", goodsList);
-//        model.addAttribute("activeSection", "goods");
-//        System.out.println("goods");
-//        return "shopmgmt";
-//    }
-//
-//    @GetMapping("/addgoods")
-//    public String getAddGoods(@RequestParam String id, Model model) {
-//        Shop shop = shopService.getShopById(id);
-//        model.addAttribute("shop", shop);
-//        model.addAttribute("activeSection", "addgoods");
-//        System.out.println("addgoods");
-//        return "shopmgmt";
-//    }
 
     @PostMapping("/update")
     public String updateShopInfo(@ModelAttribute("shop") Shop shop,@RequestParam String id, Model model) {
@@ -89,23 +65,8 @@ public class ShopController {
         System.out.println("shop");
 
         return Pages.SHOPMANAGEMENT;
-
-
-//        return "redirect:/seller/shopmanagement/" + shop.getShopid();
-
     }
 
-//    @GetMapping("/create")
-//    public String createShopForm(Model model) {
-//        model.addAttribute("shop", new Shop());
-//        return Pages.SHOPMANAGEMENT;
-//    }
-//
-//    @PostMapping("/create")
-//    public String createShop(@ModelAttribute("shop") Shop shop) {
-//        shopService.createShop(shop);
-//        return "redirect:/seller/shopmanagement/" + shop.getShopid();
-//    }
 
     @GetMapping("/customize")
     public String getCustomize(@RequestParam String id, Model model) {
@@ -117,7 +78,7 @@ public class ShopController {
         model.addAttribute("activeSection", "customize");
         System.out.println(method);
 
-        return "shopmgmt";
+        return  Pages.SHOPMANAGEMENT;
     }
 
     @GetMapping("/updatemethod")
@@ -132,7 +93,7 @@ public class ShopController {
         System.out.println("update:"+methodNew);
 
 
-        return "shopmgmt";
+        return  Pages.SHOPMANAGEMENT;
     }
 
     @GetMapping("/shop")

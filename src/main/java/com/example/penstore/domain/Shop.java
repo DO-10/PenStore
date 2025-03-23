@@ -1,5 +1,7 @@
 package com.example.penstore.domain;
 
+import java.util.List;
+
 public class Shop {
 
     private String shopname;
@@ -11,6 +13,7 @@ public class Shop {
     private String status; // 新增状态字段
 
     private String method;
+    private List<Category> categories;
 
     public String getMethod() {
         return method;
@@ -75,5 +78,11 @@ public class Shop {
 
     public void setLicense(String license) {
         this.license = license;
+    }
+    public List<Category> getCategories() {
+        return categories;
+    }
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

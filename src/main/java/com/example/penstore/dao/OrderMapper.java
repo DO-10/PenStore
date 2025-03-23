@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @Mapper
 
 public interface OrderMapper {
+    List<Order> getById(String id);
     void createOrder(OrderRequest orderRequest);
     String getQuantityByProductId(String productId);
     BigDecimal getPriceByProductId(String orderId);

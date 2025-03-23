@@ -28,12 +28,30 @@
         </foreach>
     </select>
     <insert id="insertGoods" parameterType="com.example.penstore.dto.GoodsRequest">
-        INSERT INTO goods (id,name, price, description, stock, category_id, image_url, shop_id, status, create_time)
-        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{shop_id}, #{status}, NOW())
+        INSERT INTO goods (id,name, price, description, stock, category_id, image_url, shop_id, status, create_time, category)
+        VALUES (#{id}, #{name}, #{price}, #{description}, #{stock}, #{category_id}, #{image_url}, #{shop_id}, #{status}, NOW(), #{category})
     </insert>
+<!--    修改商品-->
+    <update id="updateGoods" parameterType="com.example.penstore.dto.GoodsRequest">
+        UPDATE goods
+        SET name = #{name}, price = #{price}, description = #{description}, stock = #{stock},
+            category_id = #{category_id}, image_url = #{image_url}, status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
 
     <select id="getGoodsByShopId" resultType="com.example.penstore.domain.Goods">
-        SELECT * FROM goods WHERE shop_id = #{shop_id}
+        SELECT
+            g.*,
+            (
+                SELECT COALESCE(SUM(quantity), 0)
+                FROM order_items
+                WHERE goods_id = g.id
+            ) AS sales
+        FROM
+            goods g
+        WHERE
+            g.shop_id = #{shop_id}
     </select>
     <select id="getGoodsByStatus" resultType="com.example.penstore.domain.Goods">
         SELECT * FROM goods WHERE status = #{status} AND shop_id = #{shop_id}
@@ -51,19 +69,22 @@
         <if test="category != null and category != ''">  <!-- 检查空字符串 -->
             AND category = #{category}
         </if>
-        <if test="startPrice != null and endPrice != null">
+        <if test="startPrice != null and endPrice != null and startPrice != '' and endPrice != ''">  <!-- 检查空字符串 -->
             AND price BETWEEN #{startPrice} AND #{endPrice}
         </if>
         AND shop_id = #{shop_id}
     </select>
 
     <update id="GoodsAvailable">
-        UPDATE goods SET status = "available" WHERE id = #{id}
+        UPDATE goods SET status = "available", update_time = NOW() WHERE id = #{id}
     </update>
     <update id="GoodsUnsold">
-        UPDATE goods SET status = "unsold" WHERE id = #{id}
+        UPDATE goods SET status = "unsold", update_time = NOW() WHERE id = #{id}
     </update>
     <delete id="deleteGoods">
         DELETE FROM goods WHERE id = #{id}
     </delete>
+    <update id="updateStock">
+        UPDATE goods SET stock = #{stock} WHERE id = #{id}
+    </update>
 </mapper>

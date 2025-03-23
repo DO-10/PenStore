@@ -25,6 +25,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.List;
 import com.example.penstore.service.GoodsService;
 import com.example.penstore.service.CartService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -160,10 +161,36 @@ public class OrderController {
         return "pay";
     }
     @PostMapping("/pay")
-    public String payOrder(@RequestParam("orderId") String orderId) {
+    public String payOrder(@RequestParam("orderId") String orderId, RedirectAttributes redirectAttributes) {
+        // 获取订单
+        List<Order> orders = orderService.getById(orderId);
+
+        if (orders == null) {
+            redirectAttributes.addFlashAttribute("error", "订单不存在，支付失败！");
+            return "redirect:/home";
+        }
+        // 检查每个商品的库存
+        for (Order order : orders) {
+            int stock = order.getStock();
+            int quantity = order.getQuantity();
+
+            if (stock == 0 || stock < quantity) {
+                redirectAttributes.addFlashAttribute("error", "商品 " + order.getGoodsName() + " 库存不足，支付失败！");
+                return "redirect:/home";
+            }
+        }
+
+        // 扣减库存
+        for (Order goods : orders) {
+            goodsService.updateStock(goods.getGoods_id(), goods.getStock() - goods.getQuantity());
+        }
+
+      // 处理支付逻辑（模拟支付成功）
         orderService.payOrder(orderId);
-        return "redirect:/home"; // 推荐重定向防止重复提交
+        redirectAttributes.addFlashAttribute("success", "支付成功！");
+        return "redirect:/home"; // 防止重复提交
     }
+
     @GetMapping("/deliver")
     public String deliverOrder(@RequestParam("goodsId") String orderId, @RequestParam("status") String status, @RequestParam("id") String id) {
         orderService.deliverOrder(orderId);
