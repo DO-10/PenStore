@@ -118,10 +118,10 @@
 
 <!-- 产品详情展示部分 -->
 <h1 th:text="${goods.name}">Product Name</h1>
-<img th:src="${goods.image_url}" th:alt="${goods.name}" alt="Product Image"/>
-<p>Description: <span th:text="${goods.description}">Description</span></p>
-<p>Price: $<span th:text="${goods.price}">Price</span></p>
-<p>Stock: <span th:text="${goods.stock}">Stock</span></p>
+<img th:src="@{/{imageName}(imageName=${goods.image_url})}" th:alt="${goods.name}"/>
+<p>商品描述: <span th:text="${goods.description}">Description</span></p>
+<p>价格: ￥<span th:text="${goods.price}">Price</span></p>
+<p>库存: <span th:text="${goods.stock}">Stock</span></p>
 
 <!-- 加入购物车按钮 -->
 <form th:action="@{/cart/addtocart}" method="post">

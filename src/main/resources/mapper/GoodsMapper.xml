@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.penstore.dao.GoodsMapper">
+<!--    根据商品种类展示商品-->
     <select id="getByCategory" resultType="com.example.penstore.domain.Goods">
-        SELECT * FROM goods WHERE category_id = #{category_id}
+        SELECT * FROM goods WHERE category_id = #{category_id} AND status = 'available'
     </select>
 
     <select id="getById" resultType="com.example.penstore.domain.Goods">
