@@ -59,7 +59,7 @@ public class CartController {
     public String addToCart(@ModelAttribute("cartRequest")CartRequest cartRequest, RedirectAttributes redirectAttributes) {
         cartService.addToCart(cartRequest);
         // 添加 Flash Attribute，用于显示操作信息
-        redirectAttributes.addFlashAttribute("message", "ok");
+        redirectAttributes.addFlashAttribute("message", "加入购物车成功");
         // 添加 product_id 参数
         redirectAttributes.addAttribute("id",cartRequest.getProduct_id());
         return "redirect:" + PathConstants.GOODS + PathConstants.GOODSDISPLAY;
