@@ -57,4 +57,7 @@ public class UserService {
     }
 
 
+    public void deleteAddress(String userId, String address) {
+        userMapper.deleteAddress(userId,address);
+    }
 }
