@@ -1,0 +1,129 @@
+商品 API
+    一、	商品展示相关API
+        1.	商品列表
+            GET /goods/{categoryId}
+            参数：
+                offset=10:                       返回的开始位置
+                page=2&per_page=100:             页面数量和每页商品数量
+                sort_by=name&order=asc:          排序方式和顺序
+                min_price=1.00&max_price=100.00: 价格区间
+    	    响应：
+                {
+                    “goods”: [
+                        {
+                            “id”: "1",
+                            “name”: “商品名称”,
+                            "description": “商品描述”,
+                            “price”: 100.00,
+                            “image”: “商品图片URL”,
+                            "stock": 100,
+                            “shopId”: 1,
+                            "CategoryId": "1",
+                        },
+                        ...
+                    ],
+                }
+                200 OK
+                400 Bad Request
+                404 Not Found
+                500 Internal Server Error
+                503 Service Unavailable
+                504 Gateway Timeout
+                403 Forbidden
+                401 Unauthorized
+                408 Request Timeout
+                429 Too Many Requests
+                502 Bad Gateway
+                504 Gateway Timeout
+                511 Network Authentication Required
+        2.	商品详情
+        GET /goods/details/{goodsId}
+            参数：
+                无
+            响应：
+                {
+                    “name”: “商品名称”,           名称
+                    “price”: 100.00,             价格
+                    “description”: “商品描述”,    描述
+                    “image”: “商品图片URL”,        图片
+                    “stock”: 10,                 库存
+                }
+        3.	商品搜索
+        GET /goods/search
+            参数：
+                keyword=“搜索关键词”:              搜索关键词
+                offset=10:                       返回的开始位置
+                page=2&per_page=100:             页面数量和每页商品数量
+                sort_by=name&order=asc:          排序方式和顺序
+                min_price=1.00&max_price=100.00: 价格区间
+            响应：
+                {
+                    “goods”: [
+                        {
+                            “name”: “商品名称”,
+                            “price”: 100.00,
+                            “image”: “商品图片URL”,
+                            ”stock: 10,
+                        },
+                        ...
+                    ],
+        二、店铺相关 API //店铺部分我不太清楚
+            1.	查看店铺
+            GET /shops/{shopId}
+                参数：
+                    无
+                响应：
+                    {
+                        “shop”: {
+                            “id”: 1,
+                            “name”: “店铺名称”,
+                            “description”: “店铺描述”,
+                            “image”: “店铺图片URL”,
+                            “location”: “店铺地址”,
+                            “rating”: 4.5
+                        },
+                        “goods”: [
+                            {
+                                “id”: 1,
+                                “name”: “商品名称”,
+                                “price”: 100.00,
+                                “image”: “商品图片URL”
+                            },
+                            ...
+                        ]
+                    }
+            2.     店铺搜索
+            GET /shops/search
+                参数：
+                    keyword=“搜索关键词”:              搜索关键词
+                    offset=10:                       返回的开始位置
+                    page=2&per_page=100:             页面数量和每页商品数量
+                    sort_by=name&order=asc:          排序方式和顺序
+                响应：
+                    {
+                        “shops”: [
+                            {
+                                “id”: 1,
+                                “name”: “店铺名称”,
+                                “description”: “店铺描述”,
+                                “image”: “店铺图片URL”,
+                                “location”: “店铺地址”,
+                                “rating”: 4.5
+                            },
+                            ...
+                        ]
+                    }
+            3.	店铺分类
+            GET /shops/categories
+                参数：
+                    category=“分类名称”:              分类名称
+                响应：
+                    {
+                        “goods”: [
+                            {
+                                “id”: 1,
+                                “name”:
+                            },
+                            ...
+                        ]
+                    }

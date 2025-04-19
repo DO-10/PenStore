@@ -20,6 +20,7 @@ public class GoodsRequest {
     private String endPrice;
     private String category;//封装搜索商品种类
     private MultipartFile image;
+    private String keyword;
     public GoodsRequest() {  }
 
     public String getId() { return id; }
@@ -66,4 +67,6 @@ public class GoodsRequest {
     public void setCategory(String category) { this.category=category; }
     public MultipartFile getImage() { return image; }
     public void setImage(MultipartFile image) { this.image=image; }
+    public String getKeyword() { return keyword; }
+    public void setKeyword(String keyword) { this.keyword=keyword; }
 }

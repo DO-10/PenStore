@@ -16,6 +16,7 @@ public class PathConstants {
     public static final String MYPAGE = "/mypage";
     public static final String CATEGORY = "/category";
     public static final String GOODS = "/goods";
+    public static final String DETAILS = "/details";
     public static final String SEARCH = "/search";
     public static final String GOODSDISPLAY = "/goodsdisplay";
     public static final String SHOPMANAGEMENT = "/shopmanagement";
