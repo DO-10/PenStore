@@ -15,13 +15,14 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
 
-    public CommonResponse<List<Goods>> getByCategory(String categoryId) {
+    public List<Goods> getByCategory(String categoryId) {
         List<Goods> goodsList = goodsMapper.getByCategory(categoryId);
-        return CommonResponse.createForSuccess(goodsList);
+        return goodsList;
     }
 
     public Goods getById(String id) {
-        return goodsMapper.getById(id);
+        Goods goods = goodsMapper.getById(id);
+        return goods;
     }
 
     public List<Goods> getByInput(String query) {

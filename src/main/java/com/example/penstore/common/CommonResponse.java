@@ -1,9 +1,12 @@
 package com.example.penstore.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommonResponse<T> implements Serializable {
     private int status;
     private String message;
@@ -38,9 +41,10 @@ public class CommonResponse<T> implements Serializable {
     public static <T> CommonResponse<T> createForSuccess(String message) {
         return new CommonResponse<T>(ResponseCode.SUCCESS.getCode(), message);
     }
-    public static <T> CommonResponse<T> createForError(String message) {
-        return new CommonResponse<T>(ResponseCode.ERROR.getCode(), message);
+    public static <T> CommonResponse<T> createForError(int code, String message) {
+        return new CommonResponse<T>(code, message);
     }
+    @JsonIgnore
     public boolean isSuccess() {
         return this.status == ResponseCode.SUCCESS.getCode();
     }

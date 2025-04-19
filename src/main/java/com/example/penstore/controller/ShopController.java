@@ -59,7 +59,7 @@ public class ShopController {
         shop = shopService.getShopById(String.valueOf(id));
         model.addAttribute("shop", shop);
 //        model.addAttribute("shop", shop);
-        CommonResponse<List<Goods>> goodsList = goodsServiceImpl.getByCategory(String.valueOf(2));
+        List<Goods> goodsList = goodsServiceImpl.getByCategory(String.valueOf(2));
         model.addAttribute("goods", goodsList);
         model.addAttribute("activeSection", "info");
         System.out.println("shop");

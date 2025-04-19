@@ -121,7 +121,7 @@ public class SellerController {
         model.addAttribute("orders", orderList);
         return Pages.ORDERMANAGEMENT;
     }
-    @GetMapping(PathConstants.ORDER+"/{status}/{id}")
+    @GetMapping(PathConstants.ORDERS+"/{status}/{id}")
     public String unshipped(@PathVariable String status, Model model, @PathVariable String id) {
         String shop_id = id;//等待固件的工作
         List<Order> orderList = orderService.getOrders(status,shop_id);
@@ -129,7 +129,7 @@ public class SellerController {
         model.addAttribute("status", status);//将状态添加到model中，显示该状态的独特内容
         return Pages.ORDERMANAGEMENT;
     }
-    @PostMapping(PathConstants.ORDER+"/{status}/{id}")
+    @PostMapping(PathConstants.ORDERS+"/{status}/{id}")
     public String searchOrder(@ModelAttribute("order")OrderRequest orderRequest, Model model, @PathVariable String status) {
         List<Order> orderList = orderService.getOrdersByQuery(orderRequest);
         orderRequest.setStatus(status);//添加状态

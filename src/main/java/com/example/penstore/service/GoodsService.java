@@ -7,7 +7,7 @@ import com.example.penstore.entity.Goods;
 import java.util.List;
 
 public interface GoodsService {
-    CommonResponse<List<Goods>> getByCategory(String category_id);
+    List<Goods> getByCategory(String category_id);
 
     Goods getById(String id);
 

@@ -27,12 +27,14 @@ public class GoodsController {
 //home页按分类请求商品列表
     @GetMapping("/{categoryId}")
     public CommonResponse<List<Goods>> getByCategory(@PathVariable String categoryId, GoodsRequest goodsRequest) {
-        return goodsService.getByCategory(categoryId);
+        List<Goods> goodsList = goodsService.getByCategory(categoryId);
+        return  CommonResponse.createForSuccess(goodsList);
     }
 
     @GetMapping(PathConstants.DETAILS+"/{goodsId}")
-    public  Goods getById(@PathVariable String goodsId) {
-        return goodsService.getById(goodsId);
+    public  CommonResponse<Goods> getById(@PathVariable String goodsId) {
+        Goods goods = goodsService.getById(goodsId);
+        return CommonResponse.createForSuccess(goods);
     }
 
 
