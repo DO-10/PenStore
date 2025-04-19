@@ -1,4 +1,4 @@
-package com.example.penstore.service;
+package com.example.penstore.service.impl;
 
 import com.example.penstore.dao.CommentMapper;
 import com.example.penstore.entity.Comment;

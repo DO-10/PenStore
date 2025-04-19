@@ -2,7 +2,7 @@
 package com.example.penstore.handler;
 
 import com.example.penstore.entity.ChatMessage;
-import com.example.penstore.service.ChatService;
+import com.example.penstore.service.impl.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;

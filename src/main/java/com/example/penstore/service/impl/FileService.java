@@ -1,4 +1,4 @@
-package com.example.penstore.service;
+package com.example.penstore.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

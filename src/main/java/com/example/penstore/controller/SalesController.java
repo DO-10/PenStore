@@ -2,7 +2,7 @@ package com.example.penstore.controller;
 
 import com.example.penstore.constants.Pages;
 import com.example.penstore.constants.PathConstants;
-import com.example.penstore.service.SalesService;
+import com.example.penstore.service.impl.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 @Controller
 @RequestMapping(PathConstants.SALES)

@@ -1,11 +1,12 @@
 package com.example.penstore.controller;
 
+import com.example.penstore.common.CommonResponse;
 import com.example.penstore.constants.Pages;
 import com.example.penstore.entity.Goods;
 import com.example.penstore.entity.Shop;
 import com.example.penstore.dto.PictureRequest;
-import com.example.penstore.service.GoodsService;
-import com.example.penstore.service.ShopService;
+import com.example.penstore.service.impl.GoodsServiceImpl;
+import com.example.penstore.service.impl.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +28,7 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
     @Autowired
-    private GoodsService goodsService;
+    private GoodsServiceImpl goodsServiceImpl;
 
     @GetMapping("/info")
     public String getShopInfo(@RequestParam String id, Model model) {
@@ -58,7 +59,7 @@ public class ShopController {
         shop = shopService.getShopById(String.valueOf(id));
         model.addAttribute("shop", shop);
 //        model.addAttribute("shop", shop);
-        List<Goods> goodsList = goodsService.getByCategory(String.valueOf(2));
+        CommonResponse<List<Goods>> goodsList = goodsServiceImpl.getByCategory(String.valueOf(2));
         model.addAttribute("goods", goodsList);
         model.addAttribute("activeSection", "info");
         System.out.println("shop");

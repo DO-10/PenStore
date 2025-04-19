@@ -1,4 +1,4 @@
-package com.example.penstore.service;
+package com.example.penstore.service.impl;
 
 import com.example.penstore.dao.CartMapper;
 import com.example.penstore.dao.GoodsMapper;

@@ -5,7 +5,7 @@ import com.example.penstore.constants.PathConstants;
 import com.example.penstore.entity.*;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.dto.OrderRequest;
-import com.example.penstore.service.*;
+import com.example.penstore.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class SellerController {
     @Autowired
     private UserService userService;
     @Autowired
-    private GoodsService goodsService;
+    private GoodsServiceImpl goodsServiceImpl;
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -77,7 +77,7 @@ public class SellerController {
     @GetMapping(PathConstants.GOODSMANAGEMENT+"/{id}")
     //id为店铺id
     public String updateGoods(@PathVariable String id, Model model) {
-        model.addAttribute("goods", goodsService.getById(id));
+        model.addAttribute("goods", goodsServiceImpl.getById(id));
         return Pages.NEWGOODS;
     }
     @PostMapping(PathConstants.GOODSMANAGEMENT + "/{id}") // 请求添加/修改商品
@@ -93,9 +93,9 @@ public class SellerController {
         goodsRequest.setShop_id(id);
 
         if (goodsId == null || goodsId.isEmpty()) {
-            goodsService.insertGoods(goodsRequest);
+            goodsServiceImpl.insertGoods(goodsRequest);
         } else {
-            goodsService.newGoods(goodsRequest);
+            goodsServiceImpl.newGoods(goodsRequest);
         }
 
         // 添加成功消息，重定向时依然可以获取
@@ -143,7 +143,7 @@ public class SellerController {
         Shop shop = shopService.getShopById(id);
         model.addAttribute("shop", shop);
         String shop_id = id;
-        model.addAttribute("goods", goodsService.getGoodsByShopId(shop_id));
+        model.addAttribute("goods", goodsServiceImpl.getGoodsByShopId(shop_id));
         return Pages.GOODSMANAGEMENT;
     }
     //搜索商品
@@ -151,14 +151,14 @@ public class SellerController {
     public String searchGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, @PathVariable String id, Model model) {
         String shop_id = id;//等待固件的工作
         goodsRequest.setShop_id(shop_id);
-        model.addAttribute("goods", goodsService.getGoodsByQuery(goodsRequest));
+        model.addAttribute("goods", goodsServiceImpl.getGoodsByQuery(goodsRequest));
         return Pages.GOODSMANAGEMENT;
     }
     //按状态请求商品页面
     @GetMapping(PathConstants.SHOPMANAGEMENT+PathConstants.GOODSMANAGEMENT+"/{status}/{id}")
     public String status(@PathVariable String status, Model model, @PathVariable String id) {
         String shop_id = id;
-        List<Goods> goodsList = goodsService.getGoodsByStatus(status,shop_id);
+        List<Goods> goodsList = goodsServiceImpl.getGoodsByStatus(status,shop_id);
         model.addAttribute("goods", goodsList);
         model.addAttribute("status", status);
         return Pages.GOODSMANAGEMENT;
@@ -167,7 +167,7 @@ public class SellerController {
     public String searchGoods(@ModelAttribute("goods") GoodsRequest goodsRequest, Model model, @PathVariable String status, @PathVariable String id) {
         String shop_id = id;
         goodsRequest.setShop_id(shop_id);
-        List<Goods> goodsList = goodsService.getGoodsByQuery(goodsRequest);
+        List<Goods> goodsList = goodsServiceImpl.getGoodsByQuery(goodsRequest);
         goodsRequest.setStatus(status);
         model.addAttribute("goods", goodsList);
         model.addAttribute("status", status);
@@ -183,11 +183,11 @@ public class SellerController {
             Model model) {
 
         if ("update".equals(operation)) {
-            model.addAttribute("goods", goodsService.getById(goodsId));
+            model.addAttribute("goods", goodsServiceImpl.getById(goodsId));
             return Pages.NEWGOODS; // 直接返回页面
         } else {
-            goodsService.updateGoods(goodsId, operation, shopId);
-            model.addAttribute("goods", goodsService.getById(shopId));
+            goodsServiceImpl.updateGoods(goodsId, operation, shopId);
+            model.addAttribute("goods", goodsServiceImpl.getById(shopId));
             redirectAttributes.addFlashAttribute("successMessage", "操作成功！");
             return "redirect:" + PathConstants.SELLER + PathConstants.SHOPMANAGEMENT + PathConstants.GOODSMANAGEMENT + "/" + shopId;
         }

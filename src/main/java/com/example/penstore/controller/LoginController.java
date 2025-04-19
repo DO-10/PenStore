@@ -3,7 +3,7 @@ package com.example.penstore.controller;
 import com.example.penstore.constants.PathConstants;
 import com.example.penstore.entity.User;
 import com.example.penstore.dto.UserRequest;
-import com.example.penstore.service.UserService;
+import com.example.penstore.service.impl.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

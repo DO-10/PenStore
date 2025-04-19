@@ -3,8 +3,8 @@ package com.example.penstore.controller;
 
 import com.example.penstore.entity.ChatMessage;
 import com.example.penstore.entity.User;
-import com.example.penstore.service.ChatService;
-import com.example.penstore.service.UserService;
+import com.example.penstore.service.impl.ChatService;
+import com.example.penstore.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

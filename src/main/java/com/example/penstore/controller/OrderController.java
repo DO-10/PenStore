@@ -7,9 +7,9 @@ import com.example.penstore.entity.Order;
 import com.example.penstore.entity.TransactionSnapshot;
 import com.example.penstore.entity.User;
 import com.example.penstore.dto.OrderRequest;
-import com.example.penstore.service.OrderService;
+import com.example.penstore.service.impl.OrderService;
 import jakarta.servlet.http.HttpSession;
-import com.example.penstore.service.TransactionSnapshotService;
+import com.example.penstore.service.impl.TransactionSnapshotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
-import com.example.penstore.service.GoodsService;
+import com.example.penstore.service.impl.GoodsServiceImpl;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -34,7 +34,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private GoodsService goodsService;
+    private GoodsServiceImpl goodsServiceImpl;
     // 新增的 TransactionSnapshotService 依赖注入
     @Autowired
     private TransactionSnapshotService snapshotService;
@@ -86,7 +86,7 @@ public class OrderController {
                            @RequestParam("quantity")String[] quantity,
                            Model model) {
         // 获取选中的商品信息
-        List<Goods> orderItems = goodsService.getProductsWithCartQuantities(selectedProductIds);
+        List<Goods> orderItems = goodsServiceImpl.getProductsWithCartQuantities(selectedProductIds);
 
         for (int i = 0; i < orderItems.size(); i++) {
             orderItems.get(i).setQuantity(String.valueOf(quantity[i]));
@@ -179,7 +179,7 @@ public class OrderController {
 
         // 扣减库存
         for (Order goods : orders) {
-            goodsService.updateStock(goods.getGoods_id(), goods.getStock() - goods.getQuantity());
+            goodsServiceImpl.updateStock(goods.getGoods_id(), goods.getStock() - goods.getQuantity());
         }
 
       // 处理支付逻辑（模拟支付成功）

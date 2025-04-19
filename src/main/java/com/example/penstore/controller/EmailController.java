@@ -1,6 +1,6 @@
 package com.example.penstore.controller;
 
-import com.example.penstore.service.EmailService;
+import com.example.penstore.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;

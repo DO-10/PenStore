@@ -1,11 +1,11 @@
 package com.example.penstore.controller;
 
-import com.example.penstore.service.ChatService;
-import com.example.penstore.service.GoodsService;
+import com.example.penstore.service.impl.ChatService;
+import com.example.penstore.service.impl.GoodsServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.penstore.entity.Comment;
-import com.example.penstore.service.CommentService;
+import com.example.penstore.service.impl.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +24,13 @@ public class CommentController {
     @Autowired
     private  ChatMessage message;
     @Autowired
-    private GoodsService goodsService;
+    private GoodsServiceImpl goodsServiceImpl;
 
     @PostMapping
     public ResponseEntity<?> createComment(@RequestBody Comment comment) {
         commentService.addComment(comment);
         message.setContent(comment.getContent());
-        message.setReceiverId(goodsService.getById(comment.getGoodsId()).getShop_id());
+        message.setReceiverId(goodsServiceImpl.getById(comment.getGoodsId()).getShop_id());
         message.setSenderId(comment.getUser_id());
         message.setCommentId("goodsId="+comment.getGoodsId()+"&parentId="+comment.getId());
         message.setTimestamp(LocalDateTime.now());

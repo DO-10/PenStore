@@ -1,9 +1,8 @@
-package com.example.penstore.service;
+package com.example.penstore.service.impl;
 
 import com.example.penstore.dao.SalesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,5 +1,5 @@
 // TransactionSnapshotService.java
-package com.example.penstore.service;
+package com.example.penstore.service.impl;
 
 import com.example.penstore.dao.TransactionSnapshotMapper;
 import com.example.penstore.entity.TransactionSnapshot;

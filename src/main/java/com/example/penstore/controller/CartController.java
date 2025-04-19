@@ -8,7 +8,7 @@ import com.example.penstore.entity.Goods;
 import com.example.penstore.entity.User;
 import com.example.penstore.dto.CartRequest;
 import com.example.penstore.dto.UserRequest;
-import com.example.penstore.service.CartService;
+import com.example.penstore.service.impl.CartService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

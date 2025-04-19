@@ -1,17 +1,15 @@
 package com.example.penstore.controller;
 
-import com.example.penstore.constants.Pages;
+import com.example.penstore.common.CommonResponse;
 import com.example.penstore.constants.PathConstants;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.entity.Goods;
-import com.example.penstore.entity.Shop;
 import com.example.penstore.service.GoodsService;
-import com.example.penstore.service.ShopService;
+import com.example.penstore.service.impl.GoodsServiceImpl;
+import com.example.penstore.service.impl.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.penstore.entity.Comment;
-import com.example.penstore.service.CommentService;
+import com.example.penstore.service.impl.CommentService;
 
 import java.util.List;
 
@@ -28,9 +26,8 @@ public class GoodsController {
 
 //home页按分类请求商品列表
     @GetMapping("/{categoryId}")
-    public List<Goods> getByCategory(@PathVariable String categoryId, GoodsRequest goodsRequest) {
-        List<Goods> goodsList = goodsService.getByCategory(categoryId);
-        return goodsList;
+    public CommonResponse<List<Goods>> getByCategory(@PathVariable String categoryId, GoodsRequest goodsRequest) {
+        return goodsService.getByCategory(categoryId);
     }
 
     @GetMapping(PathConstants.DETAILS+"/{goodsId}")

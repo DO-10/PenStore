@@ -14,11 +14,11 @@ import java.util.UUID;
 @Aspect
 @Component
 public class GenerateID{
-    @Pointcut("execution(* com.example.penstore.service.UserService.insertUser(..))")
+    @Pointcut("execution(* com.example.penstore.service.impl.UserService.insertUser(..))")
     public void insertUserPointcut(){}
-    @Pointcut("execution(* com.example.penstore.service.CartService.addToCart(..))")
+    @Pointcut("execution(* com.example.penstore.service.impl.CartService.addToCart(..))")
     public void addCartPointcut(){}
-    @Pointcut("execution(* com.example.penstore.service.GoodsService.insertGoods(..))")
+    @Pointcut("execution(* com.example.penstore.service.impl.GoodsServiceImpl.insertGoods(..))")
     public void addGoodsPointcut(){}
 
     //用户ID
@@ -37,7 +37,7 @@ public class GenerateID{
 
     //订单生成uuid
     private static final ThreadLocal<String> orderIdThreadLocal = new ThreadLocal<>();
-    @Pointcut("execution(* com.example.penstore.service.OrderService.createOrder(..))")
+    @Pointcut("execution(* com.example.penstore.service.impl.OrderService.createOrder(..))")
     public void createOrderPointcut(){}
     @Before("createOrderPointcut() && args(userId, address)")
     public void generateOrderID(String userId, String address) {
