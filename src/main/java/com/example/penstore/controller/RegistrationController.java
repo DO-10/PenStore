@@ -1,7 +1,6 @@
 package com.example.penstore.controller;
 
-import com.example.penstore.constants.Pages;
-import com.example.penstore.constants.PathConstants;
+
 import com.example.penstore.dto.UserRequest;
 import com.example.penstore.service.impl.EmailService;
 import com.example.penstore.service.impl.UserService;
