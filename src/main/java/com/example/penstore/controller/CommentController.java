@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.penstore.entity.ChatMessage;
+import java.util.List;
 
 import java.time.LocalDateTime;
 
-@Controller
+@RestController
 @RequestMapping("/api/comments")
 public class CommentController {
 
@@ -22,63 +23,46 @@ public class CommentController {
     @Autowired
     private ChatService chatService;
     @Autowired
-    private  ChatMessage message;
-    @Autowired
     private GoodsServiceImpl goodsServiceImpl;
 
+    //提交评论
     @PostMapping
     public ResponseEntity<?> createComment(@RequestBody Comment comment) {
         commentService.addComment(comment);
+
+        // 同时生成一条聊天消息
+        ChatMessage message = new ChatMessage();
         message.setContent(comment.getContent());
         message.setReceiverId(goodsServiceImpl.getById(comment.getGoodsId()).getShop_id());
         message.setSenderId(comment.getUser_id());
-        message.setCommentId("goodsId="+comment.getGoodsId()+"&parentId="+comment.getId());
+        message.setCommentId("goodsId=" + comment.getGoodsId() + "&parentId=" + comment.getId());
         message.setTimestamp(LocalDateTime.now());
         chatService.sendMessage(message);
 
-
-
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("评论成功");
     }
-    @GetMapping("/submit")
-    public String showCommentPage(
-            @RequestParam String goodsId,
-            Model model
-    ) {
-        model.addAttribute("goodsId", goodsId);
-        return "comment";
-    }
-    // 提交回复
-    @GetMapping("/reply")
-    public String replyPage(
-            @RequestParam String goodsId,     // 商品ID
-            @RequestParam String parentId,    // 父评论ID
-            Model model
-    ) {
 
-        Comment parentComment = commentService.selectByParentId(parentId);
-        // 根据 goodsId 关联商品（确保回复属于正确商品）
-        model.addAttribute("goodsId", goodsId);
-        model.addAttribute("parentComment", parentComment);
-        return "reply";
-    }
-    @PostMapping("/reply/submit")
+    //提交回复
+    @PostMapping("/reply")
     public ResponseEntity<?> createReply(@RequestBody Comment reply) {
-        commentService.addReply(reply); // 调用 Service 层处理回复
-
-        return ResponseEntity.ok().build();
+        commentService.addReply(reply);
+        return ResponseEntity.ok("回复成功");
     }
 
+    //获取指定商品下的所有评论
+    @GetMapping("/goods/{goodsId}")
+    public ResponseEntity<List<Comment>> getCommentsByGoodsId(@PathVariable String goodsId) {
+        List<Comment> comments = commentService.getNestedComments(goodsId);
+        return ResponseEntity.ok(comments);
+    }
 
-
-//    @GetMapping("/goods/{goodsId}")
-//    public ResponseEntity<List<Comment>> getCommentsByGoodsId(@PathVariable String goodsId) {
-//        return ResponseEntity.ok(commentService.getCommentsByGoodsId(goodsId));
-//    }
-//
-//    @GetMapping("/replies/{parentId}")
-//    public ResponseEntity<List<Comment>> getRepliesByParentId(@PathVariable String parentId) {
-//        return ResponseEntity.ok(commentService.getRepliesByParentId(parentId));
-//    }
+    // 获取指定评论的父评论（用于回复显示）
+    @GetMapping("/parent/{parentId}")
+    public ResponseEntity<Comment> getParentComment(@PathVariable String parentId) {
+        Comment parentComment = commentService.selectByParentId(parentId);
+        if (parentComment == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(parentComment);
+    }
 }
