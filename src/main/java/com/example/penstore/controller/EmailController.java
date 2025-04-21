@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
-@Controller
+@RestController
 @SessionAttributes("verificationCode")
-@RequestMapping(PathConstants.VERIFY)
+@RequestMapping("/api/send-verification-code")
 public class EmailController {
     @Autowired
     private EmailService emailService;  // 发送验证码的服务
