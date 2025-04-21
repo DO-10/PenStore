@@ -20,6 +20,21 @@ public class CartService {
         return GoodsList;
     }
 
+
+
+
+    @Transactional
+    public List<Goods> getGoodsListByUserId(String userId) {  // 参数改为String类型
+        List<Goods> goodsList = cartMapper.getCartItemsByUserId(userId);
+        return goodsList;
+    }
+
+    public int getProductQuantity(String userId, String goodsId) {  // 新增方法
+        return cartMapper.getProductQuantity(userId, goodsId);
+    }
+
+
+
     public BigDecimal calculateTotalPriceByUserId(String userId) {
         List<Goods> cartItems = cartMapper.getChosenCartItemsByUserId(userId);
 

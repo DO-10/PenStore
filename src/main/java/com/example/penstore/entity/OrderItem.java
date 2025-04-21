@@ -1,6 +1,6 @@
 package com.example.penstore.entity;
 import java.math.BigDecimal;
-
+//
 public class OrderItem {
     // 订单项唯一标识（可根据实际需求决定是否需要）
     private String order_items_id;

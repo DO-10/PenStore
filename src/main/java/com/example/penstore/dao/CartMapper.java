@@ -12,6 +12,7 @@ public interface CartMapper {
 
 
     List<Goods> getCartItemsByUserId(UserRequest userRequest);
+    List<Goods> getCartItemsByUserId(String userId);
 
     void addToCart(CartRequest cartRequest);
     List<Goods> getChosenCartItemsByUserId(String userId);
