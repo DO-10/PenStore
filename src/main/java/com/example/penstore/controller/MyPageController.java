@@ -12,14 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
-@SessionAttributes("user")
-@RequestMapping(PathConstants.MYPAGE)
+@RestController
+
+@RequestMapping("/api/mypage")
 public class MyPageController {
     @Autowired
     private  UserService userService;
@@ -27,55 +28,62 @@ public class MyPageController {
     private FileService fileService;
     @Autowired
     private OrderService orderService;
-
-    @GetMapping
-    public String myPage(@RequestParam String id, Model model) {
-        List<Order> orderList =  orderService.getOrdersByUserId(id);
-
-        model.addAttribute("orders", orderList);
-
-        return Pages.MYPAGE;
+//获取用户列表订单（通过查询参数）
+    @GetMapping("/orders")
+    public ResponseEntity<List<Order>> getOrdersByQuery(@RequestParam String userId) {
+        List<Order> orderList = orderService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orderList);
     }
-    @GetMapping("/{userId}")
-    public String myPageByPath(@PathVariable String userId, Model model) {
+
+    // 获取用户订单列表（通过路径参数）
+    @GetMapping("/orders/{userId}")
+    public ResponseEntity<List<Order>> getOrdersByPath(@PathVariable String userId) {
         List<Order> orders = orderService.getOrdersByUserId(userId);
-        model.addAttribute("orders", orders);
-        return Pages.MYPAGE;
+        return ResponseEntity.ok(orders);
     }
+
+    // 修改用户信息（携带头像）
     @PostMapping("/changeInfo")
-    @ResponseBody
-    public String myPageOperation(@ModelAttribute("userRequest") UserRequest userRequest, Model model) {
-        String image_url = fileService.saveFile(userRequest.getAvatar(),"avatar");
-        userRequest.setAvatarPath(image_url);
+    public ResponseEntity<?> updateUserInfo(
+            @RequestParam("id") String id,
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam(value = "avatar", required = false) MultipartFile avatar,
+            @RequestParam(value = "phone", required = false) String phone
+    ) {
+        UserRequest userRequest = new UserRequest();
+        userRequest.setId(id);
+        userRequest.setUsername(username);
+        userRequest.setPassword(password);
+        userRequest.setPhone(phone);
+
+        if (avatar != null && !avatar.isEmpty()) {
+            String imageUrl = fileService.saveFile(avatar, "avatar");
+            userRequest.setAvatarPath(imageUrl);
+        }
+
         userService.updateUser(userRequest);
-        model.addAttribute("user", userService.getById(userRequest.getId()));
-//        // 更新用户信息后，重新获取订单列表
-//        List<Order> orderList = orderService.getOrdersByUserId(userRequest.getId());
-//        model.addAttribute("orders", orderList);
-        return "用户信息更新成功";
+        return ResponseEntity.ok(Map.of("message", "用户信息更新成功"));
     }
-    @PostMapping("/update")
-    @ResponseBody
-    public String updateAddress(
-            @RequestParam String userId,
-            @RequestParam String newAddress) {
 
-        // 直接调用服务层（假设服务层不做任何校验）
+    // 添加地址
+    @PostMapping("/address")
+    public ResponseEntity<?> updateAddress(
+            @RequestParam String userId,
+            @RequestParam String newAddress
+    ) {
         userService.addAddress(userId, newAddress);
-        return "地址更新成功"; // 直接返回字符串
+        return ResponseEntity.ok(Map.of("message", "地址更新成功"));
     }
-    @DeleteMapping("/delete")
-    public ResponseEntity<Map<String, Object>> deleteAddress(
+
+    // 删除地址
+    @DeleteMapping("/address")
+    public ResponseEntity<?> deleteAddress(
             @RequestParam String userId,
-            @RequestParam String address) {
-
-        Map<String, Object> response = new HashMap<>();
-
-            userService.deleteAddress(userId, address);
-            response.put("status", "success");
-            response.put("message", "地址删除成功");
-            return ResponseEntity.ok(response);
-
+            @RequestParam String address
+    ) {
+        userService.deleteAddress(userId, address);
+        return ResponseEntity.ok(Map.of("message", "地址删除成功"));
     }
 
 }
