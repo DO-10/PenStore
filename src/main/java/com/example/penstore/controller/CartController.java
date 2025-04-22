@@ -8,6 +8,7 @@ import com.example.penstore.dto.UserRequest;
 import com.example.penstore.entity.Goods;
 import com.example.penstore.entity.User;
 import com.example.penstore.service.impl.CartService;
+import com.example.penstore.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
+    private final UserService userService;
 
     // ============================== 获取购物车 ==============================
+//    @GetMapping
+//    public CommonResponse<CartResponse> getCart(@SessionAttribute(name = "user", required = false) User user, UserRequest userRequest) {
+//        if (user == null) {
+//            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
+//        }
+//
+//        List<Goods> items = cartService.getGoodsListByUserId(userRequest.getId());
+//        BigDecimal totalPrice = cartService.calculateTotalPriceByUserId(user.getId());
+//        boolean allChosen = cartService.isAllChosen(user.getId());
+//
+//        return CommonResponse.createForSuccess(new CartResponse(items, totalPrice, allChosen));
+//    }
     @GetMapping
-    public CommonResponse<CartResponse> getCart(@SessionAttribute(name = "user", required = false) User user, UserRequest userRequest) {
-        if (user == null) {
-            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
-        }
+    public CommonResponse<CartResponse> getCart(UserRequest userRequest) {
+
 
         List<Goods> items = cartService.getGoodsListByUserId(userRequest.getId());
-        BigDecimal totalPrice = cartService.calculateTotalPriceByUserId(user.getId());
-        boolean allChosen = cartService.isAllChosen(user.getId());
+
+        BigDecimal totalPrice = cartService.calculateTotalPriceByUserId(userRequest.getId());
+        boolean allChosen = cartService.isAllChosen(userRequest.getId());
 
         return CommonResponse.createForSuccess(new CartResponse(items, totalPrice, allChosen));
     }
@@ -51,53 +64,45 @@ public class CartController {
     // ============================== 更新商品数量 ==============================
     @PutMapping("/items/{goodsId}/quantity")
     public CommonResponse<UpdateResponse> updateQuantity(
-            @SessionAttribute(name = "user", required = false) User user,
+            @ModelAttribute UserRequest userRequest,
             @PathVariable String goodsId,
             @RequestParam String operation) {  // operation: increase/decrease
 
-        if (user == null) {
-            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
-        }
 
-        int newQuantity = cartService.updateCart(user.getId(), goodsId, operation);
-        return buildUpdateResponse(user.getId(), goodsId);
+        int newQuantity = cartService.updateCart(userRequest.getId(), goodsId, operation);
+        return buildUpdateResponse(userRequest.getId(), goodsId);
     }
 
     // ============================== 更新选中状态 ==============================
     @PutMapping("/items/{goodsId}/chosen")
     public CommonResponse<UpdateResponse> updateChosen(
-            @SessionAttribute(name = "user", required = false) User user,
+            @ModelAttribute UserRequest userRequest,
             @PathVariable String goodsId,
             @RequestParam boolean isChosen) {
 
-        if (user == null) {
-            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
-        }
 
-        cartService.updateCart(user.getId(), goodsId, isChosen ? "choose" : "unchoose");
-        return buildUpdateResponse(user.getId(), goodsId);
+
+        cartService.updateCart(userRequest.getId(), goodsId, isChosen ? "choose" : "unchoose");
+        return buildUpdateResponse(userRequest.getId(), goodsId);
     }
 
     // ============================== 删除商品 ==============================
     @DeleteMapping("/items/{goodsId}")
     public CommonResponse<UpdateResponse> deleteItem(
-            @SessionAttribute(name = "user", required = false) User user,
+            @ModelAttribute UserRequest userRequest,
             @PathVariable String goodsId) {
 
-        if (user == null) {
-            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
-        }
 
-        cartService.updateCart(user.getId(), goodsId, "delete");
-        return buildUpdateResponse(user.getId(), goodsId);
+        cartService.updateCart(userRequest.getId(), goodsId, "delete");
+        return buildUpdateResponse(userRequest.getId(), goodsId);
     }
 
     private CommonResponse<UpdateResponse> buildUpdateResponse(String userId, String goodsId) {
-        int quantity = cartService.getProductQuantity(userId, goodsId);
+//        int quantity = cartService.getProductQuantity(userId, goodsId);
         BigDecimal totalPrice = cartService.calculateTotalPriceByUserId(userId);
         boolean allChosen = cartService.isAllChosen(userId);
 
-        return CommonResponse.createForSuccess(new UpdateResponse(quantity, totalPrice, allChosen));
+        return CommonResponse.createForSuccess(new UpdateResponse(totalPrice, allChosen));
     }
 
     // ====================== DTO 定义 ======================
@@ -114,12 +119,12 @@ public class CartController {
     }
 
     private static class UpdateResponse {
-        public final int quantity;
+//        public final int quantity;
         public final BigDecimal totalPrice;
         public final boolean allChosen;
 
-        public UpdateResponse(int quantity, BigDecimal totalPrice, boolean allChosen) {
-            this.quantity = quantity;
+        public UpdateResponse(BigDecimal totalPrice, boolean allChosen) {
+
             this.totalPrice = totalPrice;
             this.allChosen = allChosen;
         }
