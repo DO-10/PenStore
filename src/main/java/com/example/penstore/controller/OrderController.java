@@ -47,7 +47,7 @@ public class OrderController {
         return CommonResponse.createForSuccess(orderId);
     }
 
-    // ============================== 订单支付 ==============================
+    // ============================== 订单支付 =============================
     @PostMapping("/{orderId}/pay")
     public CommonResponse<Void> payOrder(@PathVariable String orderId) {
         User user = (User) session.getAttribute("user");
