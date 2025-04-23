@@ -15,7 +15,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 @RestController
 @SessionAttributes("verificationCode")//session
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class RegistrationController {
     @Autowired
     private EmailService emailService;
@@ -25,6 +25,7 @@ public class RegistrationController {
     public ResponseEntity<?> register(@RequestBody UserRequest userRequest, HttpSession session){
         String verificationCode = (String) session.getAttribute("verificationCode");
         System.out.println(verificationCode);
+
         if(!(emailService.authenticate(userRequest.getVerificationCode(), verificationCode))){
            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("验证码错误，请重新输入");
         }

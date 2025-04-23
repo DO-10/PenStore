@@ -24,7 +24,7 @@ public class UserService {
         // 验证密码是否正确
         List<User> u = userMapper.a();
         System.out.println(u.get(0).getId());
-        System.out.println(u.get(0).getEmail());
+        System.out.println(u.get(0).getEmail()+"1");
         System.out.println(u.get(0).getPassword());
         User user = userMapper.signin(userRequest);
         if (user == null) {
