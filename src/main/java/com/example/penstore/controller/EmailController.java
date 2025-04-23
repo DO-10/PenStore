@@ -8,6 +8,7 @@ import com.example.penstore.constants.PathConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Random;
 
 @RestController
@@ -18,7 +19,8 @@ public class EmailController {
     private EmailService emailService;  // 发送验证码的服务
     @PostMapping
     @ResponseBody
-    public ResponseEntity<Void> verify(@RequestParam String email, Model model) {
+    public ResponseEntity<Void> verify(@RequestBody Map<String,String> request, Model model) {
+        String email=request.get("email");
         String verificationCode = generateVerificationCode();
         model.addAttribute("verificationCode", verificationCode);
         emailService.sendVerificationEmail(email, verificationCode);
