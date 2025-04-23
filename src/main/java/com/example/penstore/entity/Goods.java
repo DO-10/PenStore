@@ -19,6 +19,10 @@ public class Goods {
     private String categoryId;
     private String updateTime;
     private String category;
+    private boolean isChosen;
+
+    public boolean getIsChosen(){return isChosen;}
+    public void setIsChosen(boolean isChosen){this.isChosen = isChosen;}
 
     public String getId() {
         return id;
