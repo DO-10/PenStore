@@ -4,6 +4,7 @@ import com.example.penstore.common.CommonResponse;
 import com.example.penstore.common.ResponseCode;
 import com.example.penstore.constants.PathConstants;
 import com.example.penstore.dto.OrderRequest;
+import com.example.penstore.dto.UserRequest;
 import com.example.penstore.entity.*;
 import com.example.penstore.service.GoodsService;
 import com.example.penstore.service.impl.OrderService;
@@ -36,17 +37,17 @@ public class OrderController {
 
     // ============================== 创建订单 ==============================
     @PostMapping
-    public CommonResponse<String> createOrder(@RequestBody OrderRequest request) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription() );
-        }
-        request.setUserId(user.getId());
+    public CommonResponse<String> createOrder(@ModelAttribute OrderRequest request) {
+//        User user = (User) session.getAttribute("user");
+//        if (user == null) {
+//            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription() );
+//        }
+        request.setUserId(request.getUserId());
         String orderId = orderService.createOrder(request);
         return CommonResponse.createForSuccess(orderId);
     }
 
-    // ============================== 订单支付 ==============================
+    // ============================== 订单支付 =============================
     @PostMapping("/{orderId}/pay")
     public CommonResponse<Void> payOrder(@PathVariable String orderId) {
         User user = (User) session.getAttribute("user");
@@ -77,11 +78,13 @@ public class OrderController {
 
     // ============================== 获取地址 ==============================
     @GetMapping("/addresses")
-    public CommonResponse<List<String>> getAddresses() {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
-        }
-        return CommonResponse.createForSuccess(orderService.findAddressesByUserId(user.getId()));
+    public CommonResponse<List<String>> getAddresses(UserRequest userRequest) {
+
+//        User user = (User) session.getAttribute("user");
+//        if (user == null) {
+//            return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
+//        }
+
+        return CommonResponse.createForSuccess(orderService.findAddressesByUserId(userRequest.getId()));
     }
 }
