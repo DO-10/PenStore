@@ -38,9 +38,9 @@ public class CommonResponse<T> implements Serializable {
     public static <T> CommonResponse<T> createForSuccess(T data) {
         return new CommonResponse<T>(ResponseCode.SUCCESS.getCode(), data);
     }
-    public static <T> CommonResponse<T> createForSuccess(String message) {
-        return new CommonResponse<T>(ResponseCode.SUCCESS.getCode(), message);
-    }
+//    public static <T> CommonResponse<T> createForSuccess(String message) {
+//        return new CommonResponse<T>(ResponseCode.SUCCESS.getCode(), message);
+//    }
     public static <T> CommonResponse<T> createForError(int code, String message) {
         return new CommonResponse<T>(code, message);
     }
