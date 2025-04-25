@@ -52,7 +52,7 @@ public class CartController {
     @PostMapping("/items")
     public CommonResponse<Void> addItem(
             @SessionAttribute(name = "user", required = false) User user,
-            @RequestBody CartRequest request) {
+            @ModelAttribute CartRequest request) {
         if (user == null) {
             return CommonResponse.createForError(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getDescription());
         }

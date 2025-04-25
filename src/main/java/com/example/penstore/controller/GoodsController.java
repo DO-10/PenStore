@@ -2,6 +2,7 @@ package com.example.penstore.controller;
 
 import com.example.penstore.common.CommonResponse;
 import com.example.penstore.constants.PathConstants;
+import com.example.penstore.dto.CartRequest;
 import com.example.penstore.dto.GoodsRequest;
 import com.example.penstore.entity.Goods;
 import com.example.penstore.service.GoodsService;
@@ -46,7 +47,8 @@ public class GoodsController {
     //搜索功能
     @GetMapping(PathConstants.SearchInputServlet)
     @ResponseBody
-    public List<Goods> search(@RequestParam("q") String query) {
+    public List<Goods> search(@ModelAttribute CartRequest cartRequest) {
+        String query=cartRequest.getId();
         return goodsService.searchProducts(query);
     }
 
