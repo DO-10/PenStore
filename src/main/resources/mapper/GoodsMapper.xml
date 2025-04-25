@@ -15,7 +15,7 @@
         SELECT * FROM  goods WHERE name LIKE CONCAT('%', #{username}, '%')
     </select>
     <select id="searchProducts" resultType="com.example.penstore.entity.Goods">
-        SELECT id, name, price
+        SELECT id, name, price,image_url
         FROM goods
         WHERE name LIKE CONCAT('%', #{query}, '%')
     </select>

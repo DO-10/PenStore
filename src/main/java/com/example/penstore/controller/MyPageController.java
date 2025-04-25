@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 
-@RequestMapping("/api/mypage")
+@RequestMapping("/mypage")
 public class MyPageController {
     @Autowired
     private  UserService userService;
